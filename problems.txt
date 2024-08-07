@@ -1,0 +1,3 @@
+global.LOGGER.Sugar().Infof()
+
+global.LOGGER.Info

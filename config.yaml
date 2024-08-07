@@ -1,0 +1,11 @@
+mysql:
+ host: "127.0.0.1"
+ port: "3306"
+ username: "root"
+ password: "card9033"
+ dbName: "cyanweb"
+ 
+jwt:
+  signKey: "cyan"
+  expiretime: "7d"
+  issuer: "cyan"
