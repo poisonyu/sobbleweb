@@ -32,14 +32,34 @@ func AddArticle(c *gin.Context) {
 }
 
 // /article/list
-func GetArticleList(c *gin.Context) {
+func ArticleList(c *gin.Context) {
 	articles, err := QueryAllArticle(global.DB)
 	if err != nil {
 		global.LOGGER.Error("get article list", zap.Error(err))
 		response.JSONResponse(c, "failed", nil)
 	}
-	response.HTMLResponse(c, "", gin.H{
+	response.HTMLResponse(c, "blog_list.html", gin.H{
 		"articles": articles,
 	})
 
+}
+
+// /article/:id
+func ArticleDetail(c *gin.Context) {
+	id := c.Param("id")
+	// id, err := strconv.Atoi(sid)
+	// if err != nil {
+	// 	global.LOGGER.Error("atoi", zap.Error(err))
+	// 	response.JSONResponse(c, "failed", nil)
+	// }
+	article, err := GetArticleByID(global.DB, id)
+	if err != nil {
+		global.LOGGER.Error("get article by id", zap.Error(err))
+		response.JSONResponse(c, "failed", nil)
+	}
+	updatedAt := article.UpdatedAt.Format("2024-01-01 15:05")
+	response.HTMLResponse(c, "blog_detail.html", gin.H{
+		"article":  article,
+		"updateAt": updatedAt,
+	})
 }

@@ -10804,9 +10804,37 @@ header.masthead .post-heading .meta a {
   background-color: #0dcaf0;
 } */
 
-.navbar-brand {
+/* .navbar-brand {
   color: #0dcaf0;
-}
+} */
 .img-random {
   width: 720px;
 }
+
+/* .article-list {
+  margin-top: 80px;
+  margin-right: 300px;
+  padding-left: 100px;
+} */
+
+.article-list ul {
+  list-style-type: none;
+}
+
+.article-detail {
+  margin-top: 100px;
+  padding-left: 100px;
+}
+
+.navbar-bar {
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+/* * {
+  background-color: #bebebf;
+} */
+
+/* * {
+  text-decoration: none;
+  text-shadow: #087990;
+} */

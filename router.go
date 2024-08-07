@@ -32,6 +32,8 @@ func Router() {
 	router.GET("/random/pic", RandomPicture)
 
 	router.POST("/article/add", article.AddArticle)
+	router.GET("/article/list", article.ArticleList)
+	router.GET("/article/:id", article.ArticleDetail)
 	// todo jwt casbin
 	router.Run(":8888")
 }
