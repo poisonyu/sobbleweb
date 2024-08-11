@@ -5,8 +5,12 @@ import "fmt"
 type Config struct {
 	Mysql
 	Jwt
+	Local
 }
 
+type Local struct {
+	Path string `yaml:"path"`
+}
 type Mysql struct {
 	Host     string `json:"host" yaml:"host"`
 	Port     string `json:"port" yaml:"port"`

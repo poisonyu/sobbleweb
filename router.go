@@ -7,6 +7,7 @@ import (
 	"github.com/cyansobble/article"
 	"github.com/cyansobble/global"
 	"github.com/cyansobble/response"
+	"github.com/cyansobble/upload"
 	"github.com/cyansobble/user"
 	"github.com/cyansobble/utils"
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,10 @@ func Router() {
 	router := gin.Default()
 	// gin.New()
 
+	router.Static("/static", "./static")
+	router.LoadHTMLGlob("templates/*")
+	//router.LoadHTMLFiles("templates/pic.html", "templates/index.html")
+
 	router.GET("/", Index)
 
 	router.POST("/user/register", user.Register)
@@ -26,14 +31,13 @@ func Router() {
 	router.POST("/user/login", user.Login)
 	//router.POST("/audiocaptcha", AudioCaptcha)
 
-	router.Static("/static", "./static")
-	router.LoadHTMLGlob("templates/*")
-	//router.LoadHTMLFiles("templates/pic.html", "templates/index.html")
 	router.GET("/random/pic", RandomPicture)
 
 	router.POST("/article/add", article.AddArticle)
 	router.GET("/article/list", article.ArticleList)
 	router.GET("/article/:id", article.ArticleDetail)
+
+	router.POST("/upload", upload.UploadFile)
 	// todo jwt casbin
 	router.Run(":8888")
 }

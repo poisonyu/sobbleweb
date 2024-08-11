@@ -38,7 +38,7 @@ func Register(c *gin.Context) {
 	user := User{
 		UUID:     uuid.New(),
 		UserName: reg.UserName,
-		Author:   Author{NickName: reg.NickName},
+		NickName: reg.NickName,
 		//NickName:    reg.NickName,
 		PassWord:    string(passWord),
 		Email:       reg.Email,

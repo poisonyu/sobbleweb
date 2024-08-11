@@ -1,7 +1,6 @@
 package article
 
 import (
-	"github.com/cyansobble/user"
 	"gorm.io/gorm"
 )
 
@@ -14,7 +13,7 @@ type ReqArticle struct {
 
 type Article struct {
 	gorm.Model
-	user.Author
+	Author  string `gorm:"column:author"`
 	Title   string `json:"title" gorm:"column:title"`
 	Type    string `json:"type" gorm:"column:type"`
 	Content string `json:"content" gorm:"column:content"`

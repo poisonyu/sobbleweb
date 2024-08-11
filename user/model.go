@@ -5,18 +5,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type Author struct {
-	NickName string `json:"nickname" gorm:"column:nickname"`
-	//Email string `json:"column:email"`
+// type Author struct {
+// 	NickName string `json:"nickname" gorm:"column:nickname"`
+// }
 
-}
 type User struct {
 	gorm.Model
-	Author
-	UUID     uuid.UUID
-	UserName string `json:"username" gorm:"column:username"`
-	PassWord string `json:"-" gorm:"column:password"`
-	//NickName    string `json:"nickname" gorm:"column:nickname"`
+	UUID        uuid.UUID
+	UserName    string `json:"username" gorm:"column:username"`
+	PassWord    string `json:"-" gorm:"column:password"`
+	NickName    string `json:"nickname" gorm:"column:nickname"`
 	Email       string `json:"email" gorm:"column:email"`
 	AuthorityId int    `json:"authorityid" gorm:"default:6;column:authorityid"`
 	Phone       string `json:"phone"`

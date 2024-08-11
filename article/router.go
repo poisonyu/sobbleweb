@@ -3,7 +3,6 @@ package article
 import (
 	"github.com/cyansobble/global"
 	"github.com/cyansobble/response"
-	"github.com/cyansobble/user"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -18,12 +17,12 @@ func AddArticle(c *gin.Context) {
 		return
 	}
 	article := Article{
-		Author:  user.Author{NickName: art.NickName},
+		Author:  art.NickName,
 		Title:   art.Title,
 		Type:    art.Type,
 		Content: art.Content,
 	}
-	if err = CreateArticle(global.DB, article); err != nil {
+	if err = CreateArticle(article); err != nil {
 		global.LOGGER.Error("add article", zap.Error(err))
 		response.JSONResponse(c, "failed", nil)
 	}
@@ -33,7 +32,7 @@ func AddArticle(c *gin.Context) {
 
 // /article/list
 func ArticleList(c *gin.Context) {
-	articles, err := QueryAllArticle(global.DB)
+	articles, err := QueryAllArticle()
 	if err != nil {
 		global.LOGGER.Error("get article list", zap.Error(err))
 		response.JSONResponse(c, "failed", nil)
@@ -52,14 +51,14 @@ func ArticleDetail(c *gin.Context) {
 	// 	global.LOGGER.Error("atoi", zap.Error(err))
 	// 	response.JSONResponse(c, "failed", nil)
 	// }
-	article, err := GetArticleByID(global.DB, id)
+	article, err := GetArticleByID(id)
 	if err != nil {
 		global.LOGGER.Error("get article by id", zap.Error(err))
 		response.JSONResponse(c, "failed", nil)
 	}
-	updatedAt := article.UpdatedAt.Format("2024-01-01 15:05")
+	// updatedAt := article.UpdatedAt.Format("2024-01-01 15:05")
 	response.HTMLResponse(c, "blog_detail.html", gin.H{
-		"article":  article,
-		"updateAt": updatedAt,
+		"article": article,
+		// "updateAt": updatedAt,
 	})
 }

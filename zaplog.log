@@ -132,3 +132,44 @@
 
 **2024-08-08 19:19**
 2024-08-07T19:12:37.197+0800	[34mINFO[0m	article/router.go:36	[sugar] query 4 records
+**2024-08-08 09:42**
+2024-08-08T09:12:42.437+0800	[31mERROR[0m	runtime/proc.go:271	auto migrate failed	{"error": "unsupported data type: &[]"}
+**2024-08-08 09:59**
+2024-08-08T09:14:12.929+0800	[34mINFO[0m	article/router.go:36	[sugar] query 4 records
+2024-08-08T09:14:18.251+0800	[34mINFO[0m	article/router.go:36	[sugar] query 4 records
+2024-08-08T09:15:53.456+0800	[34mINFO[0m	article/router.go:36	[sugar] query 4 records
+2024-08-08T09:18:52.876+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:27:27.840+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:27:34.005+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:27:54.311+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:35:39.939+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:36:24.644+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:37:42.683+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:37:54.050+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:37:55.483+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:37:56.378+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:38:46.835+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:43:16.014+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:43:24.800+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:43:27.221+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:45:50.173+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:45:56.121+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T10:50:57.737+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:36:35.029+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:36:36.522+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:36:38.755+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:36:41.899+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:38:20.258+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:39:56.544+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:40:35.023+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:40:37.628+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:46:10.501+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:48:54.113+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:48:54.999+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:56:54.150+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:57:03.841+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+2024-08-08T14:57:21.531+0800	[34mINFO[0m	article/router.go:36	[sugar] query 5 records
+**2024-08-08 07:21**
+**2024-08-08 07:35**
+**2024-08-08 08:03**
+**2024-08-08 09:21**

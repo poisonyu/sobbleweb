@@ -9,3 +9,6 @@ jwt:
   signKey: "cyan"
   expiretime: "7d"
   issuer: "cyan"
+
+local:
+  path: "upload/file"

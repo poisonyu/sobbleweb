@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/cyansobble/article"
 	"github.com/cyansobble/global"
+	"github.com/cyansobble/upload"
 	"github.com/cyansobble/user"
 	"go.uber.org/zap"
 )
@@ -18,7 +19,7 @@ func main() {
 		global.LOGGER.Info("connect database failed")
 		return
 	}
-	err := global.DB.AutoMigrate(&user.User{}, &article.Article{})
+	err := global.DB.AutoMigrate(&user.User{}, &article.Article{}, &upload.FileInfo{})
 	if err != nil {
 		global.LOGGER.Error("auto migrate failed", zap.Error(err))
 		return

@@ -12,7 +12,7 @@
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
-        <style>
+        <!-- <style>
             .bd-placeholder-img {
               font-size: 1.125rem;
               text-anchor: middle;
@@ -63,35 +63,35 @@
               white-space: nowrap;
               -webkit-overflow-scrolling: touch;
             }
-          </style>
+          </style> -->
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="/static/css/styles.css" rel="stylesheet" />
         <link href="/static/css/blog.css" rel="stylesheet" />
     </head>
     <body>
         {{ template "navigation.html" . }}
-        <header class="navbar-bar" style="background-image: url('/static/assets/img/home-bg.jpg')">
-        </header>
+        <!-- <header class="navbar-bar" style="background-image: url('/static/assets/img/home-bg.jpg')">
+        </header> -->
 
         <div class="row g-5">
             <div class="col-md-8">
-                <div class="article-detail">
-                    <!-- <h1>{{ .article.Title }}</h1>
-                    <div>
-                        {{ .updatedAt }} {{ .article.NickName }} 
-                    </div>
-                    <div>
-                        {{ .article.Content }}
-                    </div> -->
-
+                <!-- <div class="article-detail">
                     {{with .article}}
                     <h1>{{ .Title }}</h1>
                     <div>
-                        {{ .UpdatedAt }} {{ .NickName }} 
+                        {{ .UpdatedAt.Format "2006-01-02 15:04" }} {{ .NickName }} 
                     </div>
                     <p>{{ .Content }}</p>
                     {{ end }}
-                </div>
+                </div> -->
+                <article class="article-detail">
+                  {{with .article}}
+                  <h2 class="blog-post-title mb-1">{{ .Title }}</h2>
+                  <p class="blog-post-meta">{{ .UpdatedAt.Format "2006-01-02 15:04" }} <a href="#" style="text-decoration: none;">{{ .NickName }}</a></p>
+                  <p>{{ .Content }}</p>
+                  <hr>
+                  {{ end }}
+                </article>  
             </div>
         
             <div class="col-md-4"></div>
