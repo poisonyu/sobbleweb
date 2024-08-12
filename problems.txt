@@ -3,3 +3,9 @@ global.LOGGER.Sugar().Infof()
 global.LOGGER.Info
 
 Article.Content中 以什么形式存储文章内容 除了string 还能怎么样
+
+
+
+generate profit for their shareholders
+
+the benefits of their users are a byproduct
