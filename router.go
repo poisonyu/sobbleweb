@@ -37,7 +37,10 @@ func Router() {
 	router.GET("/article/list", article.ArticleList)
 	router.GET("/article/:id", article.ArticleDetail)
 
-	router.POST("/upload", upload.UploadFile)
+	router.POST("/file/upload", upload.UploadFile)
+	router.POST("/file/list", upload.GetFileList)
+	router.POST("/file/delete", upload.DeleteFile)
+
 	// todo jwt casbin
 	router.Run(":8888")
 }
