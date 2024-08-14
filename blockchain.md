@@ -49,3 +49,35 @@ Centralization is based on trust. Users allow Google to maintain a position of p
 Many of us view the Internet as a common good. We see it as a tool that turns the world into a global village. A tool that allows users to communicate and form communities. As such, we would like to see a shift of power from corporations to users. Web3 is the implementation of this ideal, what we would like to see as the next stage of evolution of the Internet.
 
 我们很多人把互联网看作是一个共同利益。我们把它当作一个把世界变成一个地球村的工具。**一种允许用户交流然后形成社区的工具**。因此，我们将**希望看到**权力从公司转移到用户手里。**Web3就是这一理念的实现**，我们**希望看到**互联网的演变的下一个阶段。
+
+Under this ideal, you, as a user of a Web3 service, must be inherently equal to the creator of the service. We **call this property decentralization**. Decentralized services provide users with true ownership. This is not only true for data, but also for assets. Decentralized assets like your Bitcoins or your TON coins are yours, and nobody can take them away from you. Decentralized services are also permissionless, meaning that to transfer your TON coin to somebody else requires nobody's permission but your own. Nobody can stop this from happening or censor you.
+
+在这种理念下，你作为Web3服务的用户，**本质上一定与这个服务的创建者平等**。我们这称之为所有物去中心化（财产分散化）。去中心化的服务给用户提供真正的所有权。**这不仅适用于数据，也适用于资产**。**像Bitcoins或者TON coins等去中心化的资产是你的**，没人可以从你手里拿走它们。去中心化的服务也是无需许可的，**这意味着去转移你的TON coin给其他人不需要任何人的许可， 除了你自己的许可。**没人可以阻止这种事的发生或者审查你。
+
+Decentralization allows systems to be trustless. Since there are no positions of authority, authority cannot be abused to hurt users.
+
+去中心化使系统变得无需信任。由于没有权威职位，**不会滥用权力去伤害用户**。
+
+## The blockchain
+
+The ideal of Web3 sounds great on paper, but is it practical? As developers, how can we implement services where we are inherently equal to our users? Implementing a service normally requires the developer to write a backend. This backend runs on some server. Who owns the server? the developer. The developer can change the server without asking or even take it down. This relationship is inherently not equal. Backend servers are centralized.
+
+Web3的理念在理论上听起来很美好，但是它真的实用吗？作为开发人员，**我们如何才能实现与用户本质上平等的服务？**实现一个服务通常需要开发者去写一个后端。这个后端运行在一些服务器上。谁拥有这个服务器呢？开发商。开发人员无需询问改变服务器甚至关闭服务器。这种关系本质上是不平等的。后端服务是中心化的。
+
+区块链技术被发明去解决这个问题并且使开发人员去创建一个去中心化的后端。谁运行这个后端？是用户去做。由于关系是平等的，任何希望去参与运行后端的用户都被允许去这么做。区块链以在用户之间协作的方式运行。
+
+Collaboration is governed by consensus. For an execution result to hold true, multiple users, a majority to be exact, must all vote to confirm the result. This makes blockchains very inefficient since every calculation must be executed by many users. This also makes blockchains expensive to run compared to a traditional centralized server.
+
+合作以共识为基础。**为了使执行结果成立，多个用户，确切的说是大多数用户，必须全部投票去确认结果。**由于每个计算必须被很多用户执行，这使得区块链很低效。**与一个传统的中心化服务相比，这也使得区块链运行成本更昂贵**。
+
+## The token 
+
+We mentioned that execution results require voting. How does it work? Is it - one user, one vote - like in democratic elections? It turns out that this doesn't work on the Internet due to something known as the Sybil attack. It is very easy to create fake users on the Internet. Since Web3 is decentralized, we can't have a centralized source of authority that decides who's fake and who's real.
+
+我们提到执行结果需要投票。它是如何运作的呢？是像民主选举那样一人一票吗？事实证明，**由于所谓的Sybil攻击，**这在互联网上不适用。在互联网上创建一个假的用户是很容易的。由于Web3是去中心化的，我们没有一个中心化的权利来源去决定谁是假的谁是真的。
+
+
+一个主流的去中心化的解决这个问题的方法是把投票的权利围绕代币。如果你拥有10代表，你拥有10票。代币不能被造假，辨别代币的真假很容易。TON区块链围绕TON coin。以太坊区块链围绕以太币。这意味着每一个区块链都是一个经济体。代币作为一种激励工具可以确保去中心化的社区向着相同的方向发展。
+
+## Network validators 
+
