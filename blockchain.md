@@ -23,3 +23,29 @@ Sawyer非常不信任Jack,尤其是整个最有权势的雄性矛盾围绕着Kat
 The gang can’t decide on one individual that will keep track of the balance sheet — we have a deadlock. The idea falls through. Fast forward one year. The barter economy lives on. It sucks and they suffer, **but that’s the only thing they manage to get working**.
 
 这群人不能决定一个人去跟踪记录资产负债表——我们陷入了一个僵局。这个想法落空了。一年很快过去了。物物交换的经济持续着。这很糟糕，他们很痛苦，但是这是唯一能设法工作的事情。
+
+
+
+# 什么是区块链？什么是智能合约？是什么gas?
+
+这是一篇介绍性的文章，目的是给出一些我们将在这里所做事情的背景信息。区块链有什么特别之处？为什么我们要使用它？这篇文章还将定义一些基本的术语，像智能合约和gas。如果你感觉迷茫，这是一个开始的好地方。
+
+## Web2
+
+The term Web 2.0 is used to describe the traditional Internet as you know it. This Internet is operated primarily by large corporations like Google. The **formal reason** for the existance of corporations is to generate profit for their shareholders. This means that the global good or the benefits of their users are a byproduct **and not the end goal.**
+
+Web 2.0这个术语被用来描述你所知道的传统的互联网。这种互联网主要由谷歌这样的大公司运营。大公司存在的主要原因是去为他们的股东创造利润。这意味着全球的利益或用户的利益是一个副产品，而不是最终目的。
+
+Let's take a Web2 service like Gmail. You, as a user of this service, are **inherently** not equal to the creator of the service, Google. We call this **property centralization**. Centralized services don't provide users with true ownership. If Google **decides** that you've breached its terms of service, for example, **it is allowed to** take your email access away from you. Centralized services are also permissioned, meaning that to use the service and send an email you must ask for permission. If Google decides that your email is spam, it is not required to send it.
+
+让我们拿Gmail这样的Web2服务举例。你作为这个服务的用户，本质上不等同于这个服务的创建者Google。我们把这叫做所有物中心化。中心化服务不会给用户提供真正所有权。例如，如果谷歌认为你违反了他的服务条款，则会拿走你电子邮件的访问权限。中心化服务也是需要获得许可的，这意味着当你使用这个服务和发送一个邮件时，你必须请求许可。如果谷歌确定你的邮件是垃圾邮件，那么它不允许被发送。
+
+Centralization is based on trust. Users allow Google to maintain a position of power because they trust Google with this power.
+
+中心化是基于信任的。用户允许谷歌区维持权力地位，**因为他们相信拥有这种权力的谷歌**。
+
+## Web3 
+
+Many of us view the Internet as a common good. We see it as a tool that turns the world into a global village. A tool that allows users to communicate and form communities. As such, we would like to see a shift of power from corporations to users. Web3 is the implementation of this ideal, what we would like to see as the next stage of evolution of the Internet.
+
+我们很多人把互联网看作是一个共同利益。我们把它当作一个把世界变成一个地球村的工具。**一种允许用户交流然后形成社区的工具**。因此，我们将**希望看到**权力从公司转移到用户手里。**Web3就是这一理念的实现**，我们**希望看到**互联网的演变的下一个阶段。

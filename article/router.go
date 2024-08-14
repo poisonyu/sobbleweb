@@ -1,10 +1,15 @@
 package article
 
 import (
+	"errors"
+	"fmt"
+	"net/http"
+
 	"github.com/cyansobble/global"
 	"github.com/cyansobble/response"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"gorm.io/gorm"
 )
 
 // /article/add
@@ -21,13 +26,16 @@ func AddArticle(c *gin.Context) {
 		Title:   art.Title,
 		Type:    art.Type,
 		Content: art.Content,
+		IsHTML:  art.IsHTML,
 	}
-	if err = CreateArticle(article); err != nil {
+	id, err := CreateArticle(article)
+	if err != nil {
 		global.LOGGER.Error("add article", zap.Error(err))
 		response.JSONResponse(c, "failed", nil)
 	}
-	response.JSONResponse(c, "success", nil)
-
+	location := fmt.Sprintf("/article/%d", id)
+	//response.JSONResponse(c, "success", nil)
+	c.Redirect(http.StatusFound, location)
 }
 
 // /article/list
@@ -58,7 +66,46 @@ func ArticleDetail(c *gin.Context) {
 	}
 	// updatedAt := article.UpdatedAt.Format("2024-01-01 15:05")
 	response.HTMLResponse(c, "blog_detail.html", gin.H{
+		"id":      id,
 		"article": article,
 		// "updateAt": updatedAt,
 	})
+}
+
+// /edit
+func EditNewArticle(c *gin.Context) {
+	response.HTMLResponse(c, "create_article.html", nil)
+}
+
+// /edit/:id
+func EditArticle(c *gin.Context) {
+	id := c.Param("id")
+	article, err := GetArticleByID(id)
+	// todo 待完善if 条件表达式
+	if err != nil || errors.Is(err, gorm.ErrRecordNotFound) {
+		global.LOGGER.Info("recordNotFound", zap.Error(err))
+		response.JSONResponse(c, "failed", gin.H{
+			"reason": "recordnotfound",
+		})
+	}
+	response.HTMLResponse(c, "edit_article.html", gin.H{
+		"article": article,
+	})
+}
+
+func UpdateArticle(c *gin.Context) {
+	var art ReqArticle
+	if err := c.ShouldBindJSON(&art); err != nil {
+		global.LOGGER.Error("update shouldbindjson", zap.Error(err))
+		response.JSONResponse(c, "update failed", nil)
+		return
+	}
+	article, err := GetArticleByID(art.ID)
+	// errors.Is(err, gorm.ErrRecordNotFound)
+	if err != nil {
+		global.LOGGER.Error("get article by id", zap.Error(err))
+		response.JSONResponse(c, "update failed", nil)
+	}
+	article.Content = art.Content
+
 }

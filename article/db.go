@@ -12,9 +12,9 @@ func QueryAllArticle() ([]Article, error) {
 	return articles, result.Error
 }
 
-func CreateArticle(article Article) error {
-	err := global.DB.Create(&article).Error
-	return err
+func CreateArticle(article Article) (uint, error) {
+	result := global.DB.Create(&article)
+	return article.ID, result.Error
 }
 
 func GetArticleByID(id string) (Article, error) {

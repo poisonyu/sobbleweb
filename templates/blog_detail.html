@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>BLOG | sobble</title>
+        <title>{{ .article.Title }}</title>
         <link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -72,32 +72,57 @@
         {{ template "navigation.html" . }}
         <!-- <header class="navbar-bar" style="background-image: url('/static/assets/img/home-bg.jpg')">
         </header> -->
-
+        <script>
+          window.onload = function() {
+            let content = document.getElementById('content');
+            let text = content.textContent;
+            content.innerHTML = text;
+            content.style.display = "";
+          }
+          function editArticle() {
+        
+            window.location = "http://localhost:8888/editor"
+          }
+        </script>
         <div class="row g-5">
             <div class="col-md-8">
-                <!-- <div class="article-detail">
-                    {{with .article}}
-                    <h1>{{ .Title }}</h1>
-                    <div>
-                        {{ .UpdatedAt.Format "2006-01-02 15:04" }} {{ .NickName }} 
-                    </div>
-                    <p>{{ .Content }}</p>
-                    {{ end }}
-                </div> -->
-                <article class="article-detail">
+
+                <!-- <article class="article-detail">
                   {{with .article}}
                   <h2 class="blog-post-title mb-1">{{ .Title }}</h2>
-                  <p class="blog-post-meta">{{ .UpdatedAt.Format "2006-01-02 15:04" }} <a href="#" style="text-decoration: none;">{{ .NickName }}</a></p>
-                  <p>{{ .Content }}</p>
-                  <hr>
+                  <p class="blog-post-meta">{{ .UpdatedAt.Format "2006-01-02 15:04" }} <a href="#" style="text-decoration: none;">{{ .Author }}</a></p>
+                  {{ if .IsHTML }}
+                    <p>{{ .Content }}</p>
+                  {{ else }}
+                    <p>{{ .Content }}</p>
                   {{ end }}
-                </article>  
+
+                  {{ end }}
+                </article>   -->
+                <article class="blog-post" >
+                  <!-- margin-top: 80px;
+                  margin-left: 50px; -->
+                  <div id="content" style="
+                  margin-top: 80px;
+                  margin-left: 50px;
+                  display: none;
+              ">
+                    {{ .article.Content }}
+                  </div>
+                  <div style="text-align: right;">
+                    <p>{{ .article.UpdatedAt.Format "2006-01-02 15:04" }} <a href="#">{{ .article.Author }}</a></p>
+                  </div>
+
+                </article>
+                
             </div>
         
-            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <input type="button" onlick="editArticle()" value="编辑" />
+            </div>
               
         </div>
-        <div class="row g-5">
+        <!-- <div class="row g-5">
             <div class="col-md-8">
         
               <article class="blog-post">
@@ -224,7 +249,7 @@
         
             <div class="col-md-4"></div>
               
-        </div>
+        </div> -->
         <!-- Footer-->
         <footer class="border-top">
             <div class="container px-4 px-lg-5">

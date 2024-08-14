@@ -34,6 +34,7 @@ func Router() {
 	router.GET("/random/pic", RandomPicture)
 
 	router.POST("/article/add", article.AddArticle)
+	router.POST("/article/update", article.UpdateArticle)
 	router.GET("/article/list", article.ArticleList)
 	router.GET("/article/:id", article.ArticleDetail)
 
@@ -41,6 +42,8 @@ func Router() {
 	router.POST("/file/list", upload.GetFileList)
 	router.POST("/file/delete", upload.DeleteFile)
 
+	router.GET("/edit", article.EditNewArticle)
+	router.GET("/edit/:id", article.EditArticle)
 	// todo jwt casbin
 	router.Run(":8888")
 }
