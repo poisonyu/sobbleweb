@@ -1,12 +1,12 @@
 <html>
     <head>
-	<title>vditor编辑器</title>
+	<title>vditor文本</title>
      <link rel="stylesheet" href="https://unpkg.com/vditor/dist/index.css" />
     <script src="https://unpkg.com/vditor/dist/index.min.js"></script>
     </head>    
     <body>
-        <input type="button" onclick="setContent()" value="确定" />
-        <div id="content">
+        <!-- <input type="button" onclick="setContent()" value="确定" /> -->
+        <div id="vditor" style="margin-top:25px">
         </div>
         <input type="button" onclick="saveContent()" value="保存" />
     
@@ -14,7 +14,11 @@
         <script>
             var vditor = null;
             window.onload = function() {
-                vditor = new Vditor(document.getElementById('content'), {
+                vditor = new Vditor(document.getElementById('vditor'), {
+                    // placeholder: "placeholder",
+                    height: window.innerHeight - 40,
+                    lang: "zh_CN",
+                    value: "{{ .article.MdContent }}",
                     cache: {
                         enable: false
                     },
@@ -23,46 +27,40 @@
                         "mode": "both"
                     }
                 });
-            }
-            function setContent() {
-                let text = unescape("{{ .article.Content }}");
-                console.log(text);
-                text = vditor.html2md(text)
-                vditor.setValue(text)
-            }
 
+            }
             function saveContent() {
                 var htmlContent = vditor.getHTML();
                 var re = new RegExp("<h1>(.*?)<");
                 // todo 没有匹配到结果的情况
                 var title = htmlContent.match(re)[1];
-                fetch("/article/add", {
+                fetch("/article/update", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        "id": "{{ .article.ID }}",
                         "nickname":"",
                         "title": title,
                         "type":"",
-                        "content": htmlContent,
-                        "ishtml": true,
+                        "mdcontent": vditor.getValue(),
+                        "htmlcontent": htmlContent,
+                        // "ishtml": true,
                     })
                 })
                 .then(response => callback(response))
                 // .then(response => response.json())
                 // .then(data => console.log(data.message))
-
+                vditor.destory();
             }
-
             function callback(response) {
                 console.log(response)
                 if (response.redirected) {
-                    // alert("发布成功");
-                    window.location = response.url
+                    alert("保存成功");
+                    window.location.href = response.url
                 }
             }
-
         </script>
     </body>
 </html>

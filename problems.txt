@@ -9,3 +9,11 @@ Article.Content中 以什么形式存储文章内容 除了string 还能怎么�
 generate profit for their shareholders
 
 the benefits of their users are a byproduct
+
+// 用wget下载文件目录
+wget -r -np -nH -R index.html https://unpkg.com/browse/vditor@3.10.5/dist/
+
+-r : 遍历所有子目录
+-np : 不到上一层子目录去
+-nH : 不要将文件保存到主机名文件夹
+-R index.html : 不下载 index.html 文件

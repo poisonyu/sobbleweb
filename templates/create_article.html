@@ -5,12 +5,35 @@
     <script src="https://unpkg.com/vditor/dist/index.min.js"></script>
     </head>    
     <body>
-        {{ template "editor.html" . }}
-
+        <!-- {{ template "editor.html" . }} -->
+        <!-- <input type="button" onclick="setContent()" value="确定" /> -->
+        <!-- <div>
+            Title:<br>
+            <input type="text" name="title">
+            <br>
+            Type:<br>
+            <input type="text" name="type">
+            可以不填
+        </div> -->
+        <div>
+        <label for="title">标题：</label><br>
+        <input type="text" id="title" name="title">
+        <br>
+        <label for="tag">Type:</label><br>
+        <input type="text" id="tag" name="type">
+        <br>
+        </div>
+        <div id="vditor" style="margin-top:25px">
+        </div>
+        <input type="button" onclick="saveContent()" value="保存" />
         <script>
             var vditor = null;
             window.onload = function() {
-                vditor = new Vditor(document.getElementById('content'), {
+                vditor = new Vditor(document.getElementById('vditor'), {
+                    placeholder: "placeholder", // 默认内容
+                    height: window.innerHeight - 40,
+                    lang: "zh_CN",
+                    // value: "{{ .article.Content }}",
                     cache: {
                         enable: false
                     },
@@ -28,9 +51,22 @@
 
             function saveContent() {
                 var htmlContent = vditor.getHTML();
-                var re = new RegExp("<h1>(.*?)<");
-                // todo 没有匹配到结果的情况
-                var title = htmlContent.match(re)[1];
+
+                let title = document.getElementById("title").value 
+                if (!title) {
+                    var re = new RegExp("<h1>(.*?)<");
+                    // todo 没有匹配到结果的情况
+                    let result = htmlContent.match(re)
+                    if (!result) {
+                        alert("请填写标题或在markdown中填写一级标题")
+                        return 
+                    }
+                    title = result[1]
+
+                }
+
+                let tag = document.getElementById("tag").value 
+
                 fetch("/article/add", {
                     method: 'POST',
                     headers: {
@@ -39,21 +75,24 @@
                     body: JSON.stringify({
                         "nickname":"",
                         "title": title,
-                        "type":"",
-                        "content": htmlContent,
-                        "ishtml": true,
+                        "type":tag,
+                        "mdcontent": vditor.getValue(),
+                        "htmlcontent": htmlContent,
+                        // "ishtml": true,
                     })
                 })
                 .then(response => callback(response))
                 // .then(response => response.json())
                 // .then(data => console.log(data.message))
+                // vditor.destory();
 
             }
 
             function callback(response) {
                 console.log(response)
                 if (response.redirected) {
-                    // alert("发布成功");
+                    alert("发布成功");
+                    
                     window.location = response.url
                 }
             }

@@ -22,3 +22,9 @@ func GetArticleByID(id string) (Article, error) {
 	err := global.DB.First(&article, id).Error
 	return article, err
 }
+
+func SaveArticle(article Article) error {
+	result := global.DB.Save(&article)
+
+	return result.Error
+}

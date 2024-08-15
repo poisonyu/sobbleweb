@@ -3,5 +3,18 @@
     <div id="content">
     </div>
     <input type="button" onclick="saveContent()" value="发布" />
-
+    <script>
+        var vditor = null;
+        window.onload = function() {
+            vditor = new Vditor(document.getElementById('content'), {
+                cache: {
+                    enable: false
+                },
+                "mode": "sv",
+                "preview": {
+                    "mode": "both"
+                }
+            });
+        }
+    </script>
 {{ end }}

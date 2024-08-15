@@ -21,6 +21,7 @@ func Router() {
 	// gin.New()
 
 	router.Static("/static", "./static")
+	// router.Static("/dist", "./dist")
 	router.LoadHTMLGlob("templates/*")
 	//router.LoadHTMLFiles("templates/pic.html", "templates/index.html")
 
@@ -35,14 +36,15 @@ func Router() {
 
 	router.POST("/article/add", article.AddArticle)
 	router.POST("/article/update", article.UpdateArticle)
+	router.POST("/article/delete", article.DeleteArticle)
 	router.GET("/article/list", article.ArticleList)
 	router.GET("/article/:id", article.ArticleDetail)
+	router.GET("/article/create", article.EditNewArticle)
 
 	router.POST("/file/upload", upload.UploadFile)
 	router.POST("/file/list", upload.GetFileList)
 	router.POST("/file/delete", upload.DeleteFile)
 
-	router.GET("/edit", article.EditNewArticle)
 	router.GET("/edit/:id", article.EditArticle)
 	// todo jwt casbin
 	router.Run(":8888")

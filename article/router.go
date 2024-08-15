@@ -22,11 +22,12 @@ func AddArticle(c *gin.Context) {
 		return
 	}
 	article := Article{
-		Author:  art.NickName,
-		Title:   art.Title,
-		Type:    art.Type,
-		Content: art.Content,
-		IsHTML:  art.IsHTML,
+		Author:      art.NickName,
+		Title:       art.Title,
+		Type:        art.Type,
+		MdContent:   art.MdContent,
+		HtmlContent: art.HtmlContent,
+		// IsHTML:  art.IsHTML,
 	}
 	id, err := CreateArticle(article)
 	if err != nil {
@@ -36,6 +37,10 @@ func AddArticle(c *gin.Context) {
 	location := fmt.Sprintf("/article/%d", id)
 	//response.JSONResponse(c, "success", nil)
 	c.Redirect(http.StatusFound, location)
+}
+
+func DeleteArticle(c *gin.Context) {
+
 }
 
 // /article/list
@@ -72,7 +77,7 @@ func ArticleDetail(c *gin.Context) {
 	})
 }
 
-// /edit
+// /article/create
 func EditNewArticle(c *gin.Context) {
 	response.HTMLResponse(c, "create_article.html", nil)
 }
@@ -106,6 +111,14 @@ func UpdateArticle(c *gin.Context) {
 		global.LOGGER.Error("get article by id", zap.Error(err))
 		response.JSONResponse(c, "update failed", nil)
 	}
-	article.Content = art.Content
+	article.MdContent = art.MdContent
+	article.HtmlContent = art.HtmlContent
+	if err := SaveArticle(article); err != nil {
+		global.LOGGER.Error("update article", zap.Error(err))
+		response.JSONResponse(c, "update failed", nil)
+	}
+	location := fmt.Sprintf("/article/%d", article.ID)
+	//response.JSONResponse(c, "success", nil)
+	c.Redirect(http.StatusFound, location)
 
 }
