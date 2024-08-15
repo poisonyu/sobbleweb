@@ -81,3 +81,26 @@ We mentioned that execution results require voting. How does it work? Is it - on
 
 ## Network validators 
 
+All blockchains are networks because they are operated by a group of users. Users that do the heavy lifting of operating the network and actively participate in the consensus process are called validators. The voting weight of every validator is proportional to the amount of tokens they hold. To keep validators honest, they are normally required to put their tokens at stake. If the consensus deems that a validator is dishonest, their tokens will be taken away as punishment. This governance process is called proof-of-stake.
+
+所有的区块链都是互联网，因为他们由一个用户群体运营。**那些承担网络运营重任并积极参与共识过程的用户被称为做验证者**。每一个验证者的投票比重与他们所持有的代币数量是成正比的。为了保持验证者的诚实，他们通常需要把他们的代币置于危险中。如果共识认为一个验证者是不诚实的，他们的代币将被没收作为惩罚。这种管理方法被叫做**权益证明。**
+
+Being a network validator is usually hard work. You need to run the blockchain node code on a server that you own and stake it with a lot of tokens. **Smaller users** that want to participate but don't have enough tokens to **warrant going to all this effort** can often delegate their tokens to one of the **larger** validators. These participants are called **nominators**.
+
+作为一个网络验证者通常是艰难的工作。你需要在你自己的服务器上运行区块链节点代码并用大量代币抵押它。**那些想要去参加但是没有足够多代币来保证进行所有这些努力较小的用户通常可以把他们的代币委托给较大的验证者之一**。这种参与者被称为提名人。
+
+## Gas fees 
+
+We said earlier that blockchains are economies. The equipment for network validators is not free, so they must be paid for their efforts. Payment naturally takes place with the token of the blockchain. On the TON blockchain, users pay fees using the TON coin. TON network validators earn TON coin for performing the validation process and executing all the apps that are running on the blockchain.
+
+我们之前说区块链是经济体。网络验证者的设备不是免费的，**因此他们的努力必须得到报酬**。**支付自然用区块链的代币进行的**。在TON区块链中，用户使用TON币支付费用。TON网络验证者从执行验证过程和执行在区块链上运行的所有应用赚取TON币。
+
+When a user is performing some action on the blockchain, they must send a transaction. The transaction includes a fee payment called gas. The **analogy** comes from cars. Just like a car needs gas to run, so does a blockchain transaction. Users must sign transactions using their blockchain wallets. This signature guarantees that only the owner of the wallet can authorize the payment of gas and sending the transaction.
+
+当一个用户在区块链上执行某些操作时，他们必须发送一个交易。这个交易包含的支付费用被称为gas。这个类比来自汽车。就像汽车需要汽油才能行驶。区块链交易也是一样。用户必须用他们的区块链钱包给交易签名。签名可以保证只有钱包的拥有者可以授权gas的费用支付并发送交易。
+
+## Dapps 
+
+We said earlier that the purpose of blockchains is to run decentralized backends. A simpler name for these services that run on the blockchain network **is apps - decentralized apps to be exact** or dapps for short. Developers create dapps and have network validators execute them.**Users interact with dapps** by sending them transactions. The developer of a dapp is equal to the dapp's users. **The developer should have no special privileges since the app is decentralized.**
+
+我们之前说过区块链的目的是去运行去中心化的后端。这些运行在区块链网络的服务有一个更简单的**名字是应用，确切的说是去中心化应用**，或者简称为dapp。开发人员创建dapps并让网络验证者去执行他们。用户通过发送他们的交易**来和dapp交互**。一个dapp的开发人员与这个dappd的用户是平等的。**由于应用是去中心化的，开发人员没有特殊特权**。
