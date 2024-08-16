@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/cyansobble/global"
 	"github.com/cyansobble/response"
@@ -40,7 +41,21 @@ func AddArticle(c *gin.Context) {
 }
 
 func DeleteArticle(c *gin.Context) {
-
+	var art ReqArticle
+	if err := c.ShouldBindJSON(&art); err != nil {
+		global.LOGGER.Error("delete shouldbindjson", zap.Error(err))
+		response.JSONResponse(c, "delete failed", nil)
+	}
+	_, err := GetArticleByID(art.ID)
+	if err != nil {
+		global.LOGGER.Error("get article by id", zap.Error(err))
+		response.JSONResponse(c, "delete failed", nil)
+	}
+	if err := DeleteArticleByID(art.ID); err != nil {
+		global.LOGGER.Error("delete article by id", zap.Error(err))
+		response.JSONResponse(c, "delete failed", nil)
+	}
+	c.Redirect(http.StatusFound, "/article/list")
 }
 
 // /article/list
@@ -69,10 +84,30 @@ func ArticleDetail(c *gin.Context) {
 		global.LOGGER.Error("get article by id", zap.Error(err))
 		response.JSONResponse(c, "failed", nil)
 	}
+	var previous, next string
+	preArticle, err := Previous(id)
+	if err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
+		global.LOGGER.Sugar().Infof("ID:%s 没有上一篇了", id)
+	} else if err != nil {
+		global.LOGGER.Error("previous", zap.Error(err))
+	} else {
+		previous = strconv.Itoa(int(preArticle.ID))
+	}
+
+	nextArticle, err := Next(id)
+	if err != nil && errors.Is(err, gorm.ErrRecordNotFound) {
+		global.LOGGER.Sugar().Infof("ID:%s 没有下一篇了", id)
+	} else if err != nil {
+		global.LOGGER.Error("previous", zap.Error(err))
+	} else {
+		next = strconv.Itoa(int(nextArticle.ID))
+	}
 	// updatedAt := article.UpdatedAt.Format("2024-01-01 15:05")
 	response.HTMLResponse(c, "blog_detail.html", gin.H{
-		"id":      id,
-		"article": article,
+		"id":       id,
+		"article":  article,
+		"previous": previous,
+		"next":     next,
 		// "updateAt": updatedAt,
 	})
 }

@@ -24,8 +24,7 @@ func main() {
 		global.LOGGER.Error("auto migrate failed", zap.Error(err))
 		return
 	}
-	//
-	//router = Router()
-	Router()
+	article.GetArticleByDate()
+	//Router()
 
 }

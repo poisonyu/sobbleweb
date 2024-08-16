@@ -17,3 +17,7 @@ wget -r -np -nH -R index.html https://unpkg.com/browse/vditor@3.10.5/dist/
 -np : 不到上一层子目录去
 -nH : 不要将文件保存到主机名文件夹
 -R index.html : 不下载 index.html 文件
+
+Mysql 
+
+update articles set deleted_at=null where id=28;
