@@ -33,6 +33,7 @@ func Router() {
 	//router.POST("/audiocaptcha", AudioCaptcha)
 
 	router.GET("/random/pic", RandomPicture)
+	router.GET("/video", ParseM3U8)
 
 	router.POST("/article/add", article.AddArticle)
 	router.POST("/article/update", article.UpdateArticle)
@@ -79,4 +80,8 @@ func RandomPicture(c *gin.Context) {
 	// Response(c, "success", gin.H{
 	// 	"url": newUrl,
 	// })
+}
+
+func ParseM3U8(c *gin.Context) {
+	response.HTMLResponse(c, "video.html", nil)
 }
