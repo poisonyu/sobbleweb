@@ -1,6 +1,10 @@
 package response
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func JSONResponse(c *gin.Context, msg string, data interface{}) {
 	c.JSON(200, gin.H{
@@ -8,6 +12,7 @@ func JSONResponse(c *gin.Context, msg string, data interface{}) {
 		"message": msg,
 		"data":    data,
 	})
+
 	//c.Abort()
 
 }
@@ -15,4 +20,8 @@ func JSONResponse(c *gin.Context, msg string, data interface{}) {
 func HTMLResponse(c *gin.Context, htmlFile string, data interface{}) {
 	c.HTML(200, htmlFile, data)
 
+}
+
+func RedirectResponse(c *gin.Context, location string) {
+	c.Redirect(http.StatusFound, location)
 }

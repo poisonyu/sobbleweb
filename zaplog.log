@@ -281,3 +281,22 @@
 **2024-08-08 15:23**
 **2024-08-08 15:51**
 **2024-08-08 13:49**
+2024-08-17T13:36:17.842+0800	[34mINFO[0m	article/router.go:63	[sugar] query 0 records
+2024-08-17T13:36:17.842+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-08-17T13:36:49.228+0800	[34mINFO[0m	article/router.go:63	[sugar] query 0 records
+2024-08-17T13:36:49.228+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-08-17T13:36:53.129+0800	[34mINFO[0m	article/router.go:63	[sugar] query 0 records
+2024-08-17T13:36:53.129+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-08-17T13:38:33.138+0800	[34mINFO[0m	article/router.go:63	[sugar] query 0 records
+2024-08-17T13:38:33.139+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-08-17T13:38:39.673+0800	[34mINFO[0m	article/router.go:63	[sugar] query 0 records
+2024-08-17T13:38:39.673+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-08-17T13:38:43.009+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article by id	{"error": "record not found"}
+2024-08-17T13:38:43.011+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有上一篇了
+2024-08-17T13:38:43.013+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有下一篇了
+**2024-08-08 13:21**
+**2024-08-08 13:42**
+2024-08-17T13:40:45.683+0800	[34mINFO[0m	article/router.go:63	[sugar] query 0 records
+2024-08-17T13:40:45.683+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-08-17T13:40:56.554+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article by id	{"error": "record not found"}
+**2024-08-08 14:31**

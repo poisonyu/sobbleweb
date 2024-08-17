@@ -55,7 +55,8 @@ func DeleteArticle(c *gin.Context) {
 		global.LOGGER.Error("delete article by id", zap.Error(err))
 		response.JSONResponse(c, "delete failed", nil)
 	}
-	c.Redirect(http.StatusFound, "/article/list")
+	response.RedirectResponse(c, "article/list")
+	// c.Redirect(http.StatusFound, "/article/list")
 }
 
 // /article/list
@@ -64,6 +65,7 @@ func ArticleList(c *gin.Context) {
 	if err != nil {
 		global.LOGGER.Error("get article list", zap.Error(err))
 		response.JSONResponse(c, "failed", nil)
+		return
 	}
 	response.HTMLResponse(c, "blog_list.html", gin.H{
 		"articles": articles,
@@ -83,6 +85,7 @@ func ArticleDetail(c *gin.Context) {
 	if err != nil {
 		global.LOGGER.Error("get article by id", zap.Error(err))
 		response.JSONResponse(c, "failed", nil)
+		return
 	}
 	var previous, next string
 	preArticle, err := Previous(id)

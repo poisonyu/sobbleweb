@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>视频播放器</title>
+<meta name="renderer" content="webkit"/>
+
+<script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.1.5/hls.min.js"></script>
+<script src="https://unpkg.com/ajax-hook@2.1.2/dist/ajaxhook.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/player.css">
+<script src="/static/js/player.js"></script>
+</head>
+<body>
+    <div class="form">
+        <form id="form">
+            <input type="text" name="wd" id="kw" placeholder="输入视频播放地址" autocomplete="off" />
+            <span class="btn1" id="s1"><input type="button" onclick="clear()" value="清空" id="delete"/></span>
+            <span class="btn2" id="s2"><input type="button" onclick="startplay()" value="立即播放" id="su"/></span>
+        </form>
+    </div>
+    <div id="dplayer"></div>
+</body>
+
+</html>

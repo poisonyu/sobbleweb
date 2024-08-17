@@ -83,5 +83,5 @@ func RandomPicture(c *gin.Context) {
 }
 
 func ParseM3U8(c *gin.Context) {
-	response.HTMLResponse(c, "video.html", nil)
+	response.HTMLResponse(c, "player.html", nil)
 }
