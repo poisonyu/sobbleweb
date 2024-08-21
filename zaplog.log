@@ -300,3 +300,12 @@
 2024-08-17T13:40:45.683+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
 2024-08-17T13:40:56.554+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article by id	{"error": "record not found"}
 **2024-08-08 14:31**
+**2024-08-08 10:30**
+2024-08-21T10:09:54.012+0800	[34mINFO[0m	article/router.go:64	[sugar] query 0 records
+2024-08-21T10:09:54.013+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-08-21T10:10:02.520+0800	[34mINFO[0m	article/router.go:64	[sugar] query 0 records
+2024-08-21T10:10:02.520+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-08-21T10:10:06.628+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article by id	{"error": "record not found"}
+2024-08-21T10:17:04.251+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	add article	{"error": "Error 1406 (22001): Data too long for column 'mdcontent' at row 1"}
+2024-08-21T10:18:38.452+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	add article	{"error": "Error 1406 (22001): Data too long for column 'mdcontent' at row 1"}
+2024-08-21T10:22:03.294+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	add article	{"error": "Error 1406 (22001): Data too long for column 'mdcontent' at row 1"}

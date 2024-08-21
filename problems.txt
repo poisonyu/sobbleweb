@@ -21,3 +21,5 @@ wget -r -np -nH -R index.html https://unpkg.com/browse/vditor@3.10.5/dist/
 Mysql 
 
 update articles set deleted_at=null where id=28;
+
+2024/08/21 10:18:38 /Users/sobble/sobbleweb/article/db.go:18 Error 1406 (22001): Data too long for column 'mdcontent' at row 1

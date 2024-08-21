@@ -25,20 +25,9 @@
         {{ template "navigation.html" . }}
         <!-- <header class="navbar-bar" style="background-image: url('/static/assets/img/home-bg.jpg')">
         </header> -->
-        <script>
-          window.onload = function() {
-            let content = document.getElementById('content');
-            let text = content.textContent;
-            content.innerHTML = text;
-            content.style.display = "";
-          }
-          function editArticle() {
-            window.location = "http://localhost:8888/editor"
-          }
-        </script>
+        <script src="/static/js/article/detail.js"></script>
         <div class="row g-5">
             <div class="col-md-8">
-
                 <article class="blog-post" >
                   <!-- margin-top: 80px;
                   margin-left: 50px; -->
@@ -121,36 +110,5 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="/static/js/scripts.js"></script>
-        <script>
-          function deleteArticle() {
-            fetch("/article/delete", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                "id": "{{ .article.ID }}",
-              })
-            })
-            .then(response => callback(response))
-
-          }
-          function callback(response) {
-            console.log(response)
-            if (response.redirected) {
-              alert("删除成功")
-              window.location.href = response.url
-            }
-
-          }
-
-          // function Previous() {
-          //   if ("{{ .previous }}") {
-          //     window.location.href = "/article" + "{{ .previous }}"
-          //   }
-
-          // }
-          
-        </script>
     </body>
 </html>
