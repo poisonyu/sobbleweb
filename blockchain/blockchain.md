@@ -1,31 +1,3 @@
-# 区块链怎样在一个无人居住的小岛上帮助你
-
-现今有很多关于区块链的炒作，但是如果你想问区块链实际上有什么用——很难得到一个明确的答案。有人常说区块链围绕信任展开，但是信任是一个很抽象的概念。我们能用一个具体的例子去证明它吗？这里有一个简单的东西将帮助我们理解为什么去中心化的共识（区块链）是有利于商业的。
-
-## 那么，为什么去中心化的共识（区块链）对商业是有好处的？
-
-想想电视剧迷失的开场——一架载满乘客的飞机坠毁在南太平洋的某处的一个荒凉小岛上。当幸存者探索这个岛屿并且弄明白救援无望的时候，他们开始过上一种新的生活——一个微型的文明开始出现。
-
-Hugo是一个擅长种植的人，他喜欢去种植蔬菜。Sawyer在残骸种发现了斧子，开始劈柴。Kate是一个优秀的猎人，她擅长抓捕野猪。Jack打捞了一些药，当你病了并需要一些抗生素，他是你的帮手。
-
-一个以物换物的经济发展起来了。当Sawyer饿了，他用一捆木柴与Hugo交换了4个西红柿。Kate用一头野猪交换了20个西红柿。Jack用一粒抗生素交换4捆木柴，但也会接受一头野猪。
-
-一天早上Jack带着一个好主意醒来。让我们的文明迈入一个新的等级，引入金钱这个抽象的概念。他把这个想法扔给其他人。我们将创建一个IslandCoin并在我们的经济中使用它，而不是物物交换——这样即使Sawyer不需要任何抗生素，他仍然能够从Sawyer那里得到木柴。这个提议很简单：一个西红柿价值2个硬币，一头野猪价值40硬币，诸如此类。Kate问我们每个人开始有多少硬币？好，让我们公平一点——我们每个人开始将有100个硬币。
-
-Since the survivors don’t have access to metal on the island, they obviously can’t mint actual coins. Jack suggests to keep track of how many coins each of them has. He comes up with a simple system. He’ll write on a piece of paper **a balance of 100** next to each of their names. Every time you want to transfer **somebody** some coins, just let him know the amount and he’ll update the **numbers** on his piece of paper.
-
-由于幸存者在岛上不能获得金属，他们明显不能铸造真的硬币。Jack建议去记录他们每个人拥有的硬币。他想出一个简单的系统。他将在一张纸上写下100旁边写下他们每个人的名字。每次你想要转移某人的一些硬币时，只需要让他知道金额，他会更新他的纸上数字。
-
-Sawyer doesn’t trust Jack very much, **especially with the whole alpha male tension around Kate**. Why should he hold the piece of paper? he asks. What prevents Jack from messing around with the numbers behind his back? Sawyer pitches his own idea — replace IslandCoin with his version called PacificToken! When you want to make a transfer, just let him know and he’ll keep track. Well, it’s becoming clear that Jack and Sawyer won’t play nice together. Kate tries to resolve the conflict by offering to track the numbers herself. It’s great because Jack and Sawyer will do anything she says anyways. But Hugo isn’t too happy about that though.
-
-Sawyer非常不信任Jack,尤其是整个最有权势的雄性矛盾围绕着Kate。为什么他持有这张纸？他问道。什么阻止Jack在背后玩弄这些数字？Swayer抛出一个他自己的想法——用他的版本被叫做PacificToken来替换IslandCoin!当你想要去转移金额时，只要让他知道，他会跟踪记录。好吧，很明显Jack和Sawyer不会玩的好。Kate尝试去通过提议自己去记录这些数字来解决这个冲突。这很好，因为Jack和Sawyer无论如何都会做她说的任何事。但是Hugo对此不太满意。
-
-The gang can’t decide on one individual that will keep track of the balance sheet — we have a deadlock. The idea falls through. Fast forward one year. The barter economy lives on. It sucks and they suffer, **but that’s the only thing they manage to get working**.
-
-这群人不能决定一个人去跟踪记录资产负债表——我们陷入了一个僵局。这个想法落空了。一年很快过去了。物物交换的经济持续着。这很糟糕，他们很痛苦，但是这是唯一能设法工作的事情。
-
-
-
 # 什么是区块链？什么是智能合约？是什么gas?
 
 这是一篇介绍性的文章，目的是给出一些我们将在这里所做事情的背景信息。区块链有什么特别之处？为什么我们要使用它？这篇文章还将定义一些基本的术语，像智能合约和gas。如果你感觉迷茫，这是一个开始的好地方。
@@ -104,3 +76,38 @@ When a user is performing some action on the blockchain, they must send a transa
 We said earlier that the purpose of blockchains is to run decentralized backends. A simpler name for these services that run on the blockchain network **is apps - decentralized apps to be exact** or dapps for short. Developers create dapps and have network validators execute them.**Users interact with dapps** by sending them transactions. The developer of a dapp is equal to the dapp's users. **The developer should have no special privileges since the app is decentralized.**
 
 我们之前说过区块链的目的是去运行去中心化的后端。这些运行在区块链网络的服务有一个更简单的**名字是应用，确切的说是去中心化应用**，或者简称为dapp。开发人员创建dapps并让网络验证者去执行他们。用户通过发送他们的交易**来和dapp交互**。一个dapp的开发人员与这个dappd的用户是平等的。**由于应用是去中心化的，开发人员没有特殊特权**。
+
+Let's **reiterate** over the last point with an example. Let's take a Web2 service like Google Search. The developer of the service, Google, ranks search results for the benefit of users. Google enjoys this position of power and is allowed to promote its own products in search results. For example, when searching for "storage", Google can promote the result "Google Drive" over a competitor like "Dropbox". In a Web3 version of Google Search, the developer of the service will not be allowed to promote their own products in search.
+
+让我们用一个例子重申最后一点。让我们拿谷歌搜索这种Web2服务举例。这个服务的开发人员，谷歌，为了用户的利益排名搜索结果。谷歌享有权利地位并且被允许在搜索结果中推广谷歌的产品。例如，当搜索“storage”时，谷歌可以优先推广“Google Drive”的结果而不是像“Dropbox”这样的竞争对手。在Web3版本的谷歌搜索中，服务的开发人员将不被允许去在搜索中推广他们自己的产品。
+
+## Smart contracts
+
+Every Web2 service like Google Search has terms of service. If a user feels that they were wronged under these terms, they can sue and ask a judge to rule on the dispute. Web3 is decentralized and **cannot have centralized sources of authority like judges.** On blockchain, code is law. The code of the dapp is the only agreement between its users. Unlike traditional legal agreements, this agreement is not open to interpretation. Code always executes **in the same way**.
+
+每一个像谷歌搜索这样的Web2服务都有服务条款。如果用户感觉他们被这些条款不公正的对待了，他们可以提起诉讼并且要求法官对争议做出裁决。Web3是去中心化并且没有像法官这样拥有中心化的权利来源。在区块链中，代码就是法律。dapp的代码是在用户之间唯一的协议。不像传统合法的协议，这个协议不开放解释。代码总是以相同的方式执行。
+
+Blockchain replaces legal contracts with code. The code of the dapp is therefore called a smart contract. Before users decide to participate in a dapp, by sending it transactions for example, they are expected to review the dapp's source code to understand its terms. Just like you wouldn't sign a lease contract for your apartment without reading the contract, you should not sign a transaction without reviewing the smart contract. Since not all users are tech savvy enough to do this, communities often rely on each other for this purpose.
+
+区块链用代码替换了法律合同。dapp的代码因此被叫做智能合约。在用户决定去参与一个dapp之前，例如通过发送交易，他们需要去审查dapp的源代码去理解它的条款。就像你不会没有阅读合约就为你的公寓签署租赁合同。在没有仔细研究智能合约前，你不会签署交易。由于不是所有用户都足够精通技术来理解这么做，社区经常为了这个目的相互依赖。
+
+After the developer finished writing the smart contract, the act of publishing this contract to the blockchain is called deployment. The contract code is deployed on to the chain where everybody can find it by its contract address.
+
+在开发人员完成编写智能合约后，把智能合约发布到区块链的行为被称为部署。这个合约的代码被部署链上。每个人都能通过它的合约地址找到它。
+
+Block  and explorers 
+
+We said earlier that network validators must vote on the execution result of every transaction. To streamline this process, groups of transactions are batched together in blocks. Every block of transactions gets its own block number and undergoes the consensus process where a majority of network validators is required to approve it. When you order all the blocks one after the other you get a chain of blocks - this is the source of the word blockchain.
+
+我们先前提到网络验证者必须要给每一笔交易的执行结果投票。为了提高这个过程的效率，在blocks中交易组会一起被成批处理。每一个交易块得到它自己的块号码并且经历共识过程。大多数的网络验证者都被要求去赞同它。当你一个一个排列所有区块后，你就得到了一连串的块-——这是区块链这个单词的来源。
+
+After sending a transaction, a user must wait until this transaction is included in a block. A new block on TON blockchain is created every 5 seconds on average. **Users can inspect transactions, check if they succeeded or not and see which block they were added to by using a tool called a block explorer, or an explorer for short.**
+
+在发送一个交易后，一个用户必须等待，直到这个交易被包含在一个块中。在TON区块链中一个新的区块平均每5s被创建。用户可以通过一个叫区块链浏览器，简称浏览器的工具简称交易是否成功并查看它们被添加到了哪个区块。
+
+## So what is blockchain good for? 
+
+在这篇文章中，我们主要介绍了什么是区块链以及定义了很多涉及到术语。实现像去中心化和去信任这种抽象的好处听起来是一件可怕的麻烦事。我们能给出更多实际的例子来说明区块链能改善你的生活？
+
+
+根据谷歌翻译，翻译自[blockchain](https://blog.ton.org/what-is-blockchain "sleep")
