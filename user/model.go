@@ -23,12 +23,13 @@ type User struct {
 }
 
 type ReqRegister struct {
-	UserName  string `json:"username"`
-	PassWord  string `json:"password"`
-	NickName  string `json:"nickname"`
-	Email     string `json:"email"`
-	CaptchaId string `json:"captchaid"`
-	Captcha   string `json:"captcha"`
+	UserName       string `json:"username"`
+	PassWord       string `json:"password"`
+	PassWordRepeat string `json:"passwordrepeat"`
+	NickName       string `json:"nickname"`
+	Email          string `json:"email"`
+	CaptchaId      string `json:"captchaid"`
+	Captcha        string `json:"captcha"`
 }
 
 type ReqLogin struct {

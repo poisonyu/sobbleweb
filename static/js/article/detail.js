@@ -8,19 +8,7 @@ function editArticle() {
     window.location = "http://localhost:8888/editor"
 }   
 
-function deleteArticle() {
-    fetch("/article/delete", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "id": "{{ .article.ID }}",
-      })
-    })
-    .then(response => callback(response))
 
-}
 function callback(response) {
     console.log(response)
     if (response.redirected) {
@@ -29,3 +17,4 @@ function callback(response) {
     }
 
 }
+

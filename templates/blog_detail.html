@@ -25,7 +25,7 @@
         {{ template "navigation.html" . }}
         <!-- <header class="navbar-bar" style="background-image: url('/static/assets/img/home-bg.jpg')">
         </header> -->
-        <script src="/static/js/article/detail.js"></script>
+
         <div class="row g-5">
             <div class="col-md-8">
                 <article class="blog-post" >
@@ -68,7 +68,22 @@
                 <button onclick="deleteArticle()">删除文章</button>
               </div>
             </div>
-              
+            <script src="/static/js/article/detail.js"></script>
+            <script>
+                function deleteArticle() {
+                    fetch("/article/delete", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        "id": "{{ .article.ID }}",
+                    })
+                    })
+                    .then(response => callback(response))
+
+                }
+            </script>
         </div>
         <!-- Footer-->
         <footer class="border-top">

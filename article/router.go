@@ -34,6 +34,7 @@ func AddArticle(c *gin.Context) {
 	if err != nil {
 		global.LOGGER.Error("add article", zap.Error(err))
 		response.JSONResponse(c, "failed", nil)
+		return
 	}
 	location := fmt.Sprintf("/article/%d", id)
 	//response.JSONResponse(c, "success", nil)
@@ -45,17 +46,20 @@ func DeleteArticle(c *gin.Context) {
 	if err := c.ShouldBindJSON(&art); err != nil {
 		global.LOGGER.Error("delete shouldbindjson", zap.Error(err))
 		response.JSONResponse(c, "delete failed", nil)
+		return
 	}
 	_, err := GetArticleByID(art.ID)
 	if err != nil {
 		global.LOGGER.Error("get article by id", zap.Error(err))
 		response.JSONResponse(c, "delete failed", nil)
+		return
 	}
 	if err := DeleteArticleByID(art.ID); err != nil {
 		global.LOGGER.Error("delete article by id", zap.Error(err))
 		response.JSONResponse(c, "delete failed", nil)
+		return
 	}
-	response.RedirectResponse(c, "article/list")
+	response.RedirectResponse(c, "/article/list")
 	// c.Redirect(http.StatusFound, "/article/list")
 }
 

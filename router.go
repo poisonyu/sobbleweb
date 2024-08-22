@@ -28,8 +28,10 @@ func Router() {
 	router.GET("/", Index)
 
 	router.POST("/user/register", user.Register)
-	router.POST("/captcha", user.DigitCaptcha)
+	router.GET("/captcha", user.DigitCaptcha)
 	router.POST("/user/login", user.Login)
+	router.GET("/user/signin", user.LoginHtml)
+	router.GET("/user/signup", user.RegisterHtml)
 	//router.POST("/audiocaptcha", AudioCaptcha)
 
 	router.GET("/random/pic", RandomPicture)

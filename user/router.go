@@ -24,6 +24,10 @@ func Register(c *gin.Context) {
 
 	// TODO 判断必要的字段满足特定的要求
 	//var user User
+	if reg.PassWord != reg.PassWordRepeat {
+		response.JSONResponse(c, "密码不一致", nil)
+		return
+	}
 	err = global.DB.Model(&User{}).Where("username = ?", reg.UserName).First(&User{}).Error
 	if !errors.Is(err, gorm.ErrRecordNotFound) {
 		response.JSONResponse(c, "用户名已经存在", nil)
@@ -51,7 +55,7 @@ func Register(c *gin.Context) {
 		response.JSONResponse(c, "服务器错误，注册失败", nil)
 		return
 	}
-	response.JSONResponse(c, "注册成功", nil)
+	response.JSONResponse(c, "success", nil)
 
 }
 
@@ -84,7 +88,7 @@ func Login(c *gin.Context) {
 	}
 	// 设置jwt token
 
-	response.JSONResponse(c, "登录成功", nil)
+	response.JSONResponse(c, "success", nil)
 }
 
 var store = base64Captcha.DefaultMemStore
@@ -98,7 +102,10 @@ func DigitCaptcha(c *gin.Context) {
 		response.JSONResponse(c, "captcha generate failed", nil)
 	}
 	global.LOGGER.Info("Captcah generate success", zap.String("id", id))
-	response.JSONResponse(c, "success", b64s)
+	response.JSONResponse(c, "success", gin.H{
+		"id":   id,
+		"b64s": b64s,
+	})
 
 }
 
@@ -113,4 +120,13 @@ func AudioCaptcha(c *gin.Context) {
 	global.LOGGER.Info("Captcah generate success", zap.String("id", id))
 	response.JSONResponse(c, "success", b64s)
 
+}
+
+func LoginHtml(c *gin.Context) {
+	response.HTMLResponse(c, "login.html", nil)
+
+}
+
+func RegisterHtml(c *gin.Context) {
+	response.HTMLResponse(c, "register.html", nil)
 }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Cn">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>HOME | sobble</title>
+        <link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico" />
+        <link href="/static/css/user/login.css" rel="stylesheet" />
+        
+    </head>
+
+    <body>
+        <div class="form" id="loginform">
+            <h1> Register </h1>
+            <form novalidate>
+                <p class="username">
+                    <label for="username">用户名 <span>*</span>
+                    </label>
+                    <input class="input" required type="username" id="username" name="username" pattern="[a-zA-Z0-9]+"/>
+                <span class="validation error"> Please enter a valid email</span>
+                <span class="validation req"> This field is required</span>
+                </p>
+                <p class="nickname">
+                    <label for="nickname">昵称
+                    </label>
+                    <input class="input" type="nickname" id="nickname" name="nickname"/>
+                </p>
+                <p class="email">
+                    <label for="email">电子邮箱
+                    </label>
+                    <input class="input" type="email" id="email" name="email"/>
+                  <!-- <span class="validation error"> Please enter a valid email</span>
+                  <span class="validation req"> This field is required</span> -->
+                </p>
+                <p class="password">
+                    <label for="password">密码 <span>*</span></label>
+                    <input class="input" required type="password" id="password" name="password" />
+                <span class="validation req"> This field is required</span>
+                </p>
+                <p class="password">
+                    <label for="passwordRepeat">重复密码 <span>*</span></label>
+                    <input class="input" required type="password" id="passwordRepeat" name="passwordRepeat" />
+                <span class="validation req"> 密码不一致</span>
+                </p>
+                <p class="captcha">
+                    <label for="captcha">验证码 <span>*</span></label>
+                    <input class="input" required type="captcha" id="captcha" name="captcha" />
+                <span class="validation req"> This field is required</span>
+                <img class="captcha-img" alt="">
+                <button class="captcha-btn" type="test" onclick="generate_captcha()">刷新验证码</button>
+                </p>
+                <p class="login">
+                    <input type="submit" value="Register" />
+                </p>
+            </form>
+        </div>
+        <script src="/static/js/user/register.js"></script>
+    </body>
+</html>
