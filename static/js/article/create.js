@@ -36,9 +36,7 @@ function saveContent() {
         title = result[1]
 
     }
-
     let tag = document.getElementById("tag").value 
-
     fetch("/article/add", {
         method: 'POST',
         headers: {
@@ -53,19 +51,17 @@ function saveContent() {
             // "ishtml": true,
         })
     })
+    .then(response => response.json())
     .then(response => callback(response))
     // .then(response => response.json())
     // .then(data => console.log(data.message))
-    // vditor.destory();
-
 }
 
 function callback(response) {
     console.log(response)
-    if (response.redirected) {
+    if (response.code == 1) {
         alert("发布成功");
-        
-        window.location = response.url
+        window.location.href = response.data.redirect
     } else {
         alert("发生错误")
     }

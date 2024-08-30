@@ -23,3 +23,13 @@ Mysql
 update articles set deleted_at=null where id=28;
 
 2024/08/21 10:18:38 /Users/sobble/sobbleweb/article/db.go:18 Error 1406 (22001): Data too long for column 'mdcontent' at row 1
+
+客户端携带token的三种方式，放在请求头，放在请求体，放在URI
+jwt authorization
+
+退出登录
+
+gin中重定向与JavaScript中fetch
+c.Redirect(http.StatusFound, "/article/list")
+
+编辑文本

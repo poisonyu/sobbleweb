@@ -46,10 +46,10 @@ form.addEventListener('submit', function (e) {
 
 function callback(response) {
     console.log(response)
-    if (response.message == "success") {
+    if (response.code == 1) {
         window.location.href = "/"
     } else {
-        alert(response.message);
+        alert("登录失败\n" + response.message);
         generate_captcha()
     }
 }
@@ -73,7 +73,7 @@ function generate_captcha() {
 }
 function captcha(data) {
     console.log(data)
-    if (data.message == "success") {
+    if (data.code == 1) {
         let img = document.querySelector(".captcha-img")
         img.src = data.data.b64s 
         captchaid = data.data.id 

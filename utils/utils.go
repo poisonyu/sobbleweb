@@ -2,6 +2,7 @@ package utils
 
 import (
 	"github.com/cyansobble/global"
+	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
 	"go.uber.org/zap"
 )
@@ -28,4 +29,9 @@ func GetRandonPicture() []byte {
 	// 	return string(resp.Body())
 	// }
 	// return ""
+}
+
+func IsLogin(c *gin.Context) bool {
+	token, _ := GetToken(c)
+	return token != ""
 }

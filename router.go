@@ -6,6 +6,7 @@ import (
 
 	"github.com/cyansobble/article"
 	"github.com/cyansobble/global"
+	"github.com/cyansobble/middleware"
 	"github.com/cyansobble/response"
 	"github.com/cyansobble/upload"
 	"github.com/cyansobble/user"
@@ -25,23 +26,25 @@ func Router() {
 	router.LoadHTMLGlob("templates/*")
 	//router.LoadHTMLFiles("templates/pic.html", "templates/index.html")
 
-	router.GET("/", Index)
-
 	router.POST("/user/register", user.Register)
-	router.GET("/captcha", user.DigitCaptcha)
 	router.POST("/user/login", user.Login)
+	router.GET("/captcha", user.DigitCaptcha)
 	router.GET("/user/signin", user.LoginHtml)
 	router.GET("/user/signup", user.RegisterHtml)
 	//router.POST("/audiocaptcha", AudioCaptcha)
 
+	router.GET("/", Index)
+
+	router.GET("/article/list", article.ArticleList)
+	router.GET("/article/:id", article.ArticleDetail)
+
 	router.GET("/random/pic", RandomPicture)
 	router.GET("/video", ParseM3U8)
 
+	router.Use(middleware.JWTAuth())
 	router.POST("/article/add", article.AddArticle)
 	router.POST("/article/update", article.UpdateArticle)
 	router.POST("/article/delete", article.DeleteArticle)
-	router.GET("/article/list", article.ArticleList)
-	router.GET("/article/:id", article.ArticleDetail)
 	router.GET("/article/create", article.EditNewArticle)
 
 	router.POST("/file/upload", upload.UploadFile)
@@ -60,7 +63,9 @@ func Router() {
 //		})
 //	}
 func Index(c *gin.Context) {
-	response.HTMLResponse(c, "index.html", gin.H{})
+	response.HTMLResponse(c, "index.html", gin.H{
+		"isLogin": utils.IsLogin(c),
+	})
 }
 
 func RandomPicture(c *gin.Context) {

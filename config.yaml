@@ -6,9 +6,10 @@ mysql:
  dbName: "cyanweb"  
  
 jwt:
-  signKey: "cyan"
+  signkey: "cyansobblesunflower"
   expiretime: "7d"
   issuer: "cyan"
+  audience: "cyans"
 
 local:
   path: "upload/file"

@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func JSONResponse(c *gin.Context, msg string, data interface{}) {
+func JSONResponse(c *gin.Context, code int, msg string, data interface{}) {
 	c.JSON(200, gin.H{
-		"code":    0,
+		"code":    code,
 		"message": msg,
 		"data":    data,
 	})

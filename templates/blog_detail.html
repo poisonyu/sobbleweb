@@ -65,25 +65,14 @@
               </div>
               <div>
                 <!-- <input type="button" onclick="deleteArticle()" value="删除文章" /> -->
-                <button onclick="deleteArticle()">删除文章</button>
+                <button id="delete" articleid="{{ .article.ID }}">删除文章</button>
+                <!-- <button articleid="{{ .article.ID }}" onclick="deleteArticle()">删除文章</button> -->
               </div>
             </div>
             <script src="/static/js/article/detail.js"></script>
-            <script>
-                function deleteArticle() {
-                    fetch("/article/delete", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        "id": "{{ .article.ID }}",
-                    })
-                    })
-                    .then(response => callback(response))
+            <!-- <script>
 
-                }
-            </script>
+            </script> -->
         </div>
         <!-- Footer-->
         <footer class="border-top">

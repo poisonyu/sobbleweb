@@ -29,7 +29,8 @@ func (mysql Mysql) SqlDsn() string {
 }
 
 type Jwt struct {
-	SignKey    string `yaml:"signKey"`
+	SignKey    string `yaml:"signkey"`
 	ExpireTime string `yaml:"expiretime"`
 	Issuer     string `yaml:"issuer"`
+	Audience   string `yaml:"audience"`
 }

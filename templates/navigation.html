@@ -14,11 +14,38 @@
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="">About</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="">Sample Post</a></li>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/user/signin">Sign in</a></li>
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/user/signup">Sign up</a></li>
+                        {{ if .isLogin }}
+                        <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="">Log out</a></li> -->
+                        <li class="nav-item"></li><button onclick="logout()">Log out</button></li>
+                        {{ else }}
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/user/signin">Log in</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/user/signup">Register</a></li>
+                        {{ end }}
                     </ul>
                 </div>
             </div>
         </nav>
+        <script>
+            function getCookie(name) {
+                let cookieArr = document.cookie.split(";");
+
+                for (let i = 0; i < cookieArr.length; i++) {
+                    let cookiePair = cookieArr[i].split("=");
+                    if (name == cookiePair[0].trim()) {
+                        return cookiePair[1];
+                    }
+                }
+                return null;
+            }
+
+            function logout() {
+                let token = getCookie("jwt-token");
+                let d = new Date();
+                d.setTime(d.getTime() - 1);
+                let expireTime = d.toGMTString()
+                document.cookie = "jwt-token=" + token + ";expires=" + expireTime + ";path=/"
+                window.location.href = "/"
+            }
+        </script>
 
 {{ end }}

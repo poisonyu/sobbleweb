@@ -3,11 +3,11 @@ package article
 import (
 	"errors"
 	"fmt"
-	"net/http"
 	"strconv"
 
 	"github.com/cyansobble/global"
 	"github.com/cyansobble/response"
+	"github.com/cyansobble/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
@@ -16,14 +16,20 @@ import (
 // /article/add
 func AddArticle(c *gin.Context) {
 	var art ReqArticle
+	var author string
 	err := c.ShouldBindJSON(&art)
 	if err != nil {
 		global.LOGGER.Error("add blog shouldbindjson", zap.Error(err))
-		response.JSONResponse(c, "add blog failed", nil)
+		response.JSONResponse(c, 0, "add blog failed", nil)
 		return
 	}
+	claims, ok := c.Get("claims")
+	if !ok {
+		author = "default"
+	}
+	author = claims.(*utils.CustomClaim).NickName
 	article := Article{
-		Author:      art.NickName,
+		Author:      author,
 		Title:       art.Title,
 		Type:        art.Type,
 		MdContent:   art.MdContent,
@@ -33,34 +39,40 @@ func AddArticle(c *gin.Context) {
 	id, err := CreateArticle(article)
 	if err != nil {
 		global.LOGGER.Error("add article", zap.Error(err))
-		response.JSONResponse(c, "failed", nil)
+		response.JSONResponse(c, 0, "failed", nil)
 		return
 	}
 	location := fmt.Sprintf("/article/%d", id)
-	//response.JSONResponse(c, "success", nil)
-	c.Redirect(http.StatusFound, location)
+	response.JSONResponse(c, 1, "success", gin.H{
+		"redirect": location,
+	})
+	//c.Redirect(http.StatusFound, location)
 }
+
+// /article/delete
 
 func DeleteArticle(c *gin.Context) {
 	var art ReqArticle
 	if err := c.ShouldBindJSON(&art); err != nil {
 		global.LOGGER.Error("delete shouldbindjson", zap.Error(err))
-		response.JSONResponse(c, "delete failed", nil)
+		response.JSONResponse(c, 0, "delete failed", nil)
 		return
 	}
 	_, err := GetArticleByID(art.ID)
 	if err != nil {
 		global.LOGGER.Error("get article by id", zap.Error(err))
-		response.JSONResponse(c, "delete failed", nil)
+		response.JSONResponse(c, 0, "delete failed", nil)
 		return
 	}
 	if err := DeleteArticleByID(art.ID); err != nil {
 		global.LOGGER.Error("delete article by id", zap.Error(err))
-		response.JSONResponse(c, "delete failed", nil)
+		response.JSONResponse(c, 0, "delete failed", nil)
 		return
 	}
-	response.RedirectResponse(c, "/article/list")
-	// c.Redirect(http.StatusFound, "/article/list")
+	response.JSONResponse(c, 1, "success", gin.H{
+		"redirect": "/article/list",
+	})
+	//c.Redirect(http.StatusFound, "/article/list")
 }
 
 // /article/list
@@ -68,12 +80,24 @@ func ArticleList(c *gin.Context) {
 	articles, err := QueryAllArticle()
 	if err != nil {
 		global.LOGGER.Error("get article list", zap.Error(err))
-		response.JSONResponse(c, "failed", nil)
+		response.JSONResponse(c, 0, "failed", nil)
 		return
 	}
+	dates, err := GetArticleDescDate()
+	if err != nil {
+		global.LOGGER.Error("get article desc date", zap.Error(err))
+
+	}
+	//archiveDate := Archives(dates)
+
 	response.HTMLResponse(c, "blog_list.html", gin.H{
-		"articles": articles,
+		"articles":    articles,
+		"isLogin":     utils.IsLogin(c),
+		"archiveDate": Archives(dates),
 	})
+}
+
+func ArticleDateList(c *gin.Context) {
 
 }
 
@@ -88,7 +112,7 @@ func ArticleDetail(c *gin.Context) {
 	article, err := GetArticleByID(id)
 	if err != nil {
 		global.LOGGER.Error("get article by id", zap.Error(err))
-		response.JSONResponse(c, "failed", nil)
+		response.JSONResponse(c, 0, "failed", nil)
 		return
 	}
 	var previous, next string
@@ -116,6 +140,7 @@ func ArticleDetail(c *gin.Context) {
 		"previous": previous,
 		"next":     next,
 		// "updateAt": updatedAt,
+		"isLogin": utils.IsLogin(c),
 	})
 }
 
@@ -131,7 +156,7 @@ func EditArticle(c *gin.Context) {
 	// todo 待完善if 条件表达式
 	if err != nil || errors.Is(err, gorm.ErrRecordNotFound) {
 		global.LOGGER.Info("recordNotFound", zap.Error(err))
-		response.JSONResponse(c, "failed", gin.H{
+		response.JSONResponse(c, 0, "failed", gin.H{
 			"reason": "recordnotfound",
 		})
 	}
@@ -140,27 +165,41 @@ func EditArticle(c *gin.Context) {
 	})
 }
 
+// /article/update
 func UpdateArticle(c *gin.Context) {
 	var art ReqArticle
+	var title string
 	if err := c.ShouldBindJSON(&art); err != nil {
 		global.LOGGER.Error("update shouldbindjson", zap.Error(err))
-		response.JSONResponse(c, "update failed", nil)
+		response.JSONResponse(c, 0, "update failed", nil)
 		return
 	}
 	article, err := GetArticleByID(art.ID)
 	// errors.Is(err, gorm.ErrRecordNotFound)
 	if err != nil {
 		global.LOGGER.Error("get article by id", zap.Error(err))
-		response.JSONResponse(c, "update failed", nil)
+		response.JSONResponse(c, 0, "update failed", nil)
+		return
+	}
+	if art.Title != "" {
+		title = art.Title
+		article.Title = art.Title
+	} else {
+		title = article.Title
 	}
 	article.MdContent = art.MdContent
 	article.HtmlContent = art.HtmlContent
 	if err := SaveArticle(article); err != nil {
 		global.LOGGER.Error("update article", zap.Error(err))
-		response.JSONResponse(c, "update failed", nil)
+		response.JSONResponse(c, 0, "update failed", nil)
+		return
 	}
 	location := fmt.Sprintf("/article/%d", article.ID)
-	//response.JSONResponse(c, "success", nil)
-	c.Redirect(http.StatusFound, location)
+	response.JSONResponse(c, 1, "success", gin.H{
+		"title":    title,
+		"redirect": location,
+	})
+	// c.Redirect(http.StatusFound, location)
+	// response.RedirectResponse(c, location)
 
 }
