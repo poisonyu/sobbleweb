@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/cyansobble/global"
@@ -138,11 +139,70 @@ func AudioCaptcha(c *gin.Context) {
 
 }
 
+// /user/signin
 func LoginHtml(c *gin.Context) {
-	response.HTMLResponse(c, "login.html", nil)
+	redirect := c.Request.Header.Get("Referer")
+	response.HTMLResponse(c, "login.html", gin.H{
+		"redirect": redirect,
+	})
 
 }
 
+// /user/signup
 func RegisterHtml(c *gin.Context) {
 	response.HTMLResponse(c, "register.html", nil)
+}
+
+// /user/info/:id
+
+func UserInfo(c *gin.Context) {
+	claims, ok := c.Get("claims")
+	if !ok {
+		global.LOGGER.Info("context no claims")
+		response.JSONResponse(c, 0, "请登录", nil)
+		return
+	}
+	id := claims.(*utils.CustomClaim).UserID
+	user, err := GetUserByID(id)
+	if err != nil {
+		global.LOGGER.Error("get user by id ", zap.Error(err))
+		response.JSONResponse(c, 0, "用户不存在", nil)
+		return
+	}
+	response.HTMLResponse(c, "info.html", gin.H{
+		"id":        user.ID,
+		"username":  user.UserName,
+		"nickname":  user.NickName,
+		"email":     user.Email,
+		"phone":     user.Phone,
+		"headerimg": user.HeaderImg,
+		"isLogin":   utils.IsLogin(c),
+	})
+
+}
+
+func UserEditInfo(c *gin.Context) {
+	var u User
+	if err := c.ShouldBindJSON(&u); err != nil {
+		global.LOGGER.Error("login shouldbindjson error", zap.Error(err))
+		response.JSONResponse(c, 0, "failed", nil)
+		return
+	}
+	fmt.Println("id", u.ID)
+	user, err := GetUserByID(u.ID)
+	if err != nil {
+		global.LOGGER.Error("get user by id", zap.Error(err))
+		response.JSONResponse(c, 0, "failed", nil)
+		return
+	}
+	user.NickName = u.NickName
+	user.Email = u.Email
+	user.Phone = u.Phone
+	err = SaveUser(user)
+	if err != nil {
+		global.LOGGER.Error("save user ", zap.Error(err))
+		response.JSONResponse(c, 0, "保存失败", nil)
+		return
+	}
+	response.JSONResponse(c, 1, "保存成功", nil)
 }

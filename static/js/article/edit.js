@@ -70,7 +70,7 @@ editButton.addEventListener("click", function(e) {
 // }
 function callback(jsonresponse) {
     console.log(jsonresponse)
-    console.log("edit.js todo") 
+
     if (jsonresponse.code == 1) {
         alert(jsonresponse.data.title + "\n保存成功");
         window.location.href = jsonresponse.data.redirect

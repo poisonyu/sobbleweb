@@ -53,7 +53,7 @@ func CreateToken(claims CustomClaim) (string, error) {
 
 func SetToken(c *gin.Context, token string, maxAge int) {
 	c.SetCookie("jwt-token", token, maxAge, "/", "", false, false)
-	c.Header("authorization", token)
+	// c.Header("authorization", token)
 }
 
 func GetToken(c *gin.Context) (string, error) {

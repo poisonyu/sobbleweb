@@ -97,9 +97,9 @@ func ArticleList(c *gin.Context) {
 	})
 }
 
-func ArticleDateList(c *gin.Context) {
+// func ArticleDateList(c *gin.Context) {
 
-}
+// }
 
 // /article/:id
 func ArticleDetail(c *gin.Context) {

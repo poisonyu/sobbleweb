@@ -28,17 +28,13 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 		if claims.ExpiresAt.Unix() <= time.Now().Unix() {
+
 			global.LOGGER.Error("token expired", zap.Error(err))
 			response.JSONResponse(c, 0, "jwt auth failed", nil)
 			c.Abort()
 			return
 		}
-		if claims.AuthorityId != 7 {
-			global.LOGGER.Error("权限不足", zap.Error(err))
-			response.JSONResponse(c, 0, "jwt auth failed", nil)
-			c.Abort()
-			return
-		}
+
 		c.Set("claims", claims)
 		c.Next()
 	}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>info</title>
+    <link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <link href="/static/css/index.css" rel="stylesheet" /> -->
+    </head>
+
+<body>
+    {{ template "navigation.html" .}}
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-8">
+                <img src="/static/assets/img/test1.jpg" alt="headerimg" class="rounded-circle" width="50" height="50">
+                <div class="display-4">{{ .nickname }}</div>
+
+                <div>用户名 {{ .username }}</div>
+
+                <div>电子邮件 {{ .email }}</div>
+                <div>手机号 {{ .phone }}</div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                    修改密码
+                </button>
+                <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">邮箱验证</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row g-3" id="changepassword" userid="{{ .id }}">
+                                    <div class="mb-3">
+                                        <!-- <div id="emailHelp" class="form-text">为了您的账号安全，需要验证您的邮箱。验证码将通过邮件形式发送至：</div>
+                                        <label for="InputEmail" class="form-label"></label>
+                                        <input type="email" class="form-control" value="{{ .email }}" disabled aria-describedby="emailHelp"> -->
+                                        <div class="form-text">
+                                            为了您的账号安全，需要验证您的邮箱。验证码将通过邮件形式发送至：{{ .email }}
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <label for="emailvalidation" class="form-label visually-hidden"></label>
+                                        <input type="text" class="form-control" id="emailvalidation" placeholder="电子邮件验证码">
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-info" id="">发送验证码</button>
+                                    </div>
+                                    <!-- <div class="mb-3">
+                                        <label for="InputPassword" class="form-label">密码</label>
+                                        <input type="password" class="form-control" id="InputPassword1">
+                                    </div> -->
+                                    <!-- <div class="mb-3">
+                                        <label for="Inputphonenumber" class="form-label">手机号</label>
+                                        <input type="phonenumber" class="form-control" id="Inputphonenumber" value="{{ .phone }}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="InputPassword" class="form-label">重复密码</label>
+                                        <input type="password" class="form-control" id="InputPassword2">
+                                    </div> -->
+                                    <div class="col-4">
+                                        <button type="submit" class="btn btn-primary">下一步</button>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>重置密码</div>
+                
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoModal">
+                    修改信息
+                </button>
+                    
+                <!-- Modal -->
+                <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">修改信息</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="userinfo" userid="{{ .id }}">
+                                    <div class="mb-3">
+                                        <label for="Inputnickname" class="form-label">昵称</label>
+                                        <input type="nickname" class="form-control" id="Inputnickname" value="{{ .nickname }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="InputEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="InputEmail" value="{{ .email }}" aria-describedby="emailHelp">
+                                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="Inputphonenumber" class="form-label">手机号</label>
+                                        <input type="phonenumber" class="form-control" id="Inputphonenumber" value="{{ .phone }}">
+                                    </div>
+                                    <!-- <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                    </div> -->
+                                    <button type="submit" class="btn btn-primary">保存信息</button>
+                                    </form>
+                            </div>
+                            <!-- <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">保存</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <script src="/static/js/user/userinfo.js"></script>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

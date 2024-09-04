@@ -40,8 +40,13 @@ func Router() {
 
 	router.GET("/random/pic", RandomPicture)
 	router.GET("/video", ParseM3U8)
+	router.GET("/bootstrap", BootStrap)
 
 	router.Use(middleware.JWTAuth())
+	router.GET("/user/info", user.UserInfo)
+	router.POST("/user/editinfo", user.UserEditInfo)
+
+	router.Use(middleware.AuthorityAuth())
 	router.POST("/article/add", article.AddArticle)
 	router.POST("/article/update", article.UpdateArticle)
 	router.POST("/article/delete", article.DeleteArticle)
@@ -52,6 +57,7 @@ func Router() {
 	router.POST("/file/delete", upload.DeleteFile)
 
 	router.GET("/edit/:id", article.EditArticle)
+
 	// todo jwt casbin
 	router.Run(":8888")
 }
@@ -66,6 +72,10 @@ func Index(c *gin.Context) {
 	response.HTMLResponse(c, "index.html", gin.H{
 		"isLogin": utils.IsLogin(c),
 	})
+}
+
+func BootStrap(c *gin.Context) {
+	response.HTMLResponse(c, "bootstrap.html", nil)
 }
 
 func RandomPicture(c *gin.Context) {

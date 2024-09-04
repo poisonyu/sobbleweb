@@ -55,7 +55,7 @@ function callback(response) {
     //console.log(response)
     if (response.code == 1) {
         alert("注册成功")
-        window.location.href = "/"
+        window.location.href = "/user/signin"
     } else {
         alert("注册失败\n" + response.message);
         generate_captcha()

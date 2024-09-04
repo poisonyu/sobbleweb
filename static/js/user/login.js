@@ -27,16 +27,21 @@ form.addEventListener('submit', function (e) {
     form.classList.remove('errors');
         setTimeout(function() {form.classList.add('errors');}, 0);
     }
-     
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    let captchav = document.getElementById("captcha").value
+    if (!username || !password || !captchav) {
+        return 
+    }
     fetch("/user/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "username": document.getElementById("username").value,
-            "password": document.getElementById("password").value,
-            "captcha": document.getElementById("captcha").value,
+            "username": username,
+            "password": password,
+            "captcha": captchav,
             "captchaid": captchaid,
         })
     })
@@ -47,7 +52,21 @@ form.addEventListener('submit', function (e) {
 function callback(response) {
     console.log(response)
     if (response.code == 1) {
-        window.location.href = "/"
+        // let referer = form.getAttribute("redirect")
+        // if (referer != "") {
+        //     window.location.href = referer
+        // } else {
+        //     window.location.href = "/"
+        // }
+        let referer = document.referer
+        console.log("referer", referer)
+        if (referer) {
+            console.log(referer)
+            window.location.href = referer
+        } else {
+            window.location.href = "/"
+        }
+        // window.location.href = document.referrer
     } else {
         alert("登录失败\n" + response.message);
         generate_captcha()
