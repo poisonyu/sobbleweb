@@ -6,6 +6,8 @@ type Config struct {
 	Mysql
 	Jwt
 	Local
+	Email
+	Redis
 }
 
 type Local struct {
@@ -33,4 +35,19 @@ type Jwt struct {
 	ExpireTime string `yaml:"expiretime"`
 	Issuer     string `yaml:"issuer"`
 	Audience   string `yaml:"audience"`
+}
+
+type Email struct {
+	UserName string `yaml:"username"`
+	PassWord string `yaml:"password"`
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+}
+
+type Redis struct {
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	User     string `yaml:"user"`
+	PassWord string `yaml:"password"`
+	Db       string `yaml:"db"`
 }

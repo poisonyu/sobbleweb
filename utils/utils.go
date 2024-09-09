@@ -1,9 +1,14 @@
 package utils
 
 import (
+	"fmt"
+	"math/rand"
+	"net/smtp"
+
 	"github.com/cyansobble/global"
 	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
+	"github.com/jordan-wright/email"
 	"go.uber.org/zap"
 )
 
@@ -34,4 +39,31 @@ func GetRandonPicture() []byte {
 func IsLogin(c *gin.Context) bool {
 	token, _ := GetToken(c)
 	return token != ""
+}
+
+func SendEmail(to, subject string, html []byte) (err error) {
+	host := global.CONFIG.Email.Host
+	userName := global.CONFIG.Email.UserName
+	auth := smtp.PlainAuth("", userName, global.CONFIG.Email.PassWord, host)
+	addr := fmt.Sprintf("%s:%s", host, global.CONFIG.Email.Port)
+	e := email.Email{
+		To:      []string{to},
+		From:    userName,
+		Subject: subject,
+		//Text:    []byte("sunflower is a flower or a song."),
+		HTML: html,
+	}
+	err = e.Send(addr, auth)
+	if err != nil {
+		global.LOGGER.Error("send email", zap.Error(err))
+	}
+	return
+}
+
+func GenerateVerificationCode(n int) []byte {
+	b := make([]byte, n)
+	for i := 0; i < n; i++ {
+		b[i] = byte(rand.Intn(10))
+	}
+	return b
 }

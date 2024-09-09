@@ -45,6 +45,8 @@ func Router() {
 	router.Use(middleware.JWTAuth())
 	router.GET("/user/info", user.UserInfo)
 	router.POST("/user/editinfo", user.UserEditInfo)
+	router.POST("/user/changepassword", user.ChangePassword)
+	router.GET("/user/verification", user.Verification)
 
 	router.Use(middleware.AuthorityAuth())
 	router.POST("/article/add", article.AddArticle)

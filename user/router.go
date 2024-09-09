@@ -206,3 +206,100 @@ func UserEditInfo(c *gin.Context) {
 	}
 	response.JSONResponse(c, 1, "保存成功", nil)
 }
+
+func ChangePassword(c *gin.Context) {
+
+}
+
+func Verification(c *gin.Context) {
+	// var u User
+	// err := c.ShouldBindJSON(&u)
+	// if err != nil {
+	// 	global.LOGGER.Error("verification", zap.Error(err))
+	// 	response.JSONResponse(c, 0, "failed", nil)
+	// }
+	claims, ok := c.Get("claims")
+	if !ok {
+		response.JSONResponse(c, 0, "请登录", nil)
+		return
+	}
+
+	userid := claims.(*utils.CustomClaim).UserID
+	user, ok := isUserExist(userid)
+	if !ok {
+		response.JSONResponse(c, 0, "user not foud", nil)
+		return
+	}
+	to := user.Email
+	// 生成验证码
+	verificationCode := utils.GenerateVerificationCode(6)
+	key := fmt.Sprintf("sobbleweb_user_%d", int(userid))
+	expiration := 30 * time.Minute
+	val, _ := SetStringInRedis(key, verificationCode, expiration)
+	if val != "OK" {
+		response.JSONResponse(c, 0, "发送验证码失败", nil)
+		return
+	}
+	html := fmt.Sprintf(`<div style="
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+	text-align: left;
+	color: #434245;
+  ">
+<p style="margin: 5px 0">Your email verification code is</p>
+</div>
+<td align="center" bgcolor="#2e58ff" role="presentation" class="code" style="
+                                    border: none;
+                                    border-radius: 30px;
+                                    cursor: auto;
+                                    mso-padding-alt: 10px 25px;
+                                    background: #277186;
+
+
+                                    display: inline-block;
+                                    background: #277186;
+                                    color: #ffffff;
+                                    font-family: Helvetica, Arial, sans-serif;
+                                    font-size: 16px;
+                                    font-weight: bold;
+                                    line-height: 30px;
+                                    margin: 0;
+                                    text-decoration: none;
+                                    text-transform: uppercase;
+                                    padding: 10px 25px;
+                                    mso-padding-alt: 0px;
+                                    border-radius: 30px;
+                                  " valign="middle">
+                                  %s
+                              </td>
+							  <p style="margin: 5px 0">Please protect your verification code.</p>
+
+`, string(verificationCode))
+	err := utils.SendEmail(to, "Verification Code", []byte(html))
+	if err != nil {
+		response.JSONResponse(c, 0, "发送验证码失败", nil)
+		return
+	}
+	response.JSONResponse(c, 1, "发送验证码成功", nil)
+
+}
+
+func isUserExist(id uint) (User, bool) {
+	u, err := GetUserByID(id)
+	if err != nil {
+		global.LOGGER.Error("user don't exist", zap.Error(err))
+		return u, false
+	}
+	return u, true
+}
+
+// func getClaims(c *gin.Context) {
+// 	claims, ok := c.Get("claims")
+// 	if !ok {
+// 		response.JSONResponse(c, 0, "请登录", nil)
+// 		return
+// 	}
+// 	claims.(utils.CustomClaim)
+// }

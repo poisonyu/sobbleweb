@@ -944,3 +944,19 @@
 2024-09-03T08:52:43.480+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:39 没有下一篇了
 2024-09-03T08:57:17.579+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	Captcah generate success	{"id": "UJ1yzZ0gZ7qt8eu6NMrn"}
 2024-09-03T09:09:10.756+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	Captcah generate success	{"id": "JUmGM29DVsghyjAUcJmJ"}
+**2024-09-09 08:34**
+**2024-09-09 17:02**
+**2024-09-09 18:21**
+2024-09-09T18:39:21.313+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+**2024-09-09 19:58**
+2024-09-09T19:32:58.560+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-09T19:33:25.245+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	Captcah generate success	{"id": "zuYKTt7D37nqG7hXMRft"}
+2024-09-09T19:33:33.291+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	Captcah generate success	{"id": "vQ2BqUDjaOYdm9TV4NGA"}
+2024-09-09T19:33:51.429+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	empty token
+2024-09-09T19:33:55.018+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	empty token
+2024-09-09T19:34:18.395+0800	[31mERROR[0m	user/router.go:230	user don't exist	{"error": "record not found"}
+**2024-09-09 19:28**
+2024-09-09T19:37:28.899+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-09T19:37:37.960+0800	[31mERROR[0m	user/router.go:231	user don't exist	{"error": "record not found"}
+**2024-09-09 19:53**
+2024-09-09T19:39:53.902+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
