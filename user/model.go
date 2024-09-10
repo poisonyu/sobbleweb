@@ -39,3 +39,11 @@ type ReqLogin struct {
 	CaptchaId string `json:"captchaid"`
 	Captcha   string `json:"captcha"`
 }
+
+type ReqChangePassword struct {
+	PassWord    string `json:"password"`
+	NewPassWord string `json:"newpassword"`
+	// CaptchaId   string `json:"captchaid"`
+	// Captcha     string `json:"captcha"`
+	VerificationCode string `json:"verificationcode"`
+}

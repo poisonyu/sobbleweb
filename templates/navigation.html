@@ -13,10 +13,10 @@
         <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a href="/" class="nav-link active">主页</a>
+                    <a href="/" class="nav-link {{ .indexactive }}">主页</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/article/list" class="nav-link">博客</a>
+                    <a href="/article/list" class="nav-link {{ .listactive }}">博客</a>
                 </li>
                 {{ if .isLogin }}
                 <!-- <li class="nav-item"><button onclick="logout()">Log out</button></li> -->
@@ -29,8 +29,8 @@
                     </ul>
                 </li>
                 {{ else }}
-                <li class="nav-item"><a class="nav-link" href="/user/signin">登录</a></li>
-                <li class="nav-item"><a class="nav-link" href="/user/signup">注册</a></li>
+                <li class="nav-item"><a class="nav-link {{ .loginactive }}" href="/user/signin">登录</a></li>
+                <li class="nav-item"><a class="nav-link {{ .registeractive }}" href="/user/signup">注册</a></li>
                 {{ end }}
 
             </ul>

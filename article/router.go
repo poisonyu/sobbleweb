@@ -94,6 +94,7 @@ func ArticleList(c *gin.Context) {
 		"articles":    articles,
 		"isLogin":     utils.IsLogin(c),
 		"archiveDate": Archives(dates),
+		"listactive":  "active",
 	})
 }
 

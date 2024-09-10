@@ -72,7 +72,8 @@ func Router() {
 //	}
 func Index(c *gin.Context) {
 	response.HTMLResponse(c, "index.html", gin.H{
-		"isLogin": utils.IsLogin(c),
+		"isLogin":     utils.IsLogin(c),
+		"indexactive": "active",
 	})
 }
 

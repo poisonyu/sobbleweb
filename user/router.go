@@ -37,7 +37,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	if !store.Verify(reg.CaptchaId, reg.Captcha, true) {
+	if !utils.Store.Verify(reg.CaptchaId, reg.Captcha, true) {
 		response.JSONResponse(c, 0, "验证码错误", nil)
 		return
 	}
@@ -71,7 +71,7 @@ func Login(c *gin.Context) {
 	}
 	// TODO 判断必要的字段满足特定的要求
 
-	if !store.Verify(l.CaptchaId, l.Captcha, true) {
+	if !utils.Store.Verify(l.CaptchaId, l.Captcha, true) {
 		response.JSONResponse(c, 0, "验证码错误", nil)
 		return
 	}
@@ -108,27 +108,35 @@ func Login(c *gin.Context) {
 	response.JSONResponse(c, 1, "登录成功", nil)
 }
 
-var store = base64Captcha.DefaultMemStore
+// var store = base64Captcha.DefaultMemStore
 
 func DigitCaptcha(c *gin.Context) {
 
-	captcha := base64Captcha.NewCaptcha(base64Captcha.DefaultDriverDigit, store)
-	id, b64s, _, err := captcha.Generate()
+	// captcha := base64Captcha.NewCaptcha(base64Captcha.DefaultDriverDigit, store)
+	// id, b64s, _, err := captcha.Generate()
+	// if err != nil {
+	// 	global.LOGGER.Error("captcha generate failed", zap.Error(err))
+	// 	response.JSONResponse(c, 0, "captcha generate failed", nil)
+	// }
+	// global.LOGGER.Info("Captcah generate success", zap.String("id", id))
+	// response.JSONResponse(c, 1, "success", gin.H{
+	// 	"id":   id,
+	// 	"b64s": b64s,
+	// })
+	id, b64s, _, err := utils.GenerateDigitVerificationCode()
 	if err != nil {
-		global.LOGGER.Error("captcha generate failed", zap.Error(err))
 		response.JSONResponse(c, 0, "captcha generate failed", nil)
+		return
 	}
-	global.LOGGER.Info("Captcah generate success", zap.String("id", id))
 	response.JSONResponse(c, 1, "success", gin.H{
 		"id":   id,
 		"b64s": b64s,
 	})
-
 }
 
+// todo
 func AudioCaptcha(c *gin.Context) {
-
-	captcha := base64Captcha.NewCaptcha(base64Captcha.DefaultDriverAudio, store)
+	captcha := base64Captcha.NewCaptcha(base64Captcha.DefaultDriverAudio, utils.Store)
 	id, b64s, _, err := captcha.Generate()
 	if err != nil {
 		global.LOGGER.Error("captcha generate failed", zap.Error(err))
@@ -136,21 +144,23 @@ func AudioCaptcha(c *gin.Context) {
 	}
 	global.LOGGER.Info("Captcah generate success", zap.String("id", id))
 	response.JSONResponse(c, 1, "success", b64s)
-
 }
 
 // /user/signin
 func LoginHtml(c *gin.Context) {
 	redirect := c.Request.Header.Get("Referer")
 	response.HTMLResponse(c, "login.html", gin.H{
-		"redirect": redirect,
+		"redirect":    redirect,
+		"loginactive": "active",
 	})
 
 }
 
 // /user/signup
 func RegisterHtml(c *gin.Context) {
-	response.HTMLResponse(c, "register.html", nil)
+	response.HTMLResponse(c, "register.html", gin.H{
+		"registeractive": "active",
+	})
 }
 
 // /user/info/:id
@@ -208,7 +218,56 @@ func UserEditInfo(c *gin.Context) {
 }
 
 func ChangePassword(c *gin.Context) {
+	var p ReqChangePassword
+	err := c.ShouldBindJSON(&p)
+	if err != nil {
+		global.LOGGER.Error("register shouldbindjson error", zap.Error(err))
+		response.JSONResponse(c, 0, "register failed", nil)
+		return
+	}
+	claims, ok := c.Get("claims")
+	if !ok {
+		response.JSONResponse(c, 0, "请登录", nil)
+		return
+	}
 
+	userid := claims.(*utils.CustomClaim).UserID
+	user, ok := isUserExist(userid)
+	if !ok {
+		response.JSONResponse(c, 0, "user not foud", nil)
+		return
+	}
+	key := fmt.Sprintf("sobbleweb_verification_%d", int(userid))
+	val, err := GetStringInRedis(key)
+	if err != nil {
+		response.JSONResponse(c, 0, "验证码获取失败", nil)
+		return
+	}
+	if p.VerificationCode != val {
+		response.JSONResponse(c, 0, "验证码错误", nil)
+		return
+	}
+
+	// passWord, _ := bcrypt.GenerateFromPassword([]byte(p.PassWord), 7)
+	// if user.PassWord != string(passWord) {
+	// 	response.JSONResponse(c, 0, "原密码错误", nil)
+	// 	return
+	// }
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.PassWord), []byte(p.PassWord))
+	if err != nil {
+		response.JSONResponse(c, 0, "原密码错误", nil)
+		return
+	}
+
+	newPassWord, _ := bcrypt.GenerateFromPassword([]byte(p.NewPassWord), 7)
+	user.PassWord = string(newPassWord)
+	err = SaveUser(user)
+	if err != nil {
+		response.JSONResponse(c, 0, "保存失败", nil)
+		return
+	}
+	response.JSONResponse(c, 1, "修改成功", nil)
 }
 
 func Verification(c *gin.Context) {
@@ -232,52 +291,23 @@ func Verification(c *gin.Context) {
 	}
 	to := user.Email
 	// 生成验证码
+	// id, _, verificationCode, err := utils.GenerateDigitVerificationCode()
+	// if err != nil {
+	// 	response.JSONResponse(c, 0, "生成验证码失败", nil)
+	// 	return
+	// }
 	verificationCode := utils.GenerateVerificationCode(6)
-	key := fmt.Sprintf("sobbleweb_user_%d", int(userid))
+
+	key := fmt.Sprintf("sobbleweb_verification_%d", int(userid))
 	expiration := 30 * time.Minute
 	val, _ := SetStringInRedis(key, verificationCode, expiration)
 	if val != "OK" {
 		response.JSONResponse(c, 0, "发送验证码失败", nil)
 		return
 	}
-	html := fmt.Sprintf(`<div style="
-	font-family: Helvetica, Arial, sans-serif;
-	font-size: 16px;
-	font-weight: 400;
-	line-height: 24px;
-	text-align: left;
-	color: #434245;
-  ">
-<p style="margin: 5px 0">Your email verification code is</p>
-</div>
-<td align="center" bgcolor="#2e58ff" role="presentation" class="code" style="
-                                    border: none;
-                                    border-radius: 30px;
-                                    cursor: auto;
-                                    mso-padding-alt: 10px 25px;
-                                    background: #277186;
 
-
-                                    display: inline-block;
-                                    background: #277186;
-                                    color: #ffffff;
-                                    font-family: Helvetica, Arial, sans-serif;
-                                    font-size: 16px;
-                                    font-weight: bold;
-                                    line-height: 30px;
-                                    margin: 0;
-                                    text-decoration: none;
-                                    text-transform: uppercase;
-                                    padding: 10px 25px;
-                                    mso-padding-alt: 0px;
-                                    border-radius: 30px;
-                                  " valign="middle">
-                                  %s
-                              </td>
-							  <p style="margin: 5px 0">Please protect your verification code.</p>
-
-`, string(verificationCode))
-	err := utils.SendEmail(to, "Verification Code", []byte(html))
+	text := fmt.Sprintf("Your email verification code is\n %s \n It will be expired after %s\nPlease protect your verification code.", verificationCode, expiration.String())
+	err := utils.SendEmail(to, "Verification Code", text)
 	if err != nil {
 		response.JSONResponse(c, 0, "发送验证码失败", nil)
 		return

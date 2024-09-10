@@ -28,3 +28,12 @@ func SetStringInRedis(key string, value interface{}, expiration time.Duration) (
 	}
 	return
 }
+
+func GetStringInRedis(key string) (val string, err error) {
+	ctx := context.Background()
+	val, err = global.RedisDb.Get(ctx, key).Result()
+	if err != nil {
+		global.LOGGER.Error("get failed", zap.Error(err))
+	}
+	return
+}
