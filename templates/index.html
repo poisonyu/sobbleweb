@@ -12,9 +12,19 @@
     <body>
         {{ template "navigation.html" . }}
         <div class="container">
-            <div class="display">
-                Blog
+            <div class="row">
+                {{ range $index, $article := .articles }}
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{ $article.Cover }}" alt="cover">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $article.Title }}</h5>
+                        <p class="card-text">文章的部分内容{{ $article.Cover }}</p>
+                        <a href="/article/{{ $article.ID }}" class="btn btn-primary">详细</a>
+                    </div>
+                </div>
+                {{ end }}
             </div>
+
         </div>
         <!-- Page Header-->
         <!-- <header class="masthead" style="background-image: url('/static/assets/img/home-bg.jpg')">

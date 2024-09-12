@@ -43,13 +43,22 @@
                             {{ range $index, $date := .archiveDate }}
                             <li><a href="#">{{ $date.Format "Jan 2006" }}</a></li>
                             {{ end }}
-                        <!-- <li><a href="#">March 2021</a></li> -->
                         </ul>
                     </div>
                 </div>
+                {{ range $index, $article := .articles }}
+                <div class="card" style="width: 18rem;">
+                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $article.Title }}</h5>
+                        <p class="card-text">文章的部分内容</p>
+                        <a href="/article/{{ $article.ID }}" class="btn btn-primary">详细</a>
+                    </div>
+                </div>
+                {{ end }}
             </div>
 
-            <div class="row g-5">
+            <!-- <div class="row g-5">
                 <div class="col-md-8"></div>
                 <div class="col-md-4">
                     <div class="position-sticky" style="top: 2rem;">
@@ -68,7 +77,7 @@
                     </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </body>
 </html>

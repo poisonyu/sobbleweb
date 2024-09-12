@@ -2,24 +2,30 @@
 var vditor = null;
 window.onload = function() {
     vditor = new Vditor(document.getElementById('vditor'), {
-        placeholder: "placeholder", // 默认内容
+        placeholder: "请使用Markdown编辑", // 默认内容
         height: window.innerHeight - 40,
         lang: "zh_CN",
         // value: "{{ .article.Content }}",
         cache: {
             enable: false
         },
-        "mode": "sv",
-        "preview": {
+        mode: "sv",
+        preview: {
             "mode": "both"
-        }
+        },
+        // upload: {
+        //     accept: "image/jpg, image/jpeg, image/png",
+        //     url: "", 
+        //     multiple: false,
+
+        // },
     });
 
 }
 // 测试数据填充
-function setContent() {
-    vditor.setValue("## 测试 \n ### 二级标题 ");
-}
+// function setContent() {
+//     vditor.setValue("## 测试 \n ### 二级标题 ");
+// }
 
 function saveContent() {
     var htmlContent = vditor.getHTML();

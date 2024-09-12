@@ -16,14 +16,14 @@ import (
 
 var Store = base64Captcha.DefaultMemStore
 
-func GetRandonPicture() []byte {
+func GetRandonPicture(num string) []byte {
 	client := resty.New()
 	// Referer:https://weibo.com/
 	//resp, err := client.R().EnableTrace().Get("https://sese.iw233.top/iapi.php?sort=cdnrandom")
 	resp, err := client.R().SetQueryParams(map[string]string{
 		"sort": "random",
 		"type": "json",
-		"num":  "1",
+		"num":  num,
 	}).SetHeaders(map[string]string{
 		"Referer": "https://weibo.com/",
 		"Accept":  "application/json",

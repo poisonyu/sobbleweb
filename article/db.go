@@ -4,11 +4,20 @@ import (
 	"time"
 
 	"github.com/cyansobble/global"
+	"go.uber.org/zap"
 )
 
 func QueryAllArticle() ([]Article, error) {
 	var articles []Article
 	result := global.DB.Select("id", "title", "nickname", "updated_at").Find(&articles)
+	//global.LOGGER.Infof("query %s records", result.RowsAffected)
+	global.LOGGER.Sugar().Infof("[sugar] query %d records", result.RowsAffected)
+	return articles, result.Error
+}
+
+func QueryAllArticleDesc() ([]Article, error) {
+	var articles []Article
+	result := global.DB.Select("id", "title", "nickname", "updated_at").Order("updated_at DESC").Find(&articles)
 	//global.LOGGER.Infof("query %s records", result.RowsAffected)
 	global.LOGGER.Sugar().Infof("[sugar] query %d records", result.RowsAffected)
 	return articles, result.Error
@@ -71,4 +80,13 @@ func Archives(dates []time.Time) []time.Time {
 		startDate = startDate.AddDate(0, 1, 0)
 	}
 	return newDates
+}
+
+func isArticleExist(id string) (Article, bool) {
+	a, err := GetArticleByID(id)
+	if err != nil {
+		global.LOGGER.Error("article don't exist", zap.Error(err))
+		return a, false
+	}
+	return a, true
 }

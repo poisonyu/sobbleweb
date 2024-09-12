@@ -3,10 +3,12 @@ package article
 import (
 	"errors"
 	"fmt"
+	"path/filepath"
 	"strconv"
 
 	"github.com/cyansobble/global"
 	"github.com/cyansobble/response"
+	"github.com/cyansobble/upload"
 	"github.com/cyansobble/utils"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -160,6 +162,7 @@ func EditArticle(c *gin.Context) {
 		response.JSONResponse(c, 0, "failed", gin.H{
 			"reason": "recordnotfound",
 		})
+		return
 	}
 	response.HTMLResponse(c, "edit_article.html", gin.H{
 		"article": article,
@@ -168,39 +171,98 @@ func EditArticle(c *gin.Context) {
 
 // /article/update
 func UpdateArticle(c *gin.Context) {
-	var art ReqArticle
-	var title string
-	if err := c.ShouldBindJSON(&art); err != nil {
-		global.LOGGER.Error("update shouldbindjson", zap.Error(err))
-		response.JSONResponse(c, 0, "update failed", nil)
-		return
-	}
-	article, err := GetArticleByID(art.ID)
-	// errors.Is(err, gorm.ErrRecordNotFound)
+	fileHead, err := c.FormFile("cover")
 	if err != nil {
-		global.LOGGER.Error("get article by id", zap.Error(err))
-		response.JSONResponse(c, 0, "update failed", nil)
+		global.LOGGER.Error("formfile", zap.Error(err))
+		response.JSONResponse(c, 0, "上传文件失败", nil)
 		return
 	}
-	if art.Title != "" {
-		title = art.Title
-		article.Title = art.Title
-	} else {
-		title = article.Title
+	articleID := c.PostForm("id")
+	title := c.PostForm("title")
+	mdContent := c.PostForm("mdcontent")
+	htmlContent := c.PostForm("htmlcontent")
+	if articleID == "" || mdContent == "" || htmlContent == "" {
+		global.LOGGER.Info("缺少formdata")
+		response.JSONResponse(c, 0, "上传文件失败", nil)
+		return
 	}
-	article.MdContent = art.MdContent
-	article.HtmlContent = art.HtmlContent
-	if err := SaveArticle(article); err != nil {
+	a, ok := isArticleExist(articleID)
+	if !ok {
+		response.JSONResponse(c, 0, "没有找到对应id的文件", nil)
+		return
+	}
+
+	filePath, err := upload.SaveUploadedFile(fileHead)
+	if err != nil {
+		global.LOGGER.Error("save uploaded file error", zap.Error(err))
+		response.JSONResponse(c, 0, "上传文件失败", nil)
+		return
+	}
+	uploadFile := upload.FileInfo{
+		FileName: fileHead.Filename,
+		FilePath: filePath,
+		Tag:      filepath.Ext(fileHead.Filename),
+		Owner:    a.Author,
+	}
+	if err := upload.CreateFileInfo(&uploadFile); err != nil {
+		global.LOGGER.Error("create fileInfo failed", zap.Error(err))
+		response.JSONResponse(c, 0, "上传文件失败", nil)
+		return
+	}
+
+	if title != "" {
+		a.Title = title
+	} else {
+		title = a.Title
+	}
+	a.MdContent = mdContent
+	a.HtmlContent = htmlContent
+	a.Cover = filePath
+	if err := SaveArticle(a); err != nil {
 		global.LOGGER.Error("update article", zap.Error(err))
 		response.JSONResponse(c, 0, "update failed", nil)
 		return
 	}
-	location := fmt.Sprintf("/article/%d", article.ID)
+	location := fmt.Sprintf("/article/%d", a.ID)
 	response.JSONResponse(c, 1, "success", gin.H{
 		"title":    title,
 		"redirect": location,
 	})
-	// c.Redirect(http.StatusFound, location)
-	// response.RedirectResponse(c, location)
 
 }
+
+// var art ReqArticle
+// var title string
+// if err := c.ShouldBindJSON(&art); err != nil {
+// 	global.LOGGER.Error("update shouldbindjson", zap.Error(err))
+// 	response.JSONResponse(c, 0, "update failed", nil)
+// 	return
+// }
+
+// article, err := GetArticleByID(art.ID)
+// errors.Is(err, gorm.ErrRecordNotFound)
+// if err != nil {
+// 	global.LOGGER.Error("get article by id", zap.Error(err))
+// 	response.JSONResponse(c, 0, "update failed", nil)
+// 	return
+// }
+// if art.Title != "" {
+// 	title = art.Title
+// 	article.Title = art.Title
+// } else {
+// 	title = article.Title
+// }
+// article.MdContent = art.MdContent
+// article.HtmlContent = art.HtmlContent
+// if err := SaveArticle(article); err != nil {
+// 	global.LOGGER.Error("update article", zap.Error(err))
+// 	response.JSONResponse(c, 0, "update failed", nil)
+// 	return
+// }
+// location := fmt.Sprintf("/article/%d", article.ID)
+// response.JSONResponse(c, 1, "success", gin.H{
+// 	"title":    title,
+// 	"redirect": location,
+// })
+// c.Redirect(http.StatusFound, location)
+// response.RedirectResponse(c, location)

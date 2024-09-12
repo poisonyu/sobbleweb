@@ -22,4 +22,5 @@ type Article struct {
 	MdContent string `json:"content" gorm:"column:mdcontent;size:1000"`
 	// IsHTML  bool   `gorm:"column:ishtml"`
 	HtmlContent string `gorm:"column:htmlcontent;size:1000"`
+	Cover       string `gorm:"cover"`
 }

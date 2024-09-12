@@ -192,23 +192,36 @@ func UserInfo(c *gin.Context) {
 }
 
 func UserEditInfo(c *gin.Context) {
+
+	claims, ok := c.Get("claims")
+	if !ok {
+		response.JSONResponse(c, 0, "请登录", nil)
+		return
+	}
+	userid := claims.(*utils.CustomClaim).UserID
+	user, ok := isUserExist(userid)
+	if !ok {
+		response.JSONResponse(c, 0, "user not foud", nil)
+		return
+	}
 	var u User
 	if err := c.ShouldBindJSON(&u); err != nil {
 		global.LOGGER.Error("login shouldbindjson error", zap.Error(err))
 		response.JSONResponse(c, 0, "failed", nil)
 		return
 	}
-	fmt.Println("id", u.ID)
-	user, err := GetUserByID(u.ID)
-	if err != nil {
-		global.LOGGER.Error("get user by id", zap.Error(err))
-		response.JSONResponse(c, 0, "failed", nil)
-		return
-	}
+
+	// fmt.Println("id", u.ID)
+	// user, err := GetUserByID(u.ID)
+	// if err != nil {
+	// 	global.LOGGER.Error("get user by id", zap.Error(err))
+	// 	response.JSONResponse(c, 0, "failed", nil)
+	// 	return
+	// }
 	user.NickName = u.NickName
 	user.Email = u.Email
 	user.Phone = u.Phone
-	err = SaveUser(user)
+	err := SaveUser(user)
 	if err != nil {
 		global.LOGGER.Error("save user ", zap.Error(err))
 		response.JSONResponse(c, 0, "保存失败", nil)

@@ -6,7 +6,7 @@ let verificationbtn = document.getElementById("verification");
 infoform.addEventListener("submit", function(e) {
     e.preventDefault();
 
-    let id = infoform.getAttribute("userid")
+    // let id = infoform.getAttribute("userid")
     
     let nickname = document.getElementById("Inputnickname").value 
     let email = document.getElementById("InputEmail").value 
@@ -18,7 +18,7 @@ infoform.addEventListener("submit", function(e) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "id": parseInt(id),
+            // "id": parseInt(id),
             "nickname": nickname,
             "email": email,
             "phone": phone,
@@ -106,8 +106,8 @@ function changePasswordCallback(response) {
     }
 
 }
-function getValueById(id) {
-    return document.getElementById(id).value
+function getValueById(elementid) {
+    return document.getElementById(elementid).value
 }
 
 function deletecookie() {

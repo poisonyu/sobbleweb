@@ -16,16 +16,19 @@ func UploadFile(c *gin.Context) {
 	if err != nil {
 		global.LOGGER.Error("formfile", zap.Error(err))
 		response.JSONResponse(c, 0, "上传文件失败", nil)
+		return
 	}
 	fileOwner := c.PostForm("owner")
 	if fileOwner == "" {
 		global.LOGGER.Error("need key 'owner' in form data", zap.Error(err))
 		response.JSONResponse(c, 0, "上传文件失败", nil)
+		return
 	}
 	filePath, err := SaveUploadedFile(fileHead)
 	if err != nil {
 		global.LOGGER.Error("save uploaded file error", zap.Error(err))
 		response.JSONResponse(c, 0, "上传文件失败", nil)
+		return
 	}
 	uploadFile := FileInfo{
 		FileName: fileHead.Filename,
@@ -36,6 +39,7 @@ func UploadFile(c *gin.Context) {
 	if err := CreateFileInfo(&uploadFile); err != nil {
 		global.LOGGER.Error("create fileInfo failed", zap.Error(err))
 		response.JSONResponse(c, 0, "上传文件失败", nil)
+		return
 	}
 
 	response.JSONResponse(c, 1, "上传文件成功", uploadFile)
