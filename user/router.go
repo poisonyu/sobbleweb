@@ -12,11 +12,17 @@ import (
 	"github.com/google/uuid"
 	"github.com/mojocn/base64Captcha"
 	"go.uber.org/zap"
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 func Register(c *gin.Context) {
+	// fmt.Println(c.Request.Method)
+	if c.Request.Method == "GET" {
+		response.HTMLResponse(c, "register.html", gin.H{
+			"registeractive": "active",
+		})
+		return
+	}
 	var reg ReqRegister
 	err := c.ShouldBindJSON(&reg)
 	if err != nil {
@@ -41,13 +47,14 @@ func Register(c *gin.Context) {
 		response.JSONResponse(c, 0, "验证码错误", nil)
 		return
 	}
-	passWord, _ := bcrypt.GenerateFromPassword([]byte(reg.PassWord), 7)
+	// passWord, _ := bcrypt.GenerateFromPassword([]byte(reg.PassWord), 7)
+	passWord, _ := utils.HashPassword(reg.PassWord)
 	user := User{
 		UUID:     uuid.New(),
 		UserName: reg.UserName,
 		NickName: reg.NickName,
 		//NickName:    reg.NickName,
-		PassWord:    string(passWord),
+		PassWord:    passWord,
 		Email:       reg.Email,
 		AuthorityId: 6,
 		Enable:      1,
@@ -63,6 +70,14 @@ func Register(c *gin.Context) {
 }
 
 func Login(c *gin.Context) {
+	if c.Request.Method == "GET" {
+		// redirect := c.Request.Header.Get("Referer")
+		response.HTMLResponse(c, "login.html", gin.H{
+			// "redirect":    redirect,
+			"loginactive": "active",
+		})
+		return
+	}
 	var l ReqLogin
 	if err := c.ShouldBindJSON(&l); err != nil {
 		global.LOGGER.Error("login shouldbindjson error", zap.Error(err))
@@ -83,9 +98,9 @@ func Login(c *gin.Context) {
 		response.JSONResponse(c, 0, "用户名密码错误", nil)
 		return
 	}
-	err = bcrypt.CompareHashAndPassword([]byte(user.PassWord), []byte(l.PassWord))
-	if err != nil {
-		global.LOGGER.Error("用户密码错误", zap.Error(err))
+	// err = bcrypt.CompareHashAndPassword([]byte(user.PassWord), []byte(l.PassWord))
+	ok := utils.CheckPasswordHash(user.PassWord, l.PassWord)
+	if !ok {
 		response.JSONResponse(c, 0, "用户名密码错误", nil)
 		return
 	}
@@ -147,21 +162,21 @@ func AudioCaptcha(c *gin.Context) {
 }
 
 // /user/signin
-func LoginHtml(c *gin.Context) {
-	redirect := c.Request.Header.Get("Referer")
-	response.HTMLResponse(c, "login.html", gin.H{
-		"redirect":    redirect,
-		"loginactive": "active",
-	})
+// func LoginHtml(c *gin.Context) {
+// 	redirect := c.Request.Header.Get("Referer")
+// 	response.HTMLResponse(c, "login.html", gin.H{
+// 		"redirect":    redirect,
+// 		"loginactive": "active",
+// 	})
 
-}
+// }
 
 // /user/signup
-func RegisterHtml(c *gin.Context) {
-	response.HTMLResponse(c, "register.html", gin.H{
-		"registeractive": "active",
-	})
-}
+// func RegisterHtml(c *gin.Context) {
+// 	response.HTMLResponse(c, "register.html", gin.H{
+// 		"registeractive": "active",
+// 	})
+// }
 
 // /user/info/:id
 
@@ -186,7 +201,7 @@ func UserInfo(c *gin.Context) {
 		"email":     user.Email,
 		"phone":     user.Phone,
 		"headerimg": user.HeaderImg,
-		"isLogin":   utils.IsLogin(c),
+		"isLogin":   true,
 	})
 
 }
@@ -261,20 +276,15 @@ func ChangePassword(c *gin.Context) {
 		return
 	}
 
-	// passWord, _ := bcrypt.GenerateFromPassword([]byte(p.PassWord), 7)
-	// if user.PassWord != string(passWord) {
-	// 	response.JSONResponse(c, 0, "原密码错误", nil)
-	// 	return
-	// }
-
-	err = bcrypt.CompareHashAndPassword([]byte(user.PassWord), []byte(p.PassWord))
-	if err != nil {
+	// err = bcrypt.CompareHashAndPassword([]byte(user.PassWord), []byte(p.PassWord))
+	ok = utils.CheckPasswordHash(user.PassWord, p.PassWord)
+	if !ok {
 		response.JSONResponse(c, 0, "原密码错误", nil)
 		return
 	}
-
-	newPassWord, _ := bcrypt.GenerateFromPassword([]byte(p.NewPassWord), 7)
-	user.PassWord = string(newPassWord)
+	newPassWord, _ := utils.HashPassword(p.NewPassWord)
+	// newPassWord, _ := bcrypt.GenerateFromPassword([]byte(p.NewPassWord), 7)
+	user.PassWord = newPassWord
 	err = SaveUser(user)
 	if err != nil {
 		response.JSONResponse(c, 0, "保存失败", nil)

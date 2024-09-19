@@ -16,26 +16,62 @@ import (
 )
 
 // /article/add
-func AddArticle(c *gin.Context) {
-	var art ReqArticle
-	var author string
-	err := c.ShouldBindJSON(&art)
-	if err != nil {
-		global.LOGGER.Error("add blog shouldbindjson", zap.Error(err))
-		response.JSONResponse(c, 0, "add blog failed", nil)
+func CreateNewArticle(c *gin.Context) {
+	if c.Request.Method == "GET" {
+		response.HTMLResponse(c, "create_article.html", nil)
 		return
 	}
-	claims, ok := c.Get("claims")
-	if !ok {
-		author = "default"
+	// var art ReqArticle
+	// var author string
+	// err := c.ShouldBindJSON(&art)
+	// if err != nil {
+	// 	global.LOGGER.Error("add blog shouldbindjson", zap.Error(err))
+	// 	response.JSONResponse(c, 0, "add blog failed", nil)
+	// 	return
+	// }
+	var author string
+	var filePath string
+	fileHead, err := c.FormFile("cover")
+	if err == nil {
+		filePath, err := upload.SaveUploadedFile(fileHead)
+		if err != nil {
+			global.LOGGER.Error("save uploaded file error", zap.Error(err))
+			response.JSONResponse(c, 0, "上传文件失败", nil)
+			return
+		}
+		uploadFile := upload.FileInfo{
+			FileName: fileHead.Filename,
+			FilePath: filePath,
+			Tag:      filepath.Ext(fileHead.Filename),
+			Owner:    author,
+		}
+		if err := upload.CreateFileInfo(&uploadFile); err != nil {
+			global.LOGGER.Error("create fileInfo failed", zap.Error(err))
+			response.JSONResponse(c, 0, "上传文件失败", nil)
+			return
+		}
+
+		// global.LOGGER.Error("formfile", zap.Error(err))
+		// response.JSONResponse(c, 0, "上传文件失败", nil)
+		// return
 	}
+	title := c.PostForm("title")
+	tag := c.PostForm("tag")
+	mdContent := c.PostForm("mdContent")
+	htmlContent := c.PostForm("htmlContent")
+	claims, _ := c.Get("claims")
+	// if !ok {
+	// 	author = "default"
+	// }
 	author = claims.(*utils.CustomClaim).NickName
+
 	article := Article{
 		Author:      author,
-		Title:       art.Title,
-		Type:        art.Type,
-		MdContent:   art.MdContent,
-		HtmlContent: art.HtmlContent,
+		Title:       title,
+		Type:        tag,
+		MdContent:   mdContent,
+		HtmlContent: htmlContent,
+		Cover:       filePath,
 		// IsHTML:  art.IsHTML,
 	}
 	id, err := CreateArticle(article)
@@ -91,10 +127,11 @@ func ArticleList(c *gin.Context) {
 
 	}
 	//archiveDate := Archives(dates)
-
+	nickname, isLogin := utils.IsLogin(c)
 	response.HTMLResponse(c, "blog_list.html", gin.H{
 		"articles":    articles,
-		"isLogin":     utils.IsLogin(c),
+		"isLogin":     isLogin,
+		"nickname":    nickname,
 		"archiveDate": Archives(dates),
 		"listactive":  "active",
 	})
@@ -136,6 +173,7 @@ func ArticleDetail(c *gin.Context) {
 	} else {
 		next = strconv.Itoa(int(nextArticle.ID))
 	}
+	nickname, isLogin := utils.IsLogin(c)
 	// updatedAt := article.UpdatedAt.Format("2024-01-01 15:05")
 	response.HTMLResponse(c, "blog_detail.html", gin.H{
 		"id":       id,
@@ -143,44 +181,56 @@ func ArticleDetail(c *gin.Context) {
 		"previous": previous,
 		"next":     next,
 		// "updateAt": updatedAt,
-		"isLogin": utils.IsLogin(c),
+		"isLogin":  isLogin,
+		"nickname": nickname,
 	})
 }
 
 // /article/create
-func EditNewArticle(c *gin.Context) {
-	response.HTMLResponse(c, "create_article.html", nil)
-}
+// func EditNewArticle(c *gin.Context) {
+// 	response.HTMLResponse(c, "create_article.html", nil)
+// }
 
 // /edit/:id
-func EditArticle(c *gin.Context) {
-	id := c.Param("id")
-	article, err := GetArticleByID(id)
-	// todo 待完善if 条件表达式
-	if err != nil || errors.Is(err, gorm.ErrRecordNotFound) {
-		global.LOGGER.Info("recordNotFound", zap.Error(err))
-		response.JSONResponse(c, 0, "failed", gin.H{
-			"reason": "recordnotfound",
-		})
-		return
-	}
-	response.HTMLResponse(c, "edit_article.html", gin.H{
-		"article": article,
-	})
-}
+// func EditArticle(c *gin.Context) {
+// 	id := c.Param("id")
+// 	article, err := GetArticleByID(id)
+// 	// todo 待完善if 条件表达式
+// 	if err != nil || errors.Is(err, gorm.ErrRecordNotFound) {
+// 		global.LOGGER.Info("recordNotFound", zap.Error(err))
+// 		response.JSONResponse(c, 0, "failed", gin.H{
+// 			"reason": "recordnotfound",
+// 		})
+// 		return
+// 	}
+// 	response.HTMLResponse(c, "edit_article.html", gin.H{
+// 		"article": article,
+// 	})
+// }
 
 // /article/update
 func UpdateArticle(c *gin.Context) {
-	fileHead, err := c.FormFile("cover")
-	if err != nil {
-		global.LOGGER.Error("formfile", zap.Error(err))
-		response.JSONResponse(c, 0, "上传文件失败", nil)
+	if c.Request.Method == "GET" {
+		id := c.Param("id")
+		article, err := GetArticleByID(id)
+		// todo 待完善if 条件表达式
+		if err != nil || errors.Is(err, gorm.ErrRecordNotFound) {
+			global.LOGGER.Info("recordNotFound", zap.Error(err))
+			response.JSONResponse(c, 0, "failed", gin.H{
+				"reason": "recordnotfound",
+			})
+			return
+		}
+		response.HTMLResponse(c, "edit_article.html", gin.H{
+			"article": article,
+		})
 		return
 	}
+	var filePath string
 	articleID := c.PostForm("id")
 	title := c.PostForm("title")
-	mdContent := c.PostForm("mdcontent")
-	htmlContent := c.PostForm("htmlcontent")
+	mdContent := c.PostForm("mdContent")
+	htmlContent := c.PostForm("htmlContent")
 	if articleID == "" || mdContent == "" || htmlContent == "" {
 		global.LOGGER.Info("缺少formdata")
 		response.JSONResponse(c, 0, "上传文件失败", nil)
@@ -192,32 +242,41 @@ func UpdateArticle(c *gin.Context) {
 		return
 	}
 
-	filePath, err := upload.SaveUploadedFile(fileHead)
-	if err != nil {
-		global.LOGGER.Error("save uploaded file error", zap.Error(err))
-		response.JSONResponse(c, 0, "上传文件失败", nil)
-		return
+	fileHead, err := c.FormFile("cover")
+	if err == nil {
+		// 更新封面
+		filePath, err := upload.SaveUploadedFile(fileHead)
+		if err != nil {
+			global.LOGGER.Error("save uploaded file error", zap.Error(err))
+			response.JSONResponse(c, 0, "上传文件失败", nil)
+			return
+		}
+		uploadFile := upload.FileInfo{
+			FileName: fileHead.Filename,
+			FilePath: filePath,
+			Tag:      filepath.Ext(fileHead.Filename),
+			Owner:    a.Author,
+		}
+		if err := upload.CreateFileInfo(&uploadFile); err != nil {
+			global.LOGGER.Error("create fileInfo failed", zap.Error(err))
+			response.JSONResponse(c, 0, "上传文件失败", nil)
+			return
+		}
+		// response.JSONResponse(c, 0, "上传文件失败", nil)
+		// return
 	}
-	uploadFile := upload.FileInfo{
-		FileName: fileHead.Filename,
-		FilePath: filePath,
-		Tag:      filepath.Ext(fileHead.Filename),
-		Owner:    a.Author,
-	}
-	if err := upload.CreateFileInfo(&uploadFile); err != nil {
-		global.LOGGER.Error("create fileInfo failed", zap.Error(err))
-		response.JSONResponse(c, 0, "上传文件失败", nil)
-		return
-	}
+	// global.LOGGER.Info("没有更新封面")
 
 	if title != "" {
 		a.Title = title
 	} else {
 		title = a.Title
 	}
+	if filePath != "" {
+		a.Cover = filePath
+	}
 	a.MdContent = mdContent
 	a.HtmlContent = htmlContent
-	a.Cover = filePath
 	if err := SaveArticle(a); err != nil {
 		global.LOGGER.Error("update article", zap.Error(err))
 		response.JSONResponse(c, 0, "update failed", nil)

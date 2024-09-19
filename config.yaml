@@ -3,7 +3,7 @@ mysql:
  port: "3306"
  username: "root"
  password: "card9033"
- dbName: "cyanweb"  
+ dbName: "sobbleweb"  
  
 jwt:
   signkey: "cyansobblesunflower"

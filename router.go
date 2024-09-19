@@ -24,11 +24,17 @@ func Router() {
 	router.LoadHTMLGlob("templates/*")
 	//router.LoadHTMLFiles("templates/pic.html", "templates/index.html")
 	router.Use(middleware.Cors())
+
+	router.GET("/user/register", user.Register)
 	router.POST("/user/register", user.Register)
+
+	router.GET("/user/login", user.Login)
 	router.POST("/user/login", user.Login)
+
 	router.GET("/captcha", user.DigitCaptcha)
-	router.GET("/user/signin", user.LoginHtml)
-	router.GET("/user/signup", user.RegisterHtml)
+
+	// router.GET("/user/signin", user.LoginHtml)
+	// router.GET("/user/signup", user.RegisterHtml)
 	//router.POST("/audiocaptcha", AudioCaptcha)
 
 	router.GET("/", Index)
@@ -42,44 +48,51 @@ func Router() {
 	router.GET("/bootstrap", BootStrap)
 
 	router.Use(middleware.JWTAuth())
+
 	router.GET("/user/info", user.UserInfo)
 	router.POST("/user/editinfo", user.UserEditInfo)
 	router.POST("/user/changepassword", user.ChangePassword)
 	router.GET("/user/verification", user.Verification)
 
 	router.Use(middleware.AuthorityAuth())
-	router.POST("/article/add", article.AddArticle)
+
+	router.POST("/article/create", article.CreateNewArticle)
+	router.GET("/article/create", article.CreateNewArticle)
+
 	router.POST("/article/update", article.UpdateArticle)
+	router.GET("/edit/:id", article.UpdateArticle)
+
 	router.POST("/article/delete", article.DeleteArticle)
-	router.GET("/article/create", article.EditNewArticle)
 
 	router.POST("/file/upload", upload.UploadFile)
 	router.POST("/file/list", upload.GetFileList)
 	router.POST("/file/delete", upload.DeleteFile)
 
-	router.GET("/edit/:id", article.EditArticle)
-
 	// todo jwt casbin
 	router.Run(":8888")
 }
 
-// func test(c *gin.Context) {
-
-//		c.JSON(200, map[string]string{
-//			"name": "cyan",
-//		})
-//	}
 func Index(c *gin.Context) {
-	articles, err := article.QueryAllArticleDesc()
+	nickname, isLogin := utils.IsLogin(c)
+	articles, count, err := article.QueryAllArticleDesc()
 	if err != nil {
 		global.LOGGER.Error("get article list", zap.Error(err))
-		response.JSONResponse(c, 0, "failed", nil)
+		response.HTMLResponse(c, "index.html", gin.H{
+			"isLogin":     isLogin,
+			"indexactive": "active",
+			"nickname":    nickname,
+		})
 		return
 	}
+	if count > 10 {
+		articles = articles[:10]
+	}
+	// fmt.Println(articles[0], "cover:", articles[0].Cover)
 	response.HTMLResponse(c, "index.html", gin.H{
-		"articles":    articles[:10],
-		"isLogin":     utils.IsLogin(c),
+		"articles":    articles,
+		"isLogin":     isLogin,
 		"indexactive": "active",
+		"nickname":    nickname,
 	})
 }
 
@@ -98,12 +111,13 @@ func RandomPicture(c *gin.Context) {
 	// slice := strings.Split(picUrl, "/")
 	// //https://setu.iw233.top/large/ec43126fgy1hl7qkktp7pj235s1s0qv7.jpg
 	// newUrl := "https://setu.iw233.top/large/" + slice[len(slice)-1]
-
+	nickname, isLogin := utils.IsLogin(c)
 	response.HTMLResponse(c, "pic.html", gin.H{
 		"title": "RandomPicture",
 		// "url":   newUrl,
-		"url":     picUrl,
-		"isLogin": utils.IsLogin(c),
+		"url":      picUrl,
+		"isLogin":  isLogin,
+		"nickname": nickname,
 	})
 
 }
@@ -116,12 +130,21 @@ func GetPictures(c *gin.Context) {
 		global.LOGGER.Error("[Unmarshal]:", zap.Error(err))
 	}
 	urls := data["pic"].([]interface{})
+	nickname, isLogin := utils.IsLogin(c)
 	response.HTMLResponse(c, "multiplepic.html", gin.H{
-		"title":   "MultiplePicture",
-		"urls":    urls,
-		"isLogin": utils.IsLogin(c),
+		"title":    "MultiplePicture",
+		"urls":     urls,
+		"isLogin":  isLogin,
+		"nickname": nickname,
 	})
 }
 func ParseM3U8(c *gin.Context) {
 	response.HTMLResponse(c, "player.html", nil)
 }
+
+// func test(c *gin.Context) {
+
+//		c.JSON(200, map[string]string{
+//			"name": "cyan",
+//		})
+//	}

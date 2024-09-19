@@ -12,16 +12,15 @@
 <body>
     {{ template "navigation.html" . }}
     <div class="container">
-        <div class="row row-col-3">
+        <div class="row g-0">
             {{ range $index, $url := .urls }}
-            <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-three cat-four cat-two">
-                <div class="top-courses-item mb-50">
-                    <div class="top-courses-thumb">
-                        <a href="{{ $url }}">
-                            <img class="img-fluid" src="{{ $url }}" alt="title">
-                        </a>
-                    </div>
-                </div>
+            <!-- <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-three cat-four cat-two"> -->
+            <div class="col">
+                <a href="{{ $url }}">
+                    <img class="img-thumbnail" src="{{ $url }}" alt="点击查看原图">
+                </a>
+
+
             </div>
             {{ end }}
         </div>

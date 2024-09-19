@@ -1,5 +1,17 @@
 let downloadbtn = document.getElementById("testimg");
 
+let imgThumb = document.getElementById("imgThumb");
+let imgModal = document.getElementById("imgModal");
+let imgDetail = document.getElementById("imgDetail");
+
+
+imgThumb.addEventListener("click", function(e) {
+    e.preventDefault();
+    imgDetail.src = e.target.href 
+    // imgModal.aria-hidden = "false"
+
+})
+
 downloadbtn.addEventListener("click", function(e) {
     e.preventDefault();
     // e.target.href

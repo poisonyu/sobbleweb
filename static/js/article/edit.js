@@ -14,12 +14,13 @@ editButton.addEventListener("click", function(e) {
     let file = null
     if (formFile.files[0]) {
         file = formFile.files[0]
+        formData.append("cover", file, file.name)
     }
-    formData.append("cover", file, file.name)
+    // formData.append("cover", file, file.name)
     formData.append("id", e.target.getAttribute("articleid"))
     formData.append("title", title)
-    formData.append("mdcontent", vditor.getValue())
-    formData.append("htmlcontent", htmlContent)
+    formData.append("mdContent", vditor.getValue())
+    formData.append("htmlContent", htmlContent)
     fetch("/article/update", {
         method: 'POST',
         // headers: {

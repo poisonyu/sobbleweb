@@ -1083,3 +1083,77 @@
 2024-09-12T21:49:19.313+0800	[34mINFO[0m	sobbleweb/router.go:72	[sugar] query 13 records
 2024-09-12T21:49:27.423+0800	[34mINFO[0m	sobbleweb/router.go:72	[sugar] query 13 records
 2024-09-12T21:50:46.151+0800	[34mINFO[0m	sobbleweb/router.go:72	[sugar] query 13 records
+**2024-09-09 09:15**
+2024-09-14T09:23:15.919+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-14T09:23:21.092+0800	[34mINFO[0m	sobbleweb/router.go:73	[sugar] query 0 records
+2024-09-14T09:23:21.092+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+**2024-09-09 09:59**
+2024-09-14T09:27:59.683+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-14T09:28:04.963+0800	[34mINFO[0m	sobbleweb/router.go:73	[sugar] query 0 records
+2024-09-14T09:28:04.964+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-09-14T09:30:02.396+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	empty token
+2024-09-14T09:32:05.014+0800	[34mINFO[0m	sobbleweb/router.go:73	[sugar] query 0 records
+2024-09-14T09:32:05.014+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-09-14T09:32:10.436+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	权限不足
+2024-09-14T09:33:51.017+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	权限不足
+2024-09-14T09:34:03.554+0800	[34mINFO[0m	article/router.go:82	[sugar] query 0 records
+2024-09-14T09:34:03.555+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-09-14T09:34:10.913+0800	[34mINFO[0m	sobbleweb/router.go:73	[sugar] query 0 records
+2024-09-14T09:34:10.913+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-09-14T09:34:20.162+0800	[34mINFO[0m	sobbleweb/router.go:73	[sugar] query 0 records
+2024-09-14T09:34:20.163+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+**2024-09-09 09:52**
+2024-09-14T09:53:52.717+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-14T09:55:15.654+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	add article	{"error": "Error 1406 (22001): Data too long for column 'mdcontent' at row 1"}
+2024-09-14T09:56:04.166+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	add article	{"error": "Error 1406 (22001): Data too long for column 'mdcontent' at row 1"}
+2024-09-14T09:56:21.569+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有上一篇了
+2024-09-14T09:56:21.570+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有下一篇了
+2024-09-14T09:56:24.037+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-09-14T09:56:46.056+0800	[34mINFO[0m	article/router.go:113	[sugar] query 0 records
+2024-09-14T09:56:46.057+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-09-14T09:57:16.995+0800	[34mINFO[0m	article/router.go:113	[sugar] query 0 records
+2024-09-14T09:57:16.996+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-09-14T09:57:22.536+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+2024-09-14T09:57:24.749+0800	[34mINFO[0m	article/router.go:113	[sugar] query 0 records
+2024-09-14T09:57:24.750+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	get article list	{"error": "Error 1054 (42S22): Unknown column 'nickname' in 'field list'"}
+**2024-09-09 10:28**
+2024-09-14T10:00:28.179+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-14T10:00:35.783+0800	[34mINFO[0m	article/router.go:113	[sugar] query 1 records
+2024-09-14T10:00:54.600+0800	[34mINFO[0m	article/router.go:113	[sugar] query 1 records
+**2024-09-09 13:18**
+2024-09-14T13:36:18.040+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-14T13:36:57.745+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有上一篇了
+2024-09-14T13:36:57.746+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有下一篇了
+**2024-09-09 13:37**
+2024-09-14T13:39:37.489+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-14T13:42:37.235+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有上一篇了
+2024-09-14T13:42:37.237+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有下一篇了
+**2024-09-09 15:09**
+2024-09-14T15:38:09.453+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-14T15:39:37.421+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有上一篇了
+2024-09-14T15:39:37.422+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有下一篇了
+2024-09-14T15:39:51.965+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有上一篇了
+2024-09-14T15:39:51.966+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有下一篇了
+2024-09-14T15:40:00.427+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有上一篇了
+2024-09-14T15:40:00.428+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有下一篇了
+2024-09-14T15:45:31.508+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:2 没有下一篇了
+**2024-09-09 15:15**
+2024-09-14T15:49:15.552+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+**2024-09-09 15:36**
+2024-09-14T15:50:36.929+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0
+2024-09-14T15:51:07.082+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:2 没有下一篇了
+2024-09-14T15:51:15.360+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:1 没有上一篇了
+2024-09-14T15:55:51.896+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	add article	{"error": "Error 1406 (22001): Data too long for column 'mdcontent' at row 1"}
+2024-09-14T15:57:21.442+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:3 没有下一篇了
+2024-09-14T15:58:14.168+0800	[31mERROR[0m	gin@v1.10.0/context.go:185	add article	{"error": "Error 1406 (22001): Data too long for column 'mdcontent' at row 1"}
+2024-09-14T15:58:23.686+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:4 没有下一篇了
+2024-09-14T15:59:25.217+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:5 没有下一篇了
+2024-09-14T16:00:22.592+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:6 没有下一篇了
+2024-09-14T16:00:56.930+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:7 没有下一篇了
+2024-09-14T16:01:37.469+0800	[34mINFO[0m	gin@v1.10.0/context.go:185	ID:8 没有下一篇了
+2024-09-14T16:27:51.130+0800	[34mINFO[0m	sobbleweb/router.go:96	{"pic":["https:\/\/tvax2.sinaimg.cn\/large\/ec43126fgy1hr7t9pzvfwj23tt5ewnpi.jpg"]}
+2024-09-14T16:32:43.080+0800	[34mINFO[0m	sobbleweb/router.go:118	{"pic":["https:\/\/tvax2.sinaimg.cn\/large\/ec43126fgy1hmedr7jxcqj21mc25sb2b.jpg","https:\/\/tvax4.sinaimg.cn\/large\/ec43126fgy1hbn40vi62cj23mo2o9x6v.jpg","https:\/\/tva1.sinaimg.cn\/large\/ec43126fgy1gzuapg29hxj223931wqv7.jpg","https:\/\/tvax2.sinaimg.cn\/large\/ec43126fgy1hbn46qvyp2j21t435pu11.jpg","https:\/\/tvax4.sinaimg.cn\/large\/ec43126fgy1gzfsx43gbcj215o1mxqv5.jpg","https:\/\/tva3.sinaimg.cn\/large\/ec43126fgy1h1dwi84w1sj20so14hnpd.jpg","https:\/\/tvax4.sinaimg.cn\/large\/ec43126fgy1hf9vm50l9hj21bc1fpx6p.jpg","https:\/\/tvax1.sinaimg.cn\/large\/ec43126fgy1hf9v7pxhbuj213c1e0qv5.jpg","https:\/\/tvax2.sinaimg.cn\/large\/ec43126fgy1h01vxbi4xrj23q85d3qv7.jpg","https:\/\/tvax3.sinaimg.cn\/large\/ec43126fly1gnxxxe0kc2j21pj1fakjm.jpg"]}
+2024-09-14T16:35:21.004+0800	[34mINFO[0m	sobbleweb/router.go:118	{"pic":["https:\/\/tva2.sinaimg.cn\/large\/004kfMibgy1gv00vzkpatj61n42blx6q02.jpg","https:\/\/tvax2.sinaimg.cn\/large\/ec43126fgy1hg7fgqhuq6j22ew3h5u0y.jpg","https:\/\/tva2.sinaimg.cn\/large\/ec43126fgy1h3qwtj1i8zj21b829c1kz.jpg","https:\/\/tva2.sinaimg.cn\/large\/004kfMibgy1gunf6ejnuej632z3bz1l602.jpg","https:\/\/tvax2.sinaimg.cn\/large\/ec43126fgy1hbn495w17yj228e35p1kz.jpg","https:\/\/tva4.sinaimg.cn\/large\/ec43126fgy1goyrxy3g1kj210o1qkb2a.jpg","https:\/\/tvax3.sinaimg.cn\/large\/ec43126fgy1gxssyrqfodj2280190hdv.jpg","https:\/\/tvax4.sinaimg.cn\/large\/ec43126fgy1ht7mx8ijcij21fb2bckjm.jpg","https:\/\/tvax3.sinaimg.cn\/large\/ec43126fgy1ho88we58z4j21r42p8e81.jpg","https:\/\/tvax3.sinaimg.cn\/large\/ec43126fgy1hs69y4m7e0j21o52e41kz.jpg"]}
+2024-09-14T17:05:28.480+0800	[34mINFO[0m	sobbleweb/router.go:96	{"pic":["https:\/\/tvax4.sinaimg.cn\/large\/ec43126fgy1h52diwn14bj21wr2jo7wj.jpg"]}
+**2024-09-09 21:27**
+2024-09-15T21:56:27.593+0800	[34mINFO[0m	sobbleweb/main.go:29	redisURL: redis://:@localhost:6379/0

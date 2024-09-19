@@ -13,10 +13,15 @@
 <body>
     {{ template "navigation.html" . }}
     <div class="container-fluid">
-        <div class="row row-col-3">
+        <div class="row row-cols-3">
             <div class="col">
-                <img class="img-fluid" src="{{.url}}" alt="title">
-                <a href="{{ .url }}" type="button" id="testimg">Download
+                <img class="img-fluid" width="75%" src="{{.url}}" alt="title">
+                <a href="{{ .url }}" type="button" id="testimg">Download</a>
+            </div>
+
+            <div class="col">
+                <a href="{{ .url }}"  id="imgThumb">
+                    <img class="img-thumbnail" src="{{.url}}" alt="title">
                 </a>
             </div>
             <!-- <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-three cat-four cat-two">
@@ -29,7 +34,22 @@
                 </div>
             </div> -->
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <!-- <h5 class="modal-title" id="exampleModalLabel">邮箱验证</h5> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <img src="" alt="img detail" id="imgDetail">
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- <script src="/static/js/picture.js"></script> -->
+    <script src="/static/js/picture.js"></script>
 </body>
 </html>

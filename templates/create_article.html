@@ -14,17 +14,19 @@
     <body>
         {{ template "navigation.html" . }}
         <div class="container">
-
             <label for="title">标题：</label><br>
             <input type="text" id="title" name="title">
             <br>
             <label for="tag">Type:</label><br>
             <input type="text" id="tag" name="type">
             <br>
-
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Cover</label>
+                <input class="form-control" type="file" id="formFile">
+            </div>
             <div id="vditor" style="margin-top:25px">
             </div>
-            <input type="button" onclick="saveContent()" value="保存" />
+            <input type="button" id="save" value="保存" />
             <script src="/static/js/article/create.js"></script>
         </div>
     </body>

@@ -12,6 +12,7 @@ import (
 	"github.com/jordan-wright/email"
 	"github.com/mojocn/base64Captcha"
 	"go.uber.org/zap"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var Store = base64Captcha.DefaultMemStore
@@ -40,9 +41,17 @@ func GetRandonPicture(num string) []byte {
 	// return ""
 }
 
-func IsLogin(c *gin.Context) bool {
+func IsLogin(c *gin.Context) (string, bool) {
 	token, _ := GetToken(c)
-	return token != ""
+	if token == "" {
+		return "", false
+	}
+	claims, err := ParseToken(token)
+	if err != nil {
+		return "", false
+	}
+
+	return claims.NickName, true
 }
 
 func SendEmail(to, subject, text string) (err error) {
@@ -85,7 +94,20 @@ func GenerateDigitVerificationCode() (id, b64s, answer string, err error) {
 	captcha := base64Captcha.NewCaptcha(base64Captcha.DefaultDriverDigit, Store)
 	id, b64s, answer, err = captcha.Generate()
 	if err != nil {
-		global.LOGGER.Error("captcha generate failed", zap.Error(err))
+		global.LOGGER.Error("[GenerateDigitVerificationCode]", zap.Error(err))
 	}
 	return
+}
+
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 7)
+	return string(bytes), err
+}
+
+func CheckPasswordHash(hash, password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	if err != nil {
+		global.LOGGER.Error("[CheckPasswordHash]", zap.Error(err))
+	}
+	return err == nil
 }

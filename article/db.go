@@ -9,18 +9,18 @@ import (
 
 func QueryAllArticle() ([]Article, error) {
 	var articles []Article
-	result := global.DB.Select("id", "title", "nickname", "updated_at").Find(&articles)
+	result := global.DB.Select("id", "title", "author", "updated_at", "cover").Find(&articles)
 	//global.LOGGER.Infof("query %s records", result.RowsAffected)
-	global.LOGGER.Sugar().Infof("[sugar] query %d records", result.RowsAffected)
+	//global.LOGGER.Sugar().Infof("[sugar] query %d records", result.RowsAffected)
 	return articles, result.Error
 }
 
-func QueryAllArticleDesc() ([]Article, error) {
+func QueryAllArticleDesc() ([]Article, int64, error) {
 	var articles []Article
-	result := global.DB.Select("id", "title", "nickname", "updated_at").Order("updated_at DESC").Find(&articles)
+	result := global.DB.Select("id", "title", "author", "updated_at", "cover").Order("updated_at DESC").Find(&articles)
 	//global.LOGGER.Infof("query %s records", result.RowsAffected)
-	global.LOGGER.Sugar().Infof("[sugar] query %d records", result.RowsAffected)
-	return articles, result.Error
+	//global.LOGGER.Sugar().Infof("[sugar] query %d records", result.RowsAffected)
+	return articles, result.RowsAffected, result.Error
 }
 
 func CreateArticle(article Article) (uint, error) {
@@ -36,7 +36,6 @@ func GetArticleByID(id string) (Article, error) {
 
 func SaveArticle(article Article) error {
 	result := global.DB.Save(&article)
-
 	return result.Error
 }
 
