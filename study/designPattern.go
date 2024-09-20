@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 // 函数选项模式
@@ -104,5 +106,11 @@ func TestDecoration() {
 }
 
 func main() {
-	TestDecoration()
+	// TestDecoration()
+
+	// gin.DebugMode
+	gin.SetMode(gin.ReleaseMode)
+	router := gin.Default()
+	userApi := router.Group("user")
+
 }
