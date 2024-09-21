@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -105,12 +106,28 @@ func TestDecoration() {
 	srv.ListenAndServe()
 }
 
+func T(c *gin.Context) {
+	c.GetHeader("Accept-Language")
+	c.Header("cache-control", "public, max-age=31536000")
+	c.Writer.Header().Set("key", "value")
+	c.Writer.Header().Del("key")
+
+	strings.HasPrefix(c.Request.RequestURI, "/static/")
+	path := c.Request.URL.Path
+}
+
 func main() {
 	// TestDecoration()
 
 	// gin.DebugMode
+
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	userApi := router.Group("user")
+	router.SetHTMLTemplate()
+	router.NoRoute()
+	router.Handle("GET", "/")
+	router.GET()
+	router.StaticFS()
 
 }

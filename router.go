@@ -21,7 +21,7 @@ func Router() {
 	router.Static("/static", "./static")
 	router.Static("/upload", "./upload")
 	// router.Static("/dist", "./dist")
-	router.LoadHTMLGlob("templates/*")
+	router.LoadHTMLGlob("templates/*.html")
 	//router.LoadHTMLFiles("templates/pic.html", "templates/index.html")
 	router.Use(middleware.Cors())
 

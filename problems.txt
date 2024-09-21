@@ -45,3 +45,5 @@ for i := range 3 {
 在初始化时，自动创建一个管理员账号
 
 sign.Notify() 优雅的关闭进程
+
+brotli 通用无损压缩算法
