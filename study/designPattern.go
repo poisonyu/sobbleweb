@@ -113,7 +113,10 @@ func T(c *gin.Context) {
 	c.Writer.Header().Del("key")
 
 	strings.HasPrefix(c.Request.RequestURI, "/static/")
+	strings.ParseInt("")
+	strings.Atoi("dog")
 	path := c.Request.URL.Path
+
 }
 
 func main() {
