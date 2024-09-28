@@ -2,6 +2,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -113,21 +114,36 @@ func T(c *gin.Context) {
 	c.Writer.Header().Del("key")
 
 	strings.HasPrefix(c.Request.RequestURI, "/static/")
-	path := c.Request.URL.Path
+	// path := c.Request.URL.Path
 }
 
+func L() {
+	// l := list.New()
+	slice := []int{0, 1, 2, 3, 4, 5, 6}
+	fmt.Println(cap(slice))
+	s := slice[1:3:4]
+	fmt.Println(cap(s))
+
+}
 func main() {
 	// TestDecoration()
 
 	// gin.DebugMode
 
-	gin.SetMode(gin.ReleaseMode)
-	router := gin.Default()
-	userApi := router.Group("user")
-	router.SetHTMLTemplate()
-	router.NoRoute()
-	router.Handle("GET", "/")
-	router.GET()
-	router.StaticFS()
+	// gin.SetMode(gin.ReleaseMode)
+	// router := gin.Default()
+	// userApi := router.Group("user")
+	// router.SetHTMLTemplate()
+	// router.NoRoute()
+	// router.Handle("GET", "/")
+	// router.GET()
+	// router.StaticFS()
+
+	ctx := context.Background()
+
+	fmt.Println(ctx.Done())
+	ctx.Deadline()
+	ctx.Err()
+	// ctx.Value()
 
 }
