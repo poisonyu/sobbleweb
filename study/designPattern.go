@@ -2,12 +2,15 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"path/filepath"
+	"reflect"
 	"strings"
 	"time"
+	"unsafe"
 
 	"github.com/gin-gonic/gin"
 )
@@ -115,10 +118,35 @@ func T(c *gin.Context) {
 
 	strings.HasPrefix(c.Request.RequestURI, "/static/")
 
-	strings.ParseInt("")
-	strings.Atoi("dog")
-	path := c.Request.URL.Path
+	// strings.ParseInt("")
+	// strings.Atoi("dog")
+	// path := c.Request.URL.Path
 
+}
+
+func test2() {
+	path := filepath.Join("upload", "pic.jpg")
+
+	fmt.Println(path) // upload/pic.jpg
+	path = filepath.Dir(path)
+	fmt.Println("path:", path)      // upload/
+	fmt.Println(filepath.Dir(path)) // .
+
+	tpath := reflect.TypeOf(path)
+	fmt.Println(tpath) // string
+	tpath.Kind()       // string
+	// for i := 0; i < tpath.NumField(); i++ {
+	// }
+	var a *int
+	ta := reflect.TypeOf(a)
+	fmt.Println(ta) // *int
+	ta.Kind()       // ptr
+	ta.Elem()       // int
+
+	// type MyInt int
+	// var myint MyInt = 2
+	// value = reflect.ValueOf(myint)
+	// ty := value.TypeOf()
 }
 
 func L() {
@@ -128,6 +156,20 @@ func L() {
 	s := slice[1:3:4]
 	fmt.Println(cap(s))
 
+}
+
+func GenerateVerificationCode(n int) string {
+	b := make([]byte, n)
+	for i := 0; i < n; i++ {
+		b[i] = byte(rand.Intn(10))
+	}
+	fmt.Println(b)
+	return bytes2string(b)
+
+}
+
+func bytes2string(b []byte) string {
+	return *(*string)(unsafe.Pointer(&b))
 }
 func main() {
 	// TestDecoration()
@@ -143,11 +185,25 @@ func main() {
 	// router.GET()
 	// router.StaticFS()
 
-	ctx := context.Background()
+	// ctx := context.Background()
 
-	fmt.Println(ctx.Done())
-	ctx.Deadline()
-	ctx.Err()
+	// fmt.Println(ctx.Done())
+	// ctx.Deadline()
+	// ctx.Err()
 	// ctx.Value()
+
+	// test2()
+
+	// s := make([]int, 10)
+	// a := &s
+	// b := uintptr(8)
+	// Len := *(*int)(unsafe.Pointer(uintptr(unsafe.Pointer(a)) + b))
+	// fmt.Println(Len)
+	// unsafe.Sizeof()
+	// mp := make(map[string]int)
+
+	b := []byte{'c', 'f', 'd'}
+	s := bytes2string(b)
+	fmt.Println(s, string(b))
 
 }

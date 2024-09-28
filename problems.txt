@@ -47,3 +47,24 @@ for i := range 3 {
 sign.Notify() 优雅的关闭进程
 
 brotli 通用无损压缩算法
+
+
+func main() {
+	s := make([]int, 9, 20)
+    // 这里为什么要+uintptr(8)
+	var Len = *(*int)(unsafe.Pointer(uintptr(unsafe.Pointer(&s)) + uintptr(8)))
+	fmt.Println(Len, len(s)) // 9 9
+
+	var Cap = *(*int)(unsafe.Pointer(uintptr(unsafe.Pointer(&s)) + uintptr(16)))
+	fmt.Println(Cap, cap(s)) // 20 20
+}
+
+
+func main() {
+	mp := make(map[string]int)
+	mp["qcrao"] = 100
+	mp["stefno"] = 18
+    // 二级指针
+	count := **(**int)(unsafe.Pointer(&mp))
+	fmt.Println(count, len(mp)) // 2 2
+}
