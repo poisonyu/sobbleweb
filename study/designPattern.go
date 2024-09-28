@@ -114,7 +114,7 @@ func T(c *gin.Context) {
 	c.Writer.Header().Del("key")
 
 	strings.HasPrefix(c.Request.RequestURI, "/static/")
-	// path := c.Request.URL.Path
+	path := c.Request.URL.Path
 }
 
 func L() {
