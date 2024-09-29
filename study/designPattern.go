@@ -2,10 +2,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -171,6 +173,16 @@ func GenerateVerificationCode(n int) string {
 func bytes2string(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
+
+func ReadString() {
+
+	input := bufio.NewScanner(os.Stdin)
+	fmt.Println("*********")
+	for input.Scan() {
+		fmt.Println(input.Text())
+	}
+
+}
 func main() {
 	// TestDecoration()
 
@@ -205,5 +217,6 @@ func main() {
 	b := []byte{'c', 'f', 'd'}
 	s := bytes2string(b)
 	fmt.Println(s, string(b))
+	ReadString()
 
 }
