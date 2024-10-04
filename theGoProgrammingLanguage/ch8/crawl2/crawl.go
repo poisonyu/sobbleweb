@@ -17,6 +17,9 @@ func main() {
 
 func crawl(url string) {
 	req, _ := http.NewRequest("GET", url, nil)
+
+	<-req.Cancel
+
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		fmt.Println("[response error]", err)
