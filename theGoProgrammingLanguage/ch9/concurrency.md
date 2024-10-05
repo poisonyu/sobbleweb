@@ -114,3 +114,95 @@ x[999999] = 1 // NOTE: undefined behavior; memory corruption possible!
 
 * 互斥
     允许很多goroutine去并发访问变量，但在同一时刻最多只有一个goroutine访问变量
+
+## 9.2 sync.Mutex互斥锁
+一个只有1和0的信号量叫做二元信号量
+```
+var (
+	sema    = make(chan struct{}, 1)
+	balance int
+)
+
+func Deposit(amount int) {
+	sema <- struct{}{}
+	balance += amount
+	<-sema
+}
+
+func Balance() int {
+	sema <- struct{}{}
+	b := balance
+	<-sema
+	return b
+}
+```
+```
+package bank
+
+import "sync"
+
+var (
+	// sema    = make(chan struct{}, 1)
+	mu      sync.Mutex
+	balance int
+)
+
+func Deposit(amount int) {
+	// sema <- struct{}{}
+	mu.Lock()
+	balance += amount
+	// <-sema
+	mu.Unlock()
+}
+
+func Balance() int {
+	// sema <- struct{}{}
+	// b := balance
+	// <-sema
+	// return b
+	mu.Lock()
+	defer mu.Unlock()
+	return balance
+}
+```
+
+Lock和Unlock之间的代码段叫做临界区
+每一个函数在一开始就获取互斥锁并在最后释放锁，从而保证共享变量不会被并发访问，这种函数、互斥锁和变量的编排叫做监控monitor
+deferred Unlock即使在临界区发生panic时依然会执行，这对于recover来恢复的程序是很重要的。
+```
+var (
+	mu      sync.Mutex
+	balance int
+)
+
+// 一个不导出函数，这个函数假设锁总是会被保持并去做实际的操作
+func deposit(amount int) {
+	balance += amount
+}
+func Deposit(amount int) {
+	mu.Lock()
+	defer mu.Unlock()
+	deposit(amount)
+}
+
+func Balance() int {
+	mu.Lock()
+	defer mu.Unlock()
+	return balance
+}
+// 在调用deposit函数前会先获取锁
+func Withdraw(amount int) bool {
+	mu.Lock()
+	defer mu.Unlock()
+	deposit(-amount)
+	if balance < 0 {
+		deposit(amount)
+		return false
+	}
+	return true
+}
+```
+
+## 9.3 sync.RWMutex读写锁
+
+多读单写锁(multiple readers,single writer lock)，允许多个只读操作并行执行，但写操作会完全互斥。
