@@ -14,7 +14,7 @@
 **竞争条件**是指程序在多个goroutine交叉执行操作时，没有给出正确结果。
 **数据竞争**是一个特定的竞争条件。任何时候，只要有两个以上的goroutine并发访问同一变量，且至少其中的一个是写操作的时候就会发生数据竞争。
 
-`
+```
 // Package bank implements a bank with only one account.
 package bank
 var balance int
@@ -29,20 +29,20 @@ go func() {
 
 // Bob:
 go bank.Deposit(100)                 // B
-`
-`
+```
+
+```
 var x []int
 go func() { x = make([]int, 10) }()
 go func() { x = make([]int, 1000000) }()
 x[999999] = 1 // NOTE: undefined behavior; memory corruption possible!
-
-`
+```
 
 避免数据竞争
 * 不去写变量
     在程序初始化阶段，初始化变量并且再也不去修改它们，那么任意数量的goroutine并发访问Icon都是安全的，因为每一个goroutine都只是去读取而已
 
-    `
+    ```
     var icons = map[string]image.Image{
     "spades.png":   loadIcon("spades.png"),
     "hearts.png":   loadIcon("hearts.png"),
@@ -52,71 +52,65 @@ x[999999] = 1 // NOTE: undefined behavior; memory corruption possible!
 
     // Concurrency-safe.
     func Icon(name string) image.Image { return icons[name] }
-
-    `
+    ```
 
 * 避免从多个goroutine访问变量
     * 把变量都限定在一个单独的goroutine中
+        其他goroutine不能够直接访问变量，只能通过channel给指定的goroutine发送请求来查询更新变量，也就是使用通信来共享数据。
+        一个提供对一个指定的变量通过channel来请求的goroutine叫这个变量的monitor goroutine
+        ```
+        package bank
 
-    其他goroutine不能够直接访问变量，只能通过channel给指定的goroutine发送请求来查询更新变量，也就是使用通信来共享数据。
-    一个提供对一个指定的变量通过channel来请求的goroutine叫这个变量的monitor goroutine
+        var deposits = make(chan int)
+        var balances = make(chan int)
 
-    `
-    package bank
+        func Deposit(amount int) {
+            deposits <- amount
+        }
 
-    var deposits = make(chan int)
-    var balances = make(chan int)
+        func Balance() int {
+            return <-balances
+        }
 
-    func Deposit(amount int) {
-        deposits <- amount
-    }
-
-    func Balance() int {
-        return <-balances
-    }
-
-    func teller() {
-        var balance int
-        for {
-            select {
-            case amount := <-deposits:
-                balance += amount
-            case balances <- balance:
+        func teller() {
+            var balance int
+            for {
+                select {
+                case amount := <-deposits:
+                    balance += amount
+                case balances <- balance:
+                }
             }
         }
-    }
-    func init() {
-        go teller()
-    }
-
-    `
+        func init() {
+            go teller()
+        }
+        ```
 
     * 串行绑定
-    
-    `
-    type Cake struct {
-	state string
-    }
-
-    var cooked = make(chan *Cake)
-    var iced = make(chan *Cake)
-
-    func baker(cooked chan<- *Cake) {
-        for {
-            cake := new(Cake)
-            cake.state = "cooked"
-            cooked <- cake
+        ```
+        type Cake struct {
+        state string
         }
-    }
 
-    func icer(iced chan<- *Cake, cooked <-chan *Cake) {
-        for cake := range cooked {
-            cake.state = "iced"
-            iced <- cake
+        var cooked = make(chan *Cake)
+        var iced = make(chan *Cake)
+
+        func baker(cooked chan<- *Cake) {
+            for {
+                cake := new(Cake)
+                cake.state = "cooked"
+                cooked <- cake
+            }
         }
-    }
 
-    `
+        func icer(iced chan<- *Cake, cooked <-chan *Cake) {
+            for cake := range cooked {
+                cake.state = "iced"
+                iced <- cake
+            }
+        }
+        ```
 
 * 互斥
     允许很多goroutine去并发访问变量，但在同一时刻最多只有一个goroutine访问变量
