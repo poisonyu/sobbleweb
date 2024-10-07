@@ -54,8 +54,6 @@
 
 package bank
 
-import "sync"
-
 var deposits = make(chan int)
 var balances = make(chan int)
 
@@ -79,13 +77,4 @@ func teller() {
 }
 func init() {
 	go teller()
-}
-
-var mu sync.RWMutex
-var balance int
-
-func Balance() int {
-	mu.RLock()
-	defer mu.RUnlock()
-	return balance
 }

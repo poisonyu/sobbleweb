@@ -13,7 +13,7 @@
 
 **竞争条件**是指程序在多个goroutine交叉执行操作时，没有给出正确结果。
 **数据竞争**是一个特定的竞争条件。任何时候，只要有两个以上的goroutine并发访问同一变量，且至少其中的一个是写操作的时候就会发生数据竞争。
-
+**数据竞态**是指有两个或更多的操作访问同一块内存，并且至少有一个操作是写入，而这些操作在不同的线程中进行，不受同步机制的保护/
 ```
 // Package bank implements a bank with only one account.
 package bank
@@ -206,3 +206,70 @@ func Withdraw(amount int) bool {
 ## 9.3 sync.RWMutex读写锁
 
 多读单写锁(multiple readers,single writer lock)，允许多个只读操作并行执行，但写操作会完全互斥。
+```
+var mu sync.RWMutex
+var balance int
+
+func Balance() int {
+	mu.RLock()
+	defer mu.RUnlock()
+	return balance
+} 
+```
+
+## 9.4 内存同步
+
+为什么Balance方法需要用到互斥条件
+1. Balance不会在其他操作比如Withdraw"中间"执行
+2. "同步"不仅仅是一堆goroutine执行顺序的问题，同样也会涉及到内存问题
+
+所有并发的问题都可以用一致的、简单的既定的模式来规避。
+将变量限定在goroutine内部，如果是多个goroutine都要访问的变量，使用互斥条件来访问
+
+## 9.5 sync.Once惰性初始化
+
+```
+var mu sync.RWMutex
+var icons map[string]image.Image
+
+func Icon(name string) image.Image {
+	mu.RLock()
+	if icons != nil {
+		defer mu.RUnlock()
+		return icons[name]
+	}
+	mu.RUnlock()
+	mu.Lock()
+	// 再次判断icons,确保此时其他goroutine没有初始化icons
+	if icons == nil {
+		loadIcons()
+	}
+	defer mu.Unlock()
+	return icons[name]
+}
+```
+
+```
+var loadIconsOnce sync.Once
+var icons map[string]image.Image
+
+func Icon(name string) image.Image {
+	loadIconsOnce.Do(loadIcons)
+	return icons[name]
+}
+```
+这样可以避免在变量被初始化之前和其他goroutine共享变量
+
+
+## 9.6 竞争条件检测
+竞争检测器the race detector 
+go build *.go -race
+go run main.go -race
+
+
+
+
+
+
+
+

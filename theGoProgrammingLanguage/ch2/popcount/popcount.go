@@ -2,18 +2,27 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
+var loadpcOnce sync.Once
 var pc [256]byte
 
-func init() {
+// func init() {
+// 	for i := range pc {
+// 		pc[i] = pc[i/2] + byte(i&1)
+// 	}
+// }
+
+func loadpc() {
 	for i := range pc {
 		pc[i] = pc[i/2] + byte(i&1)
 	}
 }
 
 func Popcount(x uint64) int {
+	loadpcOnce.Do(loadpc)
 	return int(pc[byte(x>>(0*8))] +
 		pc[byte(x>>(1*8))] +
 		pc[byte(x>>(2*8))] +
