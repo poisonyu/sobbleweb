@@ -27,10 +27,11 @@ func handleConn(c net.Conn) {
 		for input.Scan() {
 			ch <- 1
 		}
+		c.Close()
 	}(input)
 	for {
 		select {
-		case <-time.After(5 * time.Second):
+		case <-time.After(60 * time.Second):
 			fmt.Fprintln(c, "timeout, disconnect...")
 			c.Close()
 			wg.Wait()
