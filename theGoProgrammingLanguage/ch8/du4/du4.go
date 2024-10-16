@@ -96,9 +96,9 @@ loop:
 	for {
 		select {
 		case <-done:
-			for size := range filesizes {
-				nfiles++
-				sizes += size
+			for range filesizes {
+				// nfiles++
+				// sizes += size
 			}
 			return
 		case <-tick:

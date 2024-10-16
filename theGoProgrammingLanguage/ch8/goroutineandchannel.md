@@ -40,7 +40,7 @@ go func() {
 ```
 >其实你并不需要关闭每一个channel。只有当需要告诉接收者goroutine，所有的数据已经全部发送时才需要关闭channel。不管一个channel是否被关闭，当它没有被引用时将会被Go语言的垃圾自动回收器回收。
 
-## 8.5 并发的循环
+## 8.5 并发的循环(sync.WaitGroup)
 
 ```
 <!-- func makeThumbnails2(filenames []string) {
@@ -115,7 +115,7 @@ func makeThumbnails2(filenames []string) (thumbfiles []stirng, err error) {
 sync.WaitGroup
 thumbnail/thumbnail.go
 
-## 8.6 
+## 8.6 并发的Web爬虫
 ```
 func crawl(url string) []string {
     fmt.Println(url)
@@ -201,4 +201,56 @@ func main() {
         }
     }
 }
+```
+
+## 8.7 基于select的多路复用
+
+```
+// 当程序整个生命周期都需要这个时间时可以使用Tick
+tick := time.Tick(1 * time.Second)
+// 否则可以使用NewTicker
+ticker := time.NewTicker(1 * time.Second)
+<-ticker.C
+tikcer.Stop()
+```
+
+```
+abort := make(chan struct{})
+go func() {
+    os.Stdin.Read(make([]byte, 1))
+    abort <- struct{}{}
+}()
+select {
+
+case <-abort:
+    fmt.Printf("Launch aborted!\n")
+    return 
+default:
+    // do nothing
+}
+```
+>channel的零值是nil,一个nil的channel发送和接收操作会永远阻塞，在select语句中操作nil的channel永远都不会被select到。
+
+## 8.8 并发的目录遍历
+ch8/du/du.go
+递归 goroutine channel select Tick sync.WaitGroup 控制并发
+
+## 8.9 并发的退出
+用关闭一个channel来进行广播
+```
+done := make(chan struct{})
+
+func cancelled() bool {
+    select {
+    case <-done:
+        return true
+    defalut:
+        return false
+    }
+}
+go func() {
+    os.Stdin.Read(make([]byte, 1))
+    close(done)
+}()
+
 ```

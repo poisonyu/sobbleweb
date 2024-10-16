@@ -33,8 +33,8 @@ func handleConn(c net.Conn) {
 		select {
 		case <-time.After(60 * time.Second):
 			fmt.Fprintln(c, "timeout, disconnect...")
-			c.Close()
 			wg.Wait()
+			c.Close()
 			return
 		case <-ch:
 			wg.Add(1)

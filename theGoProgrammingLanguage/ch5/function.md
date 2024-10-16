@@ -90,3 +90,70 @@ EOF
 	}
 ```
 
+# 5.8 defered函数 延迟
+defer语句经常被用于处理成对的操作，如打开、关闭、连接、断开连接、加锁、释放锁。
+```
+resp, err := http.Get(url)
+if err != nil {
+	return err
+}
+defer resp.Body.Close()
+// ...
+```
+1. 用defer机制记录何时进入和退出函数
+```
+func trace(msg string) func() {
+	start := time.Now()
+	log.Printf("enter %s", msg)
+	return func() {
+		log.Printf("exit %s (%s)", msg, time.Since(start))
+	}
+}
+func bigSlowOperation() {
+	defer trace("bigSlowOperation")()
+	// lots of work
+	time.Sleep(10 * time.Second)
+}
+```
+2. 对匿名函数采用defer机制，可以使其观察函数的返回值
+```
+func double(x int) (result int) {
+	defer func() {
+		fmt.Printf("double(%d) = %d", x, result)
+	}()
+	return x + x
+}
+
+_ = double(4)
+// Output:
+// "double(4) = 8"
+
+// 被延迟的匿名函数可以修改函数返回值
+func triple(x int) (result int) {
+	defer func() {
+		result += x
+	}()
+	return double(x)
+}
+fmt.Println(triple(4)) // "12"
+```
+3. 在循环体中使用defer
+```
+for _, filename := range filenames {
+	if err := doFile(filename); err != nil {
+		return err
+	}
+}
+// 把一次循环包装成一个函数，在函数中使用defer
+func doFile(filename string) error {
+	f, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	// ...process f...
+}
+``` 
+
+# 5.9 Panic异常
+panic异常发生 程序中断运行 执行被延迟函数 程序崩溃输出日志信息
