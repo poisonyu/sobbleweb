@@ -56,11 +56,26 @@ package bank
 
 var deposits = make(chan int)
 var balances = make(chan int)
+var withdraws = make(chan *WithdrawChan)
+
+type WithdrawChan struct {
+	amount     int
+	isWithdraw chan bool
+}
 
 func Deposit(amount int) {
 	deposits <- amount
 }
 
+func Withdraw(amount int) bool {
+	withdrawChan := new(WithdrawChan)
+	withdrawChan.amount = amount
+	// withdrawsChan.withdraw := make(chan bool)
+	withdraws <- withdrawChan
+
+	return <-withdrawChan.isWithdraw
+
+}
 func Balance() int {
 	return <-balances
 }
@@ -71,6 +86,14 @@ func teller() {
 		select {
 		case amount := <-deposits:
 			balance += amount
+		case withdrawChan := <-withdraws:
+			amount := withdrawChan.amount
+			if balance < amount {
+				withdrawChan.isWithdraw <- false
+			} else {
+				balance -= amount
+				withdrawChan.isWithdraw <- true
+			}
 		case balances <- balance:
 		}
 	}

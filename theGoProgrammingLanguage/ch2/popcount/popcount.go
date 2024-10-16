@@ -54,3 +54,42 @@ func main() {
 	Test(Popcountrange, 30000)
 
 }
+
+//	func WaitForServer(url string) error {
+//		const timeout = 1 * time.Minute
+//		deadline := time.Now().Add(timeout)
+//		for tries := 0; time.Now().Before(deadline); tries++ {
+//			_, err := http.Head(url)
+//			if err == nil {
+//				return nil
+//			}
+//			log.Printf("server not responding (%s);retrying...", err)
+//			time.Sleep(time.Second << uint(tries))
+//		}
+//		return fmt.Errorf("server %s failed to respond after %s", url, timeout)
+//	}
+// func ffsf() error {
+// 	// ioutil.TempDir("", "scratch")
+// 	dir, err := os.MkdirTemp("", "scratch")
+// 	if err != nil {
+// 		return fmt.Errorf("failed to create temp dir: %v", err)
+// 	}
+// 	os.Getwd()
+// 	os.ReadDir()
+// 	os.ReadFile()
+// 	os.RemoveAll(dir)
+// }
+
+// func sgsg() error {
+// 	in := bufio.NewReader(os.Stdin)
+// 	for {
+// 		r, _, err := in.ReadRune()
+// 		if err == io.EOF {
+// 			break
+// 		}
+// 		if err != nil {
+// 			return fmt.Errorf("read failed:%v", err)
+// 		}
+// 		// ...use r...
+// 	}
+// }

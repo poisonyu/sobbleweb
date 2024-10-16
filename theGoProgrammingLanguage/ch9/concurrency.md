@@ -1,4 +1,4 @@
-# the go programming language
+# [the go programming language](https://golang-china.github.io/gopl-zh/index.html title="Go语言圣经")
 
 ## 9.1 基于共享变量的并发
 
@@ -86,7 +86,6 @@ x[999999] = 1 // NOTE: undefined behavior; memory corruption possible!
             go teller()
         }
         ```
-
     * 串行绑定
         ```
         type Cake struct {
@@ -111,6 +110,5 @@ x[999999] = 1 // NOTE: undefined behavior; memory corruption possible!
             }
         }
         ```
-
 * 互斥
     允许很多goroutine去并发访问变量，但在同一时刻最多只有一个goroutine访问变量
