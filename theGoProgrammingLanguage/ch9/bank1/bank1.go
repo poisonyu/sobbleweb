@@ -80,6 +80,10 @@ func Balance() int {
 	return <-balances
 }
 
+// func Balance() int {
+// 	return <-balances
+// }
+
 func teller() {
 	var balance int
 	for {
