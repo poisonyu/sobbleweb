@@ -104,3 +104,15 @@ func mirroredQuery() string {
 	return res
 
 }
+
+// func panicrecover() (v int) {
+// 	defer func() {
+// 		switch p := recover(); p.(type) {
+// 		case int:
+// 			v = p.(int)
+// 		default:
+// 			fmt.Println("...")
+// 		}
+// 	}()
+// 	panic(3)
+// }

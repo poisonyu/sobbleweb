@@ -157,3 +157,47 @@ func doFile(filename string) error {
 
 # 5.9 Panic异常
 panic异常发生 程序中断运行 执行被延迟函数 程序崩溃输出日志信息
+
+# 5.10 Recover捕获异常
+
+在未发生panic时调用recover，recover会返回nil
+```
+func Parse(input string) (s *Syntax, err error) {
+	defer func() {
+		if p := recover(); p != nil {
+			err = fmt.Errorf("internal error: %v", p)
+		}
+	}()
+	// ...parser...
+}
+```
+
+>为了标识某个panic是否应该被恢复，我们可以将panic value设置成特殊类型。在recover时对panic value进行检查，如果发现panic value是特殊类型，就将这个panic作为error处理，如果不是，则按照正常的panic进行处理
+```
+func soleTitle(doc *html.Node) (title string, err error) {
+	type bailout struct{}
+	defer func() {
+		switch p := recover; p {
+		case nil:
+		case bailout{}:
+			err = fmt.Errorf("multiple title elements")
+		default:
+			panic(p)
+		}
+	}()
+
+	forEachNode(doc, func(n *html.Node) {
+		if n.Type == html.ElementNode && n.Data == "title" && n.FirstChild != nil {
+			if title != "" {
+				panci(bailout{})
+			}
+			title = n.FirstChild.Data 
+		}
+	}, nil)
+	if title == "" {
+		return "", fmt.Errorf("no title element")
+	}
+	return title, nil 
+}
+```
+
