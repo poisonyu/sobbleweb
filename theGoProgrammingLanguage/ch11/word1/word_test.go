@@ -1,7 +1,7 @@
 package word
 
 import (
-	"math/rand/v2"
+	"math/rand"
 	"testing"
 	"time"
 )
@@ -36,10 +36,10 @@ func TestIsPalindrome(t *testing.T) {
 // 随机测试，通过构建随机输入来扩展测试的覆盖范围
 // 返回一个回文字符串
 func randomPalindrome(rng *rand.Rand) string {
-	n := rng.IntN(25)
+	n := rng.Intn(25)
 	runes := make([]rune, n)
 	for i := 0; i < (n+1)/2; i++ {
-		r := rune(rng.IntN(0x1000))
+		r := rune(rng.Intn(0x1000))
 		runes[i] = r
 		runes[n-1-i] = r
 	}
@@ -55,5 +55,12 @@ func TestRandomPalindromes(t *testing.T) {
 		if !IsPalindrome(p) {
 			t.Errorf("IsPalindrome(%q) = false", p)
 		}
+	}
+}
+
+// 基准测试
+func BenchmarkIsPalindrome(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		IsPalindrome("A man, a plan, a canal: Panama")
 	}
 }
