@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+)
+
+// 插入排序
 func insertionSort(s []int) {
 	for i := 1; i < len(s); i++ {
 		base := s[i]
@@ -16,8 +21,29 @@ func insertionSort(s []int) {
 	}
 }
 
-func main() {
+// 尾递归
+func (q *quickSortTailCall) quickSort(nums int, left, right int) {
+	for left < right {
+		pivot := q.partition(nums, left, right)
+		if (pivot - left) < (right - pivot) {
+			q.quickSort(nums, left, pivot-1)
+			left = pivot + 1
+		} else {
+			q.quickSort(nums, pivot+1, right)
+			right = pivot - 1
+		}
+	}
+}
 
+func main() {
+	a := []int{3, 4, 1, 2, 10, 5, 11, 6}
+	fmt.Println(a)
+
+	qs := new(quickSortMedian)
+	qs.quickSort(a, 0, len(a)-1)
+
+	// insertionSort(a)
+	fmt.Println(a)
 }
 
 // func insertion(s []int) {
