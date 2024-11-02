@@ -5,10 +5,18 @@ import (
 )
 
 // 插入排序
+// 类似于手动整理一副牌
+
+// 时间复杂度 平方阶 每次插入操作分别需要循环1、2、...、n-2、n-1次，求和为(n-1)n/2
+// 当输入数组完全有序时，即每次插入操作都只需要循环1次，求和为n-1次，插入排序达到最佳时间复杂度 常数阶
+// 自适应排序
+// 空间复杂度 常数阶 原地排序
+// 稳定排序
+
 func insertionSort(s []int) {
 	for i := 1; i < len(s); i++ {
 		base := s[i]
-		// 内层循环是倒着来的
+		// 内层循环反向循环已排序区间
 		// 从已排序的结果中选最大值与要排序的值base比较，如果比base大，
 		// 当前最大值向后移动一位
 		// 然后就选下一个已排序的值与base比较
@@ -21,28 +29,26 @@ func insertionSort(s []int) {
 	}
 }
 
-// 尾递归
-func (q *quickSortTailCall) quickSort(nums int, left, right int) {
-	for left < right {
-		pivot := q.partition(nums, left, right)
-		if (pivot - left) < (right - pivot) {
-			q.quickSort(nums, left, pivot-1)
-			left = pivot + 1
-		} else {
-			q.quickSort(nums, pivot+1, right)
-			right = pivot - 1
-		}
-	}
-}
+// 插入排序的优势
+// 时间复杂度
+// 插入排序 平方阶
+// 快速排序 线性对数阶
+// 但在数据量较小的情况下，插入排序通常更快(类似线性查找和二分查找)
+
+// 插入排序比冒泡排序和选择排序更多的使用
+// 冒泡排序基于元素交换，插入排序基于元素赋值，而元素赋值只需要1个单元操作，因此冒泡排序的计算开销通常比插入排序更高
+// 插入排序由自适应性，选择排序没有，所以插入排序效率更高
+// 选择排序不稳定，无法应用于多级排序
 
 func main() {
 	a := []int{3, 4, 1, 2, 10, 5, 11, 6}
 	fmt.Println(a)
 
-	qs := new(quickSortMedian)
-	qs.quickSort(a, 0, len(a)-1)
+	// qs := new(quickSort)
+	// qs.quickSort(a, 0, len(a)-1)
 
 	// insertionSort(a)
+	// bobbleSort(a)
 	fmt.Println(a)
 }
 
