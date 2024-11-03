@@ -1,0 +1,89 @@
+# Hello Algorithm
+
+## 11.6 归并排序
+**基于分治策略**
+
+分为**划分**和**合并**两个阶段
+
+划分阶段通过递归不断将数组从中点处分开，将长数组排序问题转换为短数组排序问题
+
+合并阶段 当子数组长度为1时终止划分，开始合并，将两个子数组有序合并成一个较长的有序数组，直至结束。
+
+先递归左子数组，再递归右子数组，最后处理合并
+
+时间复杂度 **线性对数阶** 划分产生高度为logn的递归树，每层合并的总操作量为n,总体时间复杂度为nlogn
+
+空间复杂度 **线性阶** 
+
+**非自适应排序**  
+**非原地排序**  
+**稳定排序**  
+
+```
+func mergeSort(nums []int, left, right int) {
+	// 子切片长度不大于1时，终止
+	if left >= right {
+		return
+	}
+	// 当前切片的中点索引
+	mid := left + (right-left)/2
+	mergeSort(nums, left, mid)
+	mergeSort(nums, mid+1, right)
+	merge(nums, left, mid, right)
+}
+
+func merge(nums []int, left, mid, right int) {
+	// 双指针和临时切片的索引
+	i, j, k := left, mid+1, 0
+	// 创建一个临时的切片
+	// nums是整个要排序的切片，当前合并的切片长度由left, right决定
+	tmp := make([]int, right-left+1)
+	// for i < j {
+	// 	for i <= mid && nums[i] < nums[j] {
+	// 		tmp[k] = nums[i]
+	// 		i++
+	// 		k++
+	// 	}
+	// 	for j <= right && nums[j] < nums[i] {
+	// 		tmp[k] = nums[j]
+	// 		j++
+	// 		k++
+	// 	}
+	// }
+
+	//
+	for i <= mid && j <= right {
+		if nums[i] < nums[j] {
+			tmp[k] = nums[i]
+			i++
+		} else {
+			tmp[k] = nums[j]
+			j++
+		}
+		k++
+	}
+	//
+
+	for i <= mid {
+		tmp[k] = nums[i]
+		i++
+		k++
+	}
+	for j <= right {
+		tmp[k] = nums[j]
+		j++
+		k++
+	}
+	//
+	// nums是整个要排序的切片，当前合并的切片长度由left, right决定
+	// 所以将切片复制到nums时需要加上left定位
+	for k := 0; k < len(tmp); k++ {
+		nums[left+k] = tmp[k]
+	}
+	//
+	// for i := 0; i < len(nums); i++ {
+	// 	nums[i] = tmp[i]
+	// }
+	// copy(nums, tmp)
+}
+```

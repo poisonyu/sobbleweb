@@ -40,18 +40,6 @@ func insertionSort(s []int) {
 // 插入排序由自适应性，选择排序没有，所以插入排序效率更高
 // 选择排序不稳定，无法应用于多级排序
 
-func main() {
-	a := []int{3, 4, 1, 2, 10, 5, 11, 6}
-	fmt.Println(a)
-
-	// qs := new(quickSort)
-	// qs.quickSort(a, 0, len(a)-1)
-
-	// insertionSort(a)
-	// bobbleSort(a)
-	fmt.Println(a)
-}
-
 // func insertion(s []int) {
 // 	for i := 1; i < len(s); i++ {
 // 		a := s[i]
@@ -64,3 +52,12 @@ func main() {
 // 		}
 // 	}
 // }
+
+func main() {
+	a := []int{3, 4, 1, 2, 10, 5, 11, 6, 12, 15, 22, 6, 8}
+	fmt.Println(a)
+
+	insertionSort(a)
+
+	fmt.Println(a)
+}
