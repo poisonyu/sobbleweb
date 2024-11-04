@@ -87,7 +87,128 @@ func TestHeap() {
 2. 将堆底元素从列表删除，即删除最大元素
 3. 从根节点开始，从顶至底堆化
 ```
+// 实现一个大顶堆
+type maxHeap struct {
+	data []any
+}
 
+// 获取当前节点的左子节点的切片索引
+func (h *maxHeap) left(i int) int {
+	return 2*i + 1
+}
+
+// 获取当前节点的右子节点的切片索引
+func (h *maxHeap) right(i int) int {
+	return 2*i + 2
+}
+
+// 获取当前节点的父节点的切片索引
+func (h *maxHeap) parent(i int) int {
+	return (i - 1) / 2
+}
+
+// 访问堆顶元素，即列表首个元素
+func (h *maxHeap) peek() any {
+	return h.data[0]
+}
+
+// 元素入堆
+func (h *maxHeap) push(val any) {
+	h.data = append(h.data, val)
+	h.siftUp(len(h.data) - 1)
+}
+
+// 从底至顶堆化
+func (h *maxHeap) siftUp(i int) {
+	// for i > 0 {
+	// 	p := h.parent(i)
+	// 	if p < 0 {
+	// 		return
+	// 	}
+	// 	if h.data[i].(int) > h.data[p].(int) {
+	// 		h.swap(i, p)
+	// 		i = p
+	// 	} else {
+	// 		return
+	// 	}
+	// }
+	for i > 0 {
+		p := h.parent(i)
+		// p<0 时，即当前i没有根节点。节点无需修复
+		if p < 0 || h.data[i].(int) <= h.data[p].(int) {
+			return
+		}
+		h.swap(i, p)
+		i = p
+
+	}
+}
+
+func (h *maxHeap) swap(i, j int) {
+	h.data[i], h.data[j] = h.data[j], h.data[i]
+}
+
+// 堆顶元素出堆
+func (h *maxHeap) pop() any {
+	if h.isEmpty() {
+		fmt.Println("error")
+		return nil
+	}
+	h.swap(0, h.size()-1)
+	val := h.data[len(h.data)-1]
+	h.data = h.data[:len(h.data)-1]
+	h.siftDown(0)
+	return val
+}
+
+// 从顶至底堆化
+func (h *maxHeap) siftDown(i int) {
+	for {
+		// max为父节点的索引
+		l, r, max := h.left(i), h.right(i), i
+		if l < h.size() && h.data[l].(int) > h.data[max].(int) {
+			max = l
+		}
+		if r < h.size() && h.data[r].(int) > h.data[max].(int) {
+			max = r
+		}
+		// 当前的l,r索引对应的值都比父节点小，无需堆化，退出
+		if max == i {
+			break
+		}
+		h.swap(max, i)
+		i = max
+	}
+}
+
+func (h *maxHeap) size() int {
+	return len(h.data)
+}
+func (h *maxHeap) isEmpty() bool {
+	return h.size() == 0
+}
+
+func TestMaxHeap() {
+	heap := new(maxHeap)
+	heap.push(1)
+	heap.push(3)
+	heap.push(2)
+	heap.push(4)
+	heap.push(5)
+	fmt.Println("max heap: ", heap.data)
+	top := heap.peek()
+	fmt.Printf("top element: %v\n", top)
+
+	p1 := heap.pop()
+	fmt.Printf("pop element: %v\n", p1)
+	fmt.Println("max heap: ", heap.data)
+	p2 := heap.pop()
+	fmt.Printf("pop element: %v\n", p2)
+	fmt.Println("max heap: ", heap.data)
+
+	fmt.Printf("max heap has %d elements\n", heap.size())
+	fmt.Printf("max heap is empty? %v\n", heap.isEmpty())
+}
 ```
 
 堆的常见应用
