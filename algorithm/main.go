@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"sort"
+)
+
 // type intHeap []any
 
 // // 元素入堆
@@ -185,15 +190,15 @@ package main
 // 	fmt.Printf("maxHeap is empty: %t\n", isEmpty)
 
 // }
-func main() {
-	// a := []any{3, 4, 1, 2, 10, 5, 11, 6, 12, 15, 22, 6, 8}
-	// fmt.Println(a)
+// func main() {
+// a := []any{3, 4, 1, 2, 10, 5, 11, 6, 12, 15, 22, 6, 8}
+// fmt.Println(a)
 
-	// fmt.Println(a)
-	// TestHeap()
-	// TestMaxHeap()
+// fmt.Println(a)
+// TestHeap()
+// TestMaxHeap()
 
-}
+// }
 
 // // 归并排序
 
@@ -267,18 +272,61 @@ func main() {
 // }
 
 // 堆排序
+// func siftDown(nums *[]int, n, i int) {
+// 	for {
+// 		l, r, max := 2*i+1, 2*i+2, i
+// 		for l < n && (*nums)[l] > (*nums)[max] {
+// 			max = l
+// 		}
+// 		for r < n && (*nums)[r] > (*nums)[max] {
+// 			max = r
+// 		}
+// 		if max == i {
+// 			break
+// 		}
+// 		(*nums)[i], (*nums)[max] = (*nums)[max], (*nums)[i]
+// 		i = max
+// 	}
+// }
 
-func siftDown(nums []int, n, i int) {
-	l, r, max := 2 * i +1 , 2 *i + 2, i 
-	for {
-		for l < n
+// func heapSort(nums *[]int) {
+// 	// 通过从顶至底堆化，将切片变成大顶堆
+// 	// len(*nums)/2-1获取完全二叉树非叶节点的最小节点的索引
+// 	for i := len(*nums)/2 - 1; i >= 0; i-- {
+// 		siftDown(nums, len(*nums), i)
+// 	}
+// 	for i := len(*nums) - 1; i > 0; i-- {
+// 		// 交换最大元素
+// 		(*nums)[0], (*nums)[i] = (*nums)[i], (*nums)[0]
+// 		siftDown(nums, i, 0)
+// 	}
+// }
+
+func bucketSort(nums []float64) {
+	k := len(nums) / 2
+	buckets := make([][]float64, k)
+	for i := 0; i < k; i++ {
+		buckets[i] = make([]float64, 0)
 	}
+	for _, num := range nums {
+		i := int(num * float64(k))
+		buckets[i] = append(buckets[i], num)
+	}
+	j := 0
+	for i := 0; i < len(buckets); i++ {
+		sort.Float64s(buckets[i])
+		for _, num := range buckets[i] {
+			nums[j] = num
+			j++
+		}
+	}
+
 }
-
-func heapSort(nums []int) {
-	// 通过从顶至底堆化，将切片变成大顶堆
-	for i := 0; i < len(nums)/2; i++ {
-
-	}
-
+func main() {
+	// a := []int{3, 4, 1, 2, 10, 5, 11, 6, 12, 15, 22, 6, 8}
+	a := []float64{0.3, 0.4, 0.1, 0.2, 0.10, 0.5, 0.11, 0.6, 0.12, 0.15, .22, .6, .8}
+	fmt.Println(a)
+	// heapSort(&a)
+	bucketSort(a)
+	fmt.Println(a)
 }

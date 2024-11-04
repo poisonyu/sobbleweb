@@ -93,3 +93,46 @@ func merge(nums []int, left, mid, right int) {
 **建堆操作**和**元素出堆操作**实现堆排序  
 ~~建立一个小顶堆，然后不断出堆元素，把元素存在额外的数组中~~  
 建立一个大顶堆，将堆顶元素与堆底元素交换，交换后，堆的长度减1，已排序元素加1，从顶到底堆化，恢复堆的性质。
+
+```
+// 堆排序
+func siftDown(nums *[]int, n, i int) {
+	for {
+		l, r, max := 2*i+1, 2*i+2, i
+		for l < n && (*nums)[l] > (*nums)[max] {
+			max = l
+		}
+		for r < n && (*nums)[r] > (*nums)[max] {
+			max = r
+		}
+		if max == i {
+			break
+		}
+		(*nums)[i], (*nums)[max] = (*nums)[max], (*nums)[i]
+		i = max
+	}
+}
+
+func heapSort(nums *[]int) {
+	// 通过从顶至底堆化，将切片变成大顶堆
+	// len(*nums)/2-1获取完全二叉树非叶节点的最小节点的索引
+	for i := len(*nums)/2 - 1; i >= 0; i-- {
+		siftDown(nums, len(*nums), i)
+	}
+	for i := len(*nums) - 1; i > 0; i-- {
+		// 交换最大元素
+		(*nums)[0], (*nums)[i] = (*nums)[i], (*nums)[0]
+		siftDown(nums, i, 0)
+	}
+}
+```
+
+时间复杂度 **线性对数阶** 建堆操作使用O(n)时间，从堆中提取最大元素的时间复杂度为O(logn),共循环n-1轮  
+非自适应排序  
+空间复杂度 **常数阶**   
+原地排序  
+非稳定排序
+
+## 桶排序(bucket sort)
+基于分治策略  非比较排序算法  
+设置一些有大小顺序的桶，每个桶对应一个数据范围，将数据平均分配到各个桶中，分别对每个桶排序，再按桶的顺序合并所有数据。  
