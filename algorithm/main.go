@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 // type intHeap []any
@@ -302,31 +301,109 @@ import (
 // 	}
 // }
 
-func bucketSort(nums []float64) {
-	k := len(nums) / 2
-	buckets := make([][]float64, k)
-	for i := 0; i < k; i++ {
-		buckets[i] = make([]float64, 0)
-	}
+// func bucketSort(nums []float64) {
+// 	// 初始化桶
+// 	k := len(nums) / 2
+// 	buckets := make([][]float64, k)
+// 	for i := 0; i < k; i++ {
+// 		buckets[i] = make([]float64, 0)
+// 	}
+// 	// 将元素分配到桶中
+// 	for _, num := range nums {
+// 		i := int(num * float64(k))
+// 		buckets[i] = append(buckets[i], num)
+// 	}
+// 	// j := 0
+// 	// for i := 0; i < len(buckets); i++ {
+// 	// 	// 对桶中的元素排序
+// 	// 	sort.Float64s(buckets[i])
+// 	// 	// 将桶中的元素合并到nums
+// 	// 	for _, num := range buckets[i] {
+// 	// 		nums[j] = num
+// 	// 		j++
+// 	// 	}
+// 	// }
+// 	for i := 0; i < k; i++ {
+// 		sort.Float64s(buckets[i])
+// 	}
+
+// 	j := 0
+// 	for i := 0; i < k; i++ {
+// 		for _, num := range buckets[i] {
+// 			nums[j] = num
+// 			j++
+// 		}
+// 	}
+// }
+
+// 计数排序
+// 简单实现
+//
+//	func countingSort(nums []int) {
+//		// 找出切片中最大的元素
+//		max := nums[0]
+//		for i := 1; i < len(nums); i++ {
+//			if nums[i] > max {
+//				max = nums[i]
+//			}
+//		}
+//		// 创建一个计数切片
+//		counter := make([]int, max+1)
+//		// 将每个元素放进计数切片中计数
+//		for _, num := range nums {
+//			counter[num]++
+//		}
+//		k := 0
+//		// 根据计数切片排序
+//		for num, v := range counter {
+//			for i := 0; i < v; i++ {
+//				nums[k] = num
+//				k++
+//			}
+//		}
+//	}
+
+// 完整实现
+func countingSort(nums []int) {
+	max := 0
 	for _, num := range nums {
-		i := int(num * float64(k))
-		buckets[i] = append(buckets[i], num)
-	}
-	j := 0
-	for i := 0; i < len(buckets); i++ {
-		sort.Float64s(buckets[i])
-		for _, num := range buckets[i] {
-			nums[j] = num
-			j++
+		if num > max {
+			max = num
 		}
 	}
+	counter := make([]int, max+1)
+	for _, num := range nums {
+		counter[num]++
+	}
+	// 计算每个数的前缀和
+	// for i := max; i >= 0; i-- {
+	// 	for j := 0; j < i; j++ {
+	// 		counter[i] += counter[j]
+	// 	}
+	// }
+	for i := 0; i < max; i++ {
+		counter[i+1] += counter[i]
+	}
+	n := len(nums)
+	res := make([]int, n)
+	for i := n - 1; i >= 0; i-- {
+		num := nums[i]
+		// counter[num]--
+		// res[counter[num]] = num
+		res[counter[num]-1] = num
+		counter[num]--
 
+	}
+	copy(nums, res)
 }
+
 func main() {
-	// a := []int{3, 4, 1, 2, 10, 5, 11, 6, 12, 15, 22, 6, 8}
-	a := []float64{0.3, 0.4, 0.1, 0.2, 0.10, 0.5, 0.11, 0.6, 0.12, 0.15, .22, .6, .8}
+	//a := []int{3, 4, 1, 2, 10, 5, 11, 6, 12, 15, 22, 6, 8}
+	//b := []float64{0.3, 0.4, 0.1, 0.2, 0.10, 0.5, 0.11, 0.6, 0.12, 0.15, .22, .6, .8}
+	a := []int{1, 0, 1, 2, 0, 4, 0, 2, 2, 4}
 	fmt.Println(a)
 	// heapSort(&a)
-	bucketSort(a)
+	// bucketSort(a)
+	countingSort(a)
 	fmt.Println(a)
 }
