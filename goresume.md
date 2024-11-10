@@ -39,3 +39,17 @@ CICD
 
 
 ~~😂🚀️😏 😊 ❤️ 😃 😕 😴 😒 🖕 💤 ❄️ ⛄️ ☃️🐦 🐬 ♦️ 🥧🤣 🐤😚 🤒~~
+
+:satisfied:
+:anguished:
+:confused:
+:unamused:
+:disappointed:
+:sob:
+:angry:
+:sleepy:
+:sunglasses:
+:smile:
+:smiley:
+:flushed:
+:grinning:
