@@ -1,3 +1,5 @@
+~~It's so hard when I~~ TRY TO BE ME
+
 # 
 
 ~~一个用gin写的个人网站，尽量每天写一点功能,慢慢完善。~~
